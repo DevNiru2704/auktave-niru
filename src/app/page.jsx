@@ -19,7 +19,7 @@ export default function HomePage() {
 
       {/* HERO */}
       <section className="relative min-h-screen pt-24 pb-16 overflow-hidden vines-bg" data-testid="hero-section">
-        {/* <div className="absolute inset-0 z-0 pointer-events-none">
+        <div className="absolute inset-0 z-[-10] pointer-events-none">
           <video
             className="h-full w-full object-cover"
             autoPlay
@@ -31,7 +31,7 @@ export default function HomePage() {
           >
             <source src="/videos/hero-background.mp4" type="video/mp4" />
           </video>
-        </div> */}
+        </div>
         <div className="absolute inset-0 scanlines opacity-20 pointer-events-none" />
 
         <div className="relative max-w-7xl mx-auto px-5 lg:px-10 grid lg:grid-cols-12 gap-12 items-center min-h-[80vh]">
