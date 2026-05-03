@@ -40,7 +40,7 @@ export default function HomePage() {
             <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.7 }}>
               <span className="tag mb-6 inline-flex">
                 <span className="w-1.5 h-1.5 bg-ember animate-pulse rounded-full" />
-                Mar 14 - 16, 2026 / Amity University Kolkata
+                May 22 - 23, 2026 / Amity University Kolkata
               </span>
             </motion.div>
 
@@ -212,7 +212,7 @@ export default function HomePage() {
           <p className="eyebrow mb-4">/ The Clock</p>
           <GlitchText className="text-5xl lg:text-7xl mb-12">Time Bends, Then Breaks</GlitchText>
           <Countdown />
-          <p className="text-bone/50 mt-8 max-w-md mx-auto">The portal opens March 14, 2026 at 09:00 IST. After that, it is too late to be early.</p>
+          <p className="text-bone/50 mt-8 max-w-md mx-auto">The portal opens May 22, 2026 at 09:00 IST. After that, it is too late to be early.</p>
         </div>
       </section>
 

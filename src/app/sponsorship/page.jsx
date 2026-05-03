@@ -39,7 +39,7 @@ export default function SponsorshipPage() {
         {/* Tiers */}
         <p className="eyebrow mb-6">/ Tiers</p>
         <GlitchText as="h2" className="text-4xl lg:text-5xl mb-10">Pick your altitude</GlitchText>
-        <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-4">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-4">
           {sponsors.map((s, i) => (
             <motion.div
               key={s.tier}
@@ -53,6 +53,7 @@ export default function SponsorshipPage() {
               <p className="eyebrow mb-2">/ Tier 0{i + 1}</p>
               <h3 className="headline text-2xl mb-3">{s.tier}</h3>
               <p className={`headline text-3xl mb-5 ${i === 0 ? "text-signal" : "text-ember"}`}>{s.price}</p>
+              {s.description && <p className="text-sm text-bone/70 leading-relaxed mb-5">{s.description}</p>}
               <ul className="space-y-2 mb-6 flex-1">
                 {s.perks.map((p) => (
                   <li key={p} className="flex gap-2 text-sm text-bone/70"><Check size={14} className="text-signal mt-1 shrink-0" /> {p}</li>

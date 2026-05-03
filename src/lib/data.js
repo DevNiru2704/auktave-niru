@@ -124,11 +124,50 @@ export const events = [
 ];
 
 export const sponsors = [
-  { tier: "Title Sponsor", price: "Rs. 25,000", perks: ["Logo on title boards", "Speaking slot", "Premium booth", "Top branding on tees"] },
-  { tier: "Powered By", price: "Rs. 15,000", perks: ["Co-branded social", "Standard booth", "Logo on banners"] },
-  { tier: "Sponsored By", price: "Rs. 10,000", perks: ["Banner placements", "Mentions on stage", "Mailer feature"] },
-  { tier: "Co-powered By", price: "Rs. 5,000", perks: ["Logo on website", "Social shoutouts"] },
-  { tier: "Partners", price: "Rs. 2,000", perks: ["Listed as community partner", "Crosspromotion"] }
+  {
+    tier: "TITLE SPONSOR",
+    price: "₹25,000",
+    perks: [
+      "Naming rights",
+      "Speaking opportunity at inaugural",
+      "Logo on all creatives, certificates & media",
+      "Dedicated video branding & Presentation Slot",
+      "3 premium standees"
+    ]
+  },
+  {
+    tier: "POWERED BY",
+    price: "₹15,000",
+    perks: [
+      "Prominent logo placement",
+      "Event mentions & announcements",
+      "Branding on official creatives",
+      "Video branding slot",
+      "2 standees"
+    ]
+  },
+  {
+    tier: "SPONSORED BY",
+    price: "₹10,000",
+    perks: ["Logo on promotional materials", "Event-level branding", "Certificate branding", "1 standee"]
+  },
+  {
+    tier: "CO-SPONSORED BY",
+    price: "₹5,000",
+    perks: ["Logo on selected creatives", "EMCEE mentions", "Certificate branding"]
+  },
+  {
+    tier: "PARTNERS",
+    price: "₹2,000",
+    perks: ["Logo on posters & screens", "On-ground recognition", "Basic promotional visibility"]
+  },
+  {
+    tier: "IN-KIND SPONSORSHIP",
+    price: "NA",
+    description:
+      "We welcome collaborations in the form of products, services, or logistical support. Examples: Food & Beverage, Merchandise, Media Coverage, Hydration, etc.",
+    perks: ["Branding equivalent to contribution", "Product/service integration", "Event"]
+  }
 ];
 
 export const day1 = [
