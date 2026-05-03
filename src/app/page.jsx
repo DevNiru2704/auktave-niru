@@ -32,7 +32,7 @@ export default function HomePage() {
           >
             <source src="/videos/hero-background.mp4" type="video/mp4" />
           </video>
-          <div className="absolute inset-0 bg-black/12 backdrop-blur-[1.5px] saturate-110" aria-hidden="true" />
+          <div className="absolute inset-0 bg-black/12 backdrop-blur-[5px] saturate-110" aria-hidden="true" />
         </div>
         <div className="absolute inset-0 scanlines opacity-20 pointer-events-none" />
 
