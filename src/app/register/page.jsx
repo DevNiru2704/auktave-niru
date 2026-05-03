@@ -1,8 +1,8 @@
 "use client";
-import { useState } from "react";
+import Image from "next/image";
 import GlitchText from "@/components/GlitchText";
-import { events } from "@/lib/data";
-import { CheckCircle2, AlertTriangle, QrCode } from "lucide-react";
+
+const formLink = "https://docs.google.com/forms/d/e/1FAIpQLSdVYcsnAQUTt4p8o_rg2elyVahuHJb5P5TsQ-GieGIAtBwfTQ/viewform?usp=dialog";
 
 export default function RegisterPage() {
 
@@ -19,15 +19,27 @@ export default function RegisterPage() {
           {/* QR Code Placeholder */}
           <div>
             <label className="upside">Registration QR Code</label>
-            <div className="bg-midnight/50 border border-ember/30 rounded p-8 flex flex-col items-center justify-center min-h-75 gap-4" data-testid="qr-placeholder">
-              <QrCode className="text-bone/40" size={64} />
+            <a
+              href={formLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-midnight/50 border border-ember/30 rounded p-8 flex flex-col items-center justify-center min-h-75 gap-4 hover:border-signal/60 transition-colors"
+              data-testid="qr-placeholder"
+            >
+              <div className="relative w-full max-w-65 aspect-square">
+                <Image
+                  src="/images/auktave-qr.png"
+                  alt="AUKTAVE registration QR code"
+                  fill
+                  className="object-contain"
+                  sizes="260px"
+                  priority
+                />
+              </div>
               <p className="font-mono text-xs text-bone/50 text-center uppercase tracking-wider">
-                Scan to access the registration form
+                Scan to open the registration form
               </p>
-              <p className="text-xs text-bone/30 text-center">
-                [QR Code will be displayed here]
-              </p>
-            </div>
+            </a>
           </div>
 
           {/* Google Forms Embed Section */}
@@ -37,7 +49,7 @@ export default function RegisterPage() {
               Click the QR code or link below to open the registration form in a new window.
             </p>
             <a
-              href="#"
+              href={formLink}
               target="_blank"
               rel="noopener noreferrer"
               className="btn-signal inline-block"
