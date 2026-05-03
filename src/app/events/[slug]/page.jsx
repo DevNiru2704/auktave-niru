@@ -20,9 +20,6 @@ export default function EventDetailPage() {
 
         <div className="grid lg:grid-cols-12 gap-10 mb-14">
           <div className="lg:col-span-8">
-            {event.highlight && (
-              <span className="tag signal mb-5 inline-flex"><Zap size={12} /> Headline Event</span>
-            )}
             <GlitchText as="h1" className="text-5xl lg:text-7xl mb-4">{event.name}</GlitchText>
             <p className="text-2xl text-bone/70 font-display max-w-2xl">{event.tagline}</p>
             <p className="mt-6 text-bone/70 leading-relaxed text-lg max-w-2xl">{event.summary}</p>
