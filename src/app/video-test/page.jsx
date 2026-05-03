@@ -12,6 +12,7 @@ export default function VideoTestPage() {
             >
                 <source src="/videos/hero-background.mp4" type="video/mp4" />
             </video>
+            <div className="absolute inset-0 bg-black/12 backdrop-blur-[1.5px] saturate-110" aria-hidden="true" />
         </main>
     );
 }
