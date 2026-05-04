@@ -46,8 +46,9 @@ export default function Footer() {
           </ul>
           <p className="eyebrow mt-8 mb-4">Signal</p>
           <ul className="space-y-2 text-bone/70 text-sm">
-            <li>auktave@aukolkata.edu.in</li>
-            <li>+91 98300 00000</li>
+            <li>info.auktave@gmail.com</li>
+            <li>Humza Ahmad - +91 8240253854</li>
+            <li>Sriparna Das - +91 8961086320</li>
             <li>Major Arterial Road, New Town, Kolkata</li>
           </ul>
         </div>

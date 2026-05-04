@@ -18,7 +18,7 @@ export default function AboutPage() {
         <div className="grid lg:grid-cols-3 gap-5 mb-20">
           {[
             { icon: Building2, title: "Organized by ASETK", body: "Amity School of Engineering and Technology, Kolkata. Faculty supervision, student execution." },
-            { icon: Cpu, title: "Powered by IEEE SB AUK", body: "The IEEE SB AUK Student Chapter at Amity University Kolkata curates the technical sessions and adds the official IEEE SB AUK stamp." },
+            { icon: Cpu, title: "Co-Organised by IEEE SB AUK", body: "The IEEE SB AUK at Amity University Kolkata curates the technical sessions and adds the official IEEE stamp." },
             { icon: Telescope, title: "Built for builders", body: "Hackers, researchers, founders, and people who like to break things to understand them." }
           ].map((it) => (
             <div key={it.title} className="card-upside p-7" data-testid={`about-card-${it.title.replace(/ /g, "-").toLowerCase()}`}>
@@ -53,6 +53,11 @@ export default function AboutPage() {
         {/* Schedule */}
         <p className="eyebrow mb-4">/ Schedule</p>
         <GlitchText as="h2" className="text-5xl lg:text-6xl mb-10">The 48 Hour Timeline</GlitchText>
+        <div className="mb-10">
+          <a href="/brochures/EVENT_SCHEDULE_AUKTAVE_2026.pdf" download className="btn-signal inline-flex items-center gap-2" data-testid="download-schedule">
+            Download Schedule
+          </a>
+        </div>
 
         <div className="grid lg:grid-cols-2 gap-8 mb-20">
           <ScheduleColumn day="Day 01" date="May 21, 2026" entries={day1} accent="ember" />
@@ -64,12 +69,15 @@ export default function AboutPage() {
           <p className="eyebrow mb-3">/ The Host</p>
           <h2 className="headline text-4xl lg:text-5xl mb-5">Amity University Kolkata</h2>
           <p className="text-bone/70 leading-relaxed mb-4">
-            Amity University Kolkata is part of the Amity Education Group, ranked among the top private universities in India. The Kolkata campus, located in Major Arterial Road, New Town, hosts ASETK and a fast growing IEEE SB AUK Student Chapter. AUKTAVE is the campus first homegrown TechFest at scale, designed to put the Kolkata campus on the national tech map.
+            Amity University Kolkata is part of the Amity Education Group, ranked among the top private universities in India. The Kolkata campus, located in Major Arterial Road, New Town, hosts ASETK and a fast growing IEEE Student Chapter. AUKTAVE is the campus first homegrown TechFest at scale, designed to put the Kolkata campus on the national tech map.
           </p>
-          <div className="flex flex-wrap gap-3 mt-5">
-            <span className="tag"><Eye size={11} /> Founded 2014</span>
-            <span className="tag"><GraduationCap size={11} /> 5000+ Students</span>
-            <span className="tag signal">First TechFest 2026</span>
+          <p className="text-bone/70 leading-relaxed mb-4">
+            Visit the official Amity University Kolkata website for campus details and updates.
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <a href="https://kolkata.amity.edu" target="_blank" rel="noreferrer" className="btn-signal">
+              Visit Official Website
+            </a>
           </div>
         </div>
 
@@ -93,11 +101,12 @@ function ScheduleColumn({ day, date, entries, accent }) {
       <ul className="space-y-5">
         {entries.map((e, i) => (
           <li key={e.title} className="flex gap-5 group">
-            <span className={`font-mono text-sm ${accentClass} pt-1 w-14 shrink-0`}>{e.time}</span>
+            <span className={`font-mono text-xs ${accentClass} pt-1 w-44 md:w-52 shrink-0 uppercase tracking-[0.08em]`}>{e.time}</span>
             <span className="w-px bg-bone/10 group-hover:bg-ember/40 transition-colors" />
             <div className="flex-1">
               <p className="font-display text-lg font-bold">{e.title}</p>
-              <p className="text-bone/50 text-sm mt-1">{e.note}</p>
+              {e.venue && <p className="text-bone/60 text-[10px] font-mono uppercase tracking-[0.16em] mt-1">Venue - {e.venue}</p>}
+              <p className="text-bone/50 text-[11px] mt-2 uppercase tracking-[0.08em] leading-relaxed">{e.note}</p>
             </div>
           </li>
         ))}

@@ -47,19 +47,19 @@ export default function SponsorshipPage() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.06 }}
-              className={`card-upside p-6 flex flex-col ${i === 0 ? "lg:scale-105 border-signal/40" : ""}`}
+              className="card-upside p-6 flex flex-col lg:scale-105 border-signal/40"
               data-testid={`sponsor-tier-${s.tier.replace(/ /g, "-").toLowerCase()}`}
             >
               <p className="eyebrow mb-2">/ Tier 0{i + 1}</p>
               <h3 className="headline text-2xl mb-3">{s.tier}</h3>
-              <p className={`headline text-3xl mb-5 ${i === 0 ? "text-signal" : "text-ember"}`}>{s.price}</p>
+              <p className="headline text-3xl mb-5 text-signal">{s.price}</p>
               {s.description && <p className="text-sm text-bone/70 leading-relaxed mb-5">{s.description}</p>}
               <ul className="space-y-2 mb-6 flex-1">
                 {s.perks.map((p) => (
                   <li key={p} className="flex gap-2 text-sm text-bone/70"><Check size={14} className="text-signal mt-1 shrink-0" /> {p}</li>
                 ))}
               </ul>
-              <a href="mailto:sponsor@auktave.in" className={i === 0 ? "btn-signal text-center text-xs" : "btn-ghost text-center text-xs"}>
+              <a href="mailto:info.auktave@gmail.com" className="btn-signal text-center text-xs">
                 Pitch Us
               </a>
             </motion.div>
@@ -72,7 +72,9 @@ export default function SponsorshipPage() {
           <p className="text-bone/70 max-w-xl mx-auto mb-6">
             Workshops, prize sponsorships, recruitment booths, hackathon prompts - we are open to ideas that match your brand. Drop us a line.
           </p>
-          <a href="mailto:sponsor@auktave.in" className="btn-signal inline-block">sponsor@auktave.in</a>
+          <a href="mailto:info.auktave@gmail.com" className="btn-signal inline-block">info.auktave@gmail.com</a>
+          <p className="text-bone/70 mt-4">Humza Ahmad - +91 8240253854</p>
+          <p className="text-bone/70">Sriparna Das - +91 8961086320</p>
         </div>
       </div>
     </div>

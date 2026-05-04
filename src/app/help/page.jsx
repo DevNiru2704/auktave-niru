@@ -92,7 +92,16 @@ export default function HelpPage() {
           {/* Contact info */}
           <div className="lg:col-span-5 space-y-4">
             <InfoCard icon={Mail} label="Email" value="info.auktave@gmail.com" href="mailto:info.auktave@gmail.com" />
-            <InfoCard icon={Phone} label="Phone" value="+91 8240253854" href="tel:+918240253854" />
+            <div className="card-upside p-5 flex gap-4 items-start">
+              <div className="w-10 h-10 border border-ember/40 flex items-center justify-center text-ember shrink-0">
+                <Phone size={18} />
+              </div>
+              <div>
+                <p className="eyebrow mb-1">Phone</p>
+                <p className="text-bone">Humza Ahmad - +91 8240253854</p>
+                <p className="text-bone mt-1">Sriparna Das - +91 8961086320</p>
+              </div>
+            </div>
             <InfoCard icon={MapPin} label="Address" value="Amity University Kolkata, Major Arterial Road, Action Area II, New Town, Kolkata 700135" />
             <div className="card-upside h-72 overflow-hidden" data-testid="help-map">
               <MapView />

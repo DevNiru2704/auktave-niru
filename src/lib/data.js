@@ -172,21 +172,21 @@ export const sponsors = [
 ];
 
 export const day1 = [
-  { time: "09:00", title: "Inauguration", note: "Vice Chancellor address + lamp lighting" },
-  { time: "10:30", title: "Hackathon Begins", note: "24 hour clock starts" },
-  { time: "12:00", title: "Industry Keynote", note: "Headline talk on the future of computing" },
-  { time: "14:00", title: "Research and Project Expo", note: "Floor opens to public" },
-  { time: "17:00", title: "Tech Debate", note: "Open motion battles" },
-  { time: "20:00", title: "Night Snacks + Jam Session", note: "Hackers stay caffeinated" }
+  { time: "10:00AM - 11:00AM", title: "Inaugural Ceremony", venue: "Auditorium", note: "Inaugural address by VC, Registrar, Dean, HOI" },
+  { time: "11:00 AM ONWARDS", title: "24 Hr Hackathon Start", venue: "Incubation Center", note: "Beginning of the 24hr hackathon" },
+  { time: "11:00AM - 1:00PM", title: "Keynote Session", venue: "Auditorium", note: "Keynote speaking session by industry speakers" },
+  { time: "1:00PM - 2:00PM", title: "Break", venue: "Audi Lobby", note: "Refreshments and lunch break" },
+  { time: "2:00PM - 4:00PM", title: "Research & Project Expo", venue: "Audi Lobby", note: "Poster presentation of individual research and projects" },
+  { time: "4:00PM - 5:00PM", title: "Tech Debate", venue: "Audi Seminar Hall", note: "A competitive debate about technology" }
 ];
 
 export const day2 = [
-  { time: "09:00", title: "IEEE Special Session", note: "Standards, papers, and signal" },
-  { time: "11:00", title: "Robotics Competition", note: "Combat + line follow rounds" },
-  { time: "13:00", title: "B.Tech Final Year Presentations", note: "Capstone defense" },
-  { time: "15:00", title: "AI Short Film Showcase", note: "Public screening + voting" },
-  { time: "18:00", title: "Hackathon Final Pitches", note: "Top 10 to jury" },
-  { time: "20:00", title: "Prize Distribution + Closing", note: "We go quiet, but the lab stays open" }
+  { time: "10:00AM - 11:00AM", title: "IEEE Introduction Session", venue: "Auditorium", note: "Introductory session on IEEE AUK SB" },
+  { time: "11:00 AM", title: "24 Hr Hackathon End", venue: "Incubation Center", note: "End of the 24hr hackathon" },
+  { time: "11:00 AM - 1:30PM", title: "Robotics Competition", venue: "Atrium", note: "A flagship robotics event" },
+  { time: "1:30PM - 3:00PM", title: "B.Tech Final Year Presentation", venue: "Audi Lobby", note: "Project presentation by B.Tech final year students of ASET Kol." },
+  { time: "3:00PM - 4:00PM", title: "AI Short Film Competition", venue: "Auditorium", note: "A clash of ideologies on AI short films" },
+  { time: "4:00PM - 5:00PM", title: "Prize Distribution", venue: "Auditorium", note: "Closing ceremony of the event" }
 ];
 
 export const faqs = [
