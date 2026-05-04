@@ -20,11 +20,15 @@ function hashString(value) {
 }
 
 export default function HomePage() {
-  const featuredSideEvents = [...events.filter((e) => !e.highlight)]
-    .map((event) => ({ event, rank: hashString(`auktave:${event.slug}`) }))
-    .sort((a, b) => a.rank - b.rank)
-    .slice(0, 3)
-    .map(({ event }) => event);
+  const sideEvents = events.filter((e) => !e.highlight);
+  const featuredSideEvents = [
+    sideEvents.find((event) => event.slug === "research-expo"),
+    ...sideEvents
+      .filter((event) => event.slug !== "research-expo" && event.slug !== "ieee-session")
+      .map((event) => ({ event, rank: hashString(`auktave:${event.slug}`) }))
+      .sort((a, b) => a.rank - b.rank)
+      .map(({ event }) => event)
+  ].filter(Boolean).slice(0, 3);
 
   return (
     <>
@@ -51,7 +55,7 @@ export default function HomePage() {
             <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.7 }}>
               <span className="tag mb-6 inline-flex">
                 <span className="w-1.5 h-1.5 bg-ember animate-pulse rounded-full" />
-                May 22 - 23, 2026 / Amity University Kolkata
+                May 21 - 22, 2026 / Amity University Kolkata
               </span>
             </motion.div>
 
@@ -161,7 +165,7 @@ export default function HomePage() {
           </div>
           <div className="lg:col-span-7">
             <p className="text-bone/70 text-lg leading-relaxed mb-6">
-              AUKTAVE is the first edition TechFest of Amity University Kolkata, hosted by ASETK in partnership with the IEEE SB AUK Student Chapter. Three days. 24 hours of hackathon. Seven events competing for the same trophy of bragging rights.
+              AUKTAVE is the first edition TechFest of Amity University Kolkata, hosted by ASETK in partnership with the IEEE SB AUK Student Chapter. Two days. 24 hours of hackathon. Seven events competing for the same trophy of bragging rights.
             </p>
             <p className="text-bone/70 text-lg leading-relaxed mb-6">
               We borrowed a little tension from the upside down. We kept the engineering. The result is a TechFest that feels less like a conference and more like a controlled experiment that escaped the lab.
@@ -179,7 +183,7 @@ export default function HomePage() {
           <p className="eyebrow mb-4">/ The Clock</p>
           <GlitchText className="text-5xl lg:text-7xl mb-12">Time Bends, Then Breaks</GlitchText>
           <Countdown />
-          <p className="text-bone/50 mt-8 max-w-md mx-auto">The portal opens May 22, 2026 at 09:00 IST. After that, it is too late to be early.</p>
+          <p className="text-bone/50 mt-8 max-w-md mx-auto">AUKTAVE begins May 21, 2026 at 09:00 AM IST. The experiment starts. Be there.</p>
         </div>
       </section>
 

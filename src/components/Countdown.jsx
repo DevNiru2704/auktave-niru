@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 
-export default function Countdown({ target = "2026-05-22T09:00:00+05:30" }) {
+export default function Countdown({ target = "2026-05-21T09:00:00+05:30" }) {
   const [time, setTime] = useState({ d: 0, h: 0, m: 0, s: 0 });
   useEffect(() => {
     const tick = () => {

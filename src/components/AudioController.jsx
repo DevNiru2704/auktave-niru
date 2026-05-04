@@ -5,8 +5,8 @@ import { Play, Pause, Volume2, VolumeX } from "lucide-react";
 const FALLBACK_AUDIO = "/audio/upside-down-fallback.mp3";
 
 export default function AudioController() {
-  const audioUrl = process.env.NEXT_PUBLIC_AUDIO_URL && process.env.NEXT_PUBLIC_AUDIO_URL.trim() !== "" 
-    ? process.env.NEXT_PUBLIC_AUDIO_URL 
+  const audioUrl = process.env.NEXT_PUBLIC_AUDIO_URL && process.env.NEXT_PUBLIC_AUDIO_URL.trim() !== ""
+    ? process.env.NEXT_PUBLIC_AUDIO_URL
     : FALLBACK_AUDIO;
   const ref = useRef(null);
   const [playing, setPlaying] = useState(false);
@@ -41,6 +41,8 @@ export default function AudioController() {
     <>
       <audio ref={ref} src={audioUrl} loop preload="auto" data-testid="bg-audio" />
       <div
+        onMouseEnter={() => setShowVol(true)}
+        onMouseLeave={() => setShowVol(false)}
         className="fixed bottom-5 right-5 z-50 flex items-center gap-2 bg-ink/90 backdrop-blur-md border border-ember/30 px-3 py-2"
         data-testid="audio-controller"
       >
@@ -52,32 +54,32 @@ export default function AudioController() {
         >
           {playing ? <Pause size={16} /> : <Play size={16} />}
         </button>
-        <button
-          onClick={() => setMuted((m) => !m)}
-          aria-label={muted ? "Unmute" : "Mute"}
-          onMouseEnter={() => setShowVol(true)}
-          onMouseLeave={() => setShowVol(false)}
-          className="w-8 h-8 flex items-center justify-center hover:text-signal transition-colors"
-          data-testid="audio-mute-toggle"
-        >
-          {muted ? <VolumeX size={16} /> : <Volume2 size={16} />}
-        </button>
         <div
-          className={`overflow-hidden transition-all duration-300 ${showVol ? "w-20" : "w-0"}`}
-          onMouseEnter={() => setShowVol(true)}
-          onMouseLeave={() => setShowVol(false)}
+          className="flex items-center gap-2"
         >
-          <input
-            type="range"
-            min="0"
-            max="1"
-            step="0.05"
-            value={volume}
-            onChange={(e) => setVolume(parseFloat(e.target.value))}
-            className="w-20 accent-signal"
-            aria-label="Volume"
-            data-testid="audio-volume-slider"
-          />
+          <button
+            onClick={() => setMuted((m) => !m)}
+            aria-label={muted ? "Unmute" : "Mute"}
+            className="w-8 h-8 flex items-center justify-center hover:text-signal transition-colors"
+            data-testid="audio-mute-toggle"
+          >
+            {muted ? <VolumeX size={16} /> : <Volume2 size={16} />}
+          </button>
+          <div
+            className={`overflow-hidden transition-all duration-300 ${showVol ? "w-20" : "w-0"}`}
+          >
+            <input
+              type="range"
+              min="0"
+              max="1"
+              step="0.05"
+              value={volume}
+              onChange={(e) => setVolume(parseFloat(e.target.value))}
+              className="w-20 accent-signal"
+              aria-label="Volume"
+              data-testid="audio-volume-slider"
+            />
+          </div>
         </div>
         <span className="font-mono text-[10px] tracking-[0.18em] uppercase text-bone/50 hidden sm:block">
           {playing ? "TUNED" : "STATIC"}

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Footer() {
@@ -7,9 +8,15 @@ export default function Footer() {
       <div className="relative max-w-7xl mx-auto px-5 lg:px-10 py-16 grid grid-cols-1 md:grid-cols-4 gap-12">
         <div className="md:col-span-2">
           <p className="eyebrow mb-3">Transmission Index</p>
-          <h3 className="headline text-5xl mb-4">
-            AUK<span className="text-ember">TAVE</span> 2K26
-          </h3>
+          <Image
+            src="/images/auktave_logo.png"
+            alt="AUKTAVE"
+            width={286}
+            height={71}
+            priority={false}
+            className="mb-4 h-auto max-w-full"
+            style={{ width: "286px" }}
+          />
           <p className="text-bone/70 max-w-md leading-relaxed">
             The first edition TechFest of Amity University Kolkata. 48 hours of building, breaking, and rebuilding inside the upside down of innovation.
           </p>

@@ -55,8 +55,8 @@ export default function AboutPage() {
         <GlitchText as="h2" className="text-5xl lg:text-6xl mb-10">The 48 Hour Timeline</GlitchText>
 
         <div className="grid lg:grid-cols-2 gap-8 mb-20">
-          <ScheduleColumn day="Day 01" date="May 22, 2026" entries={day1} accent="ember" />
-          <ScheduleColumn day="Day 02" date="May 23, 2026" entries={day2} accent="signal" />
+          <ScheduleColumn day="Day 01" date="May 21, 2026" entries={day1} accent="ember" />
+          <ScheduleColumn day="Day 02" date="May 22, 2026" entries={day2} accent="signal" />
         </div>
 
         {/* About Amity */}
