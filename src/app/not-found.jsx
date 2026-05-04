@@ -15,7 +15,7 @@ export default function NotFound() {
           This page slipped into the upside down and never came back. Let us pull you back to safety.
         </p>
         <div className="flex flex-wrap gap-4 justify-center">
-          <Link href="/" className="btn-signal" data-testid="404-home-cta">RReturn Home</Link>
+          <Link href="/" className="btn-signal" data-testid="404-home-cta">Return Home</Link>
           <Link href="/events" className="btn-ghost">Browse Events</Link>
         </div>
       </div>
