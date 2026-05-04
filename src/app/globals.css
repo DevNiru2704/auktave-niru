@@ -219,6 +219,7 @@ html.lenis { height: auto; }
   animation: marquee 40s linear infinite;
   white-space: nowrap;
 }
+.marquee > * { flex: 0 0 auto; }
 .marquee-fast {
   animation-duration: 22s;
 }
@@ -229,6 +230,19 @@ html.lenis { height: auto; }
 }
 @media (max-width: 640px) {
   .marquee-fast {
+    animation-duration: 12s;
+  }
+}
+.marquee-sponsor {
+  animation-duration: 28s;
+}
+@media (max-width: 1024px) {
+  .marquee-sponsor {
+    animation-duration: 18s;
+  }
+}
+@media (max-width: 640px) {
+  .marquee-sponsor {
     animation-duration: 12s;
   }
 }
