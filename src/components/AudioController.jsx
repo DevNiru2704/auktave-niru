@@ -31,6 +31,22 @@ export default function AudioController() {
   }, []);
 
   useEffect(() => {
+    const handleChoice = (event) => {
+      const choice = event?.detail || sessionStorage.getItem("auktave-audio-choice");
+      if (choice === "on") {
+        setMuted(false);
+        setPlaying(true);
+      } else {
+        setPlaying(false);
+        setMuted(true);
+      }
+    };
+
+    window.addEventListener("auktave-audio-choice", handleChoice);
+    return () => window.removeEventListener("auktave-audio-choice", handleChoice);
+  }, []);
+
+  useEffect(() => {
     if (!ref.current) return;
     ref.current.volume = volume;
     ref.current.muted = muted;

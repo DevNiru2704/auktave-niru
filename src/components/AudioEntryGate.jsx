@@ -26,6 +26,7 @@ export default function AudioEntryGate({ onSelect }) {
             sessionStorage.setItem("auktave-audio-playing", "0");
             sessionStorage.setItem("auktave-audio-muted", "1");
         }
+        window.dispatchEvent(new CustomEvent("auktave-audio-choice", { detail: choice }));
         setShow(false);
         onSelect?.(choice);
     };
