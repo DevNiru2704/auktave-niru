@@ -12,6 +12,7 @@ function buildAUKTAVERegistrationForm() {
         "This form registers you for one event across two days of innovation, debate, robotics, AI filmmaking, research showcases, and the 24-hour AI Hackathon.\n\n" +
         "Before you fill this form:\n" +
         "- Read the rules for your selected event on the official website.\n" +
+        "- Hackathon registration is not on this form. Visit the official website: https://www.hackcatalyst.tech/\n" +
         "- Ensure all team members are available for the event duration.\n" +
         "- Use your official college email IDs wherever asked.\n" +
         "- One submission per team. The team leader submits on behalf of the whole team.\n\n" +
@@ -97,79 +98,8 @@ function buildAUKTAVERegistrationForm() {
       );
 
   const eventSelector = form.addMultipleChoiceItem()
-      .setTitle("Which event are you registering for?")
+      .setTitle("Which event are you registering for? (Hackathon registration: https://www.hackcatalyst.tech/)")
       .setHelpText("Select one event. Your answer will navigate you to the correct section.")
-      .setRequired(true);
-
-  // 24 Hour AI Hackathon
-  const hackathonPage = form.addPageBreakItem()
-      .setTitle("24 Hour AI Hackathon")
-      .setHelpText(
-        "Duration: 24 Hours | Team Size: 2-5 Members | Prize Pool: Rs. 50,000+\n" +
-        "Venue: Incubation Center | Day 1 - 11:00 AM onwards\n\n" +
-        "A 24-hour in-campus AI hackathon where teams build impactful solutions using AI. The event is track-based.\n\n" +
-        "Key rules summary:\n" +
-        "- Open to students from all colleges and universities with valid college ID.\n" +
-        "- Teams of 2-5; each team must designate a Team Leader. Team cannot change after registration.\n" +
-        "- Registration is valid only after all team members register before the deadline. No late registrations.\n" +
-        "- Opening briefing, development phase, mid-evaluation checkpoint(s), and final judging.\n" +
-        "- All work must be built during the hackathon. No pre-built projects or prior codebases.\n" +
-        "- Open-source libraries are allowed with proper credit.\n" +
-        "- Maintain a GitHub repo with no commits before the official start time.\n" +
-        "- AI tools are allowed, but core logic must be original and explainable.\n" +
-        "- Submission: working prototype, source code (GitHub preferred), README, and demo or presentation.\n" +
-        "- Judging: innovation, functionality, technical implementation, UX, impact, presentation.\n" +
-        "- Track-wise evaluation with a winner in each track.\n" +
-        "- All team members must be present for final presentation and Q and A.\n" +
-        "- Registration fee: Rs. 500 per team.\n" +
-        "- Participants must stay at the venue for the full duration.\n\n" +
-        "FAQ highlights:\n" +
-        "- Track changes are allowed even on event day.\n" +
-        "- Internet, power, and food are provided throughout the event.\n" +
-        "- Certificates for all registered team members.\n" +
-        "- No refunds for cancellations or no-shows unless decided by the organizers.\n" +
-        "- Mentors and support will be available.\n\n" +
-        "Coordinator: Aritra Sen | hackathon@auktave.in | +91 98300 00000"
-      );
-
-  form.addSectionHeaderItem().setTitle("Team information");
-  addText("Team name", true, "Choose a unique team name. This will appear on event materials.");
-  form.addListItem()
-      .setTitle("Select track")
-      .setHelpText(
-        "AI for Healthcare, AI for Education, AI for Sustainability, AI for FinTech, Open Innovation in AI."
-      )
-      .setChoiceValues([
-        "AI for Healthcare",
-        "AI for Education",
-        "AI for Sustainability",
-        "AI for FinTech",
-        "Open Innovation in AI"
-      ])
-      .setRequired(true);
-  form.addParagraphTextItem()
-      .setTitle("Brief project idea (optional)")
-      .setHelpText("100 words max. This is not binding.")
-      .setRequired(false);
-
-  addMemberSection("Team member 1", true, "Team leader");
-  addMemberSection("Team member 2", true, "Required. Minimum team size is 2.");
-  addMemberSection("Team member 3", false, "Optional");
-  addMemberSection("Team member 4", false, "Optional");
-  addMemberSection("Team member 5", false, "Optional");
-
-  form.addCheckboxItem()
-      .setTitle("Declaration and consent")
-      .setChoiceValues([
-        "All team members are currently enrolled students and possess valid college IDs.",
-        "Team composition will not change after registration.",
-        "All work will be original and completed within the 24-hour window.",
-        "We will maintain a GitHub repository with no commits before the official start time.",
-        "We agree to the hackathon rules and AUKTAVE Code of Conduct.",
-        "We understand that plagiarism or use of pre-built code leads to immediate disqualification.",
-        "We understand the registration fee is Rs. 500 per team and is non-refundable unless decided by organizers.",
-        "All team members will remain at the venue for the full duration of the hackathon."
-      ])
       .setRequired(true);
 
   // Robotics Competition - selection page
@@ -570,7 +500,6 @@ function buildAUKTAVERegistrationForm() {
 
   // Wire up event selector
   eventSelector.setChoices([
-    eventSelector.createChoice("24 Hour AI Hackathon", hackathonPage),
     eventSelector.createChoice("Robotics Competition", roboticsPage),
     eventSelector.createChoice("Research and Project Expo", expoPage),
     eventSelector.createChoice("AUKTAVE Tech Debate", debatePage),
@@ -587,7 +516,6 @@ function buildAUKTAVERegistrationForm() {
   ]);
 
   // Route to closing page after each event section
-  hackathonPage.setGoToPage(closingPage);
   roboSoccerPage.setGoToPage(closingPage);
   mazeSolverPage.setGoToPage(closingPage);
   dronePage.setGoToPage(closingPage);

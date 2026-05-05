@@ -24,6 +24,15 @@ export default function EventDetailPage() {
             <p className="text-2xl text-bone/70 font-display max-w-2xl">{event.tagline}</p>
             <p className="mt-6 text-bone/70 leading-relaxed text-lg max-w-2xl">{event.summary}</p>
 
+            {event.slug === "hackathon" && (
+              <div className="mt-6 card-upside p-4">
+                <p className="text-bone/70 text-sm leading-relaxed">
+                  To register for the hackathon, please visit the official hackathon website. Click the Register Now
+                  button to be redirected to the official hackathon website.
+                </p>
+              </div>
+            )}
+
             {event.tracks && (
               <div className="mt-8">
                 <p className="eyebrow mb-3">/ Tracks</p>
@@ -38,9 +47,21 @@ export default function EventDetailPage() {
             <Stat icon={Clock} label="Duration" value={event.duration} />
             <Stat icon={Users} label="Team Size" value={event.teamSize} />
             <Stat icon={Trophy} label="Prize Pool" value={event.prizePool} accent />
-            <Link href="/register" className="btn-signal w-full block text-center mt-4" data-testid="event-register-cta">
-              Register Now
-            </Link>
+            {event.slug === "hackathon" ? (
+              <a
+                href="https://www.hackcatalyst.tech/"
+                target="_blank"
+                rel="noreferrer"
+                className="btn-signal w-full block text-center mt-4"
+                data-testid="event-register-cta"
+              >
+                Register Now
+              </a>
+            ) : (
+              <Link href="/register" className="btn-signal w-full block text-center mt-4" data-testid="event-register-cta">
+                Register Now
+              </Link>
+            )}
             <a
               href="/brochures/event-rules.pdf"
               download
@@ -217,7 +238,19 @@ export default function EventDetailPage() {
 
         <div className="text-center mt-16">
           <h3 className="headline text-4xl mb-6">Ready to play?</h3>
-          <Link href="/register" className="btn-signal" data-testid="event-bottom-cta">Register Now</Link>
+          {event.slug === "hackathon" ? (
+            <a
+              href="https://www.hackcatalyst.tech/"
+              target="_blank"
+              rel="noreferrer"
+              className="btn-signal"
+              data-testid="event-bottom-cta"
+            >
+              Register Now
+            </a>
+          ) : (
+            <Link href="/register" className="btn-signal" data-testid="event-bottom-cta">Register Now</Link>
+          )}
         </div>
       </div>
     </div>
