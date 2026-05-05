@@ -15,11 +15,18 @@ export default function AudioController() {
   const [showVol, setShowVol] = useState(false);
 
   useEffect(() => {
-    const savedPlaying = localStorage.getItem("auktave-audio-playing") === "1";
-    const savedMuted = localStorage.getItem("auktave-audio-muted") !== "0";
-    const savedVol = parseFloat(localStorage.getItem("auktave-audio-volume") || "0.25");
-    setPlaying(savedPlaying);
-    setMuted(savedMuted);
+    const choice = sessionStorage.getItem("auktave-audio-choice");
+    if (!choice) {
+      setPlaying(false);
+      setMuted(true);
+      return;
+    }
+
+    const savedPlaying = sessionStorage.getItem("auktave-audio-playing");
+    const savedMuted = sessionStorage.getItem("auktave-audio-muted");
+    const savedVol = parseFloat(sessionStorage.getItem("auktave-audio-volume") || "0.25");
+    if (savedPlaying !== null) setPlaying(savedPlaying === "1");
+    if (savedMuted !== null) setMuted(savedMuted === "1");
     setVolume(isNaN(savedVol) ? 0.25 : savedVol);
   }, []);
 
@@ -32,9 +39,11 @@ export default function AudioController() {
     } else {
       ref.current.pause();
     }
-    localStorage.setItem("auktave-audio-playing", playing ? "1" : "0");
-    localStorage.setItem("auktave-audio-muted", muted ? "1" : "0");
-    localStorage.setItem("auktave-audio-volume", String(volume));
+    const choice = sessionStorage.getItem("auktave-audio-choice");
+    if (!choice) return;
+    sessionStorage.setItem("auktave-audio-playing", playing ? "1" : "0");
+    sessionStorage.setItem("auktave-audio-muted", muted ? "1" : "0");
+    sessionStorage.setItem("auktave-audio-volume", String(volume));
   }, [playing, muted, volume]);
 
   return (
