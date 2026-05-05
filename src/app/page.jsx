@@ -61,7 +61,7 @@ export default function HomePage() {
         <div className="relative max-w-7xl mx-auto px-5 lg:px-10 grid lg:grid-cols-12 gap-12 items-center min-h-[80vh]">
           <div className="lg:col-span-8">
             <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4, duration: 0.7 }}>
-              <span className="tag mb-6 inline-flex">
+              <span className="tag mb-6 inline-flex whitespace-nowrap">
                 <span className="w-1.5 h-1.5 bg-ember animate-pulse rounded-full" />
                 May 21 - 22, 2026 / Amity University Kolkata
               </span>
