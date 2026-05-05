@@ -46,7 +46,9 @@ html, body {
   body.custom-cursor-active .leaflet-popup,
   body.custom-cursor-active .leaflet-popup-content,
   body.custom-cursor-active .leaflet-popup-content-wrapper,
-  body.custom-cursor-active .leaflet-popup-close-button {
+  body.custom-cursor-active .leaflet-popup-close-button,
+  body.custom-cursor-active .leaflet-control-zoom,
+  body.custom-cursor-active .leaflet-control-zoom a {
     cursor: none !important;
   }
 }
