@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import Image from "next/image";
+import { Bebas_Neue } from "next/font/google";
 import { motion } from "framer-motion";
 import { ArrowRight, Zap, Trophy, Users, Clock, Sparkles, Lock, ChevronDown } from "lucide-react";
 import GlitchText from "@/components/GlitchText";
@@ -8,6 +9,11 @@ import Countdown from "@/components/Countdown";
 import EventCard from "@/components/EventCard";
 // import PlayerScoreboard from "@/components/PlayerScoreboard"; // [scoreboard] disabled until approved
 import { events, stats, sponsors } from "@/lib/data";
+
+const bebasNeue = Bebas_Neue({
+  subsets: ["latin"],
+  weight: "400",
+});
 
 function hashString(value) {
   let hash = 0;
@@ -87,7 +93,7 @@ export default function HomePage() {
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.9, duration: 0.7 }}
-              className="text-xl sm:text-2xl lg:text-3xl mt-6 max-w-2xl mx-auto sm:mx-0 text-center sm:text-left text-bone/80 font-display tracking-tight"
+              className={`text-xl sm:text-2xl lg:text-3xl mt-6 max-w-2xl mx-auto sm:mx-0 text-center sm:text-left text-bone/80 tracking-tight ${bebasNeue.className}`}
             >
               Not All Experiments Stay in the Lab.
             </motion.p>
