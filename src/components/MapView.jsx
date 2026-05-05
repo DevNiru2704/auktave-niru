@@ -13,17 +13,25 @@ const customIcon = L.divIcon({
 
 export default function MapView() {
   const position = [22.596922372979076, 88.4875113527537]; // Amity University Kolkata - Major Arterial Road, New Town
+  const coordsText = "22.596922372979076, 88.4875113527537";
   return (
-    <MapContainer center={position} zoom={14} scrollWheelZoom={false} style={{ height: "100%", width: "100%" }}>
+    <MapContainer
+      center={position}
+      zoom={14}
+      scrollWheelZoom={false}
+      attributionControl={false}
+      style={{ height: "100%", width: "100%" }}
+    >
       <TileLayer
-        attribution='&copy; OpenStreetMap'
-        url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+        attribution=""
+        url="https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png"
       />
       <Marker position={position} icon={customIcon}>
         <Popup>
           <strong>AUKTAVE 2K26</strong><br />
           Amity University Kolkata<br />
-          New Town, Kolkata
+          New Town, Kolkata<br />
+          Lat, Lng: {coordsText}
         </Popup>
       </Marker>
     </MapContainer>
