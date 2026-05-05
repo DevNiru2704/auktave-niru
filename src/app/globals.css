@@ -104,7 +104,7 @@ html.lenis { height: auto; }
   content: "";
   position: fixed; inset: 0;
   pointer-events: none; z-index: 50;
-  background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.85) 100%);
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.6) 100%);
 }
 
 /* CRT scanlines */
@@ -398,6 +398,7 @@ label.upside {
 /* Missing utilities that Tailwind provided in older setup */
 .bg-ink { background: var(--bg); }
 .bg-midnight { background: var(--bg-soft); }
+.bg-bone { background: var(--bone); }
 .z-100 { z-index: 100; }
 
 /* background opacity helper matching `bg-ember/20` style used in code */

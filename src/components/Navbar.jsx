@@ -3,7 +3,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
 import AnnouncementBanner from "./AnnouncementBanner";
 
 const links = [
@@ -68,37 +67,52 @@ export default function Navbar() {
             </Link>
             <button
               aria-label="Toggle menu"
+              aria-expanded={open}
+              aria-controls="mobile-menu"
               onClick={() => setOpen((s) => !s)}
               className="lg:hidden p-2 text-bone"
               data-testid="mobile-menu-toggle"
             >
-              {open ? <X size={24} /> : <Menu size={24} />}
+              <span className="sr-only">Toggle menu</span>
+              <span className="flex h-6 w-6 flex-col items-center justify-center gap-1.5">
+                <span
+                  className={`block h-0.5 w-6 bg-bone transition-transform duration-300 ease-out ${open ? "translate-y-2 rotate-45" : "translate-y-0"}`}
+                />
+                <span
+                  className={`block h-0.5 w-6 bg-bone transition-all duration-300 ease-out ${open ? "opacity-0" : "opacity-100"}`}
+                />
+                <span
+                  className={`block h-0.5 w-6 bg-bone transition-transform duration-300 ease-out ${open ? "-translate-y-2 -rotate-45" : "translate-y-0"}`}
+                />
+              </span>
             </button>
           </div>
         </nav>
 
-        {open && (
-          <div className="lg:hidden bg-ink/95 border-t border-ember/20" data-testid="mobile-menu">
-            <ul className="px-5 py-6 flex flex-col gap-4">
-              {links.map((l) => (
-                <li key={l.href}>
-                  <Link
-                    href={l.href}
-                    data-testid={`mobile-nav-${l.label.toLowerCase()}`}
-                    className="block uppercase font-mono text-sm tracking-[0.2em] text-bone/80 py-2 border-b border-ember/10"
-                  >
-                    {l.label}
-                  </Link>
-                </li>
-              ))}
-              <li>
-                <Link href="/register" className="block btn-signal mt-2 text-center" data-testid="mobile-register-btn">
-                  Register Now
+        <div
+          id="mobile-menu"
+          className={`lg:hidden bg-ink/95 border-t border-ember/20 overflow-hidden transition-all duration-300 ease-out ${open ? "max-h-96 opacity-100 translate-y-0" : "max-h-0 opacity-0 -translate-y-2 pointer-events-none"}`}
+          data-testid="mobile-menu"
+        >
+          <ul className={`px-5 py-6 flex flex-col gap-4 transition-all duration-300 ease-out ${open ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2"}`}>
+            {links.map((l) => (
+              <li key={l.href}>
+                <Link
+                  href={l.href}
+                  data-testid={`mobile-nav-${l.label.toLowerCase()}`}
+                  className="block uppercase font-mono text-sm tracking-[0.2em] text-bone/80 py-2 border-b border-ember/10"
+                >
+                  {l.label}
                 </Link>
               </li>
-            </ul>
-          </div>
-        )}
+            ))}
+            <li>
+              <Link href="/register" className="block btn-signal mt-2 text-center" data-testid="mobile-register-btn">
+                Register Now
+              </Link>
+            </li>
+          </ul>
+        </div>
       </div>
     </header>
   );
