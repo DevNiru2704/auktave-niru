@@ -107,14 +107,28 @@ function buildAUKTAVERegistrationForm() {
       .setHelpText(
         "Duration: 24 Hours | Team Size: 2-5 Members | Prize Pool: Rs. 50,000+\n" +
         "Venue: Incubation Center | Day 1 - 11:00 AM onwards\n\n" +
-        "A 24-hour in-campus AI hackathon where teams build impactful solutions inside predefined AI domains. " +
-        "The event is track-based, so teams innovate within predefined AI domains.\n\n" +
+        "A 24-hour in-campus AI hackathon where teams build impactful solutions using AI. The event is track-based.\n\n" +
         "Key rules summary:\n" +
-        "- All work must be built during the hackathon. No pre-built codebases.\n" +
-        "- Maintain a GitHub repository with no commits before the official start time.\n" +
-        "- AI tools are allowed for assistance, but core logic must be original.\n" +
-        "- Submission: working prototype, GitHub repo, README, and demo or presentation.\n" +
-        "- Registration fee: Rs. 500 per team.\n\n" +
+        "- Open to students from all colleges and universities with valid college ID.\n" +
+        "- Teams of 2-5; each team must designate a Team Leader. Team cannot change after registration.\n" +
+        "- Registration is valid only after all team members register before the deadline. No late registrations.\n" +
+        "- Opening briefing, development phase, mid-evaluation checkpoint(s), and final judging.\n" +
+        "- All work must be built during the hackathon. No pre-built projects or prior codebases.\n" +
+        "- Open-source libraries are allowed with proper credit.\n" +
+        "- Maintain a GitHub repo with no commits before the official start time.\n" +
+        "- AI tools are allowed, but core logic must be original and explainable.\n" +
+        "- Submission: working prototype, source code (GitHub preferred), README, and demo or presentation.\n" +
+        "- Judging: innovation, functionality, technical implementation, UX, impact, presentation.\n" +
+        "- Track-wise evaluation with a winner in each track.\n" +
+        "- All team members must be present for final presentation and Q and A.\n" +
+        "- Registration fee: Rs. 500 per team.\n" +
+        "- Participants must stay at the venue for the full duration.\n\n" +
+        "FAQ highlights:\n" +
+        "- Track changes are allowed even on event day.\n" +
+        "- Internet, power, and food are provided throughout the event.\n" +
+        "- Certificates for all registered team members.\n" +
+        "- No refunds for cancellations or no-shows unless decided by the organizers.\n" +
+        "- Mentors and support will be available.\n\n" +
         "Coordinator: Aritra Sen | hackathon@auktave.in | +91 98300 00000"
       );
 
@@ -148,9 +162,13 @@ function buildAUKTAVERegistrationForm() {
       .setTitle("Declaration and consent")
       .setChoiceValues([
         "All team members are currently enrolled students and possess valid college IDs.",
+        "Team composition will not change after registration.",
         "All work will be original and completed within the 24-hour window.",
-        "We have read and agree to the hackathon rules and AUKTAVE Code of Conduct.",
-        "We understand that plagiarism or use of pre-built code leads to immediate disqualification."
+        "We will maintain a GitHub repository with no commits before the official start time.",
+        "We agree to the hackathon rules and AUKTAVE Code of Conduct.",
+        "We understand that plagiarism or use of pre-built code leads to immediate disqualification.",
+        "We understand the registration fee is Rs. 500 per team and is non-refundable unless decided by organizers.",
+        "All team members will remain at the venue for the full duration of the hackathon."
       ])
       .setRequired(true);
 
