@@ -106,7 +106,7 @@ function buildAUKTAVERegistrationForm() {
   const roboticsPage = form.addPageBreakItem()
       .setTitle("Robotics Competition")
       .setHelpText(
-        "Duration: 2.5 Hours | Team Size: 2-4 Members | Prize Pool: Rs. 40,000\n" +
+        "Duration: 2.5 Hours | Team Size: 2-4 Members | Prize Pool: Rs. 30,000\n" +
         "Venue: Atrium | Day 2 - 11:00 AM to 1:30 PM\n\n" +
         "Choose one robotics sub-event: Robo Soccer, Maze Solver, or Drone Obstacle Course."
       );
@@ -119,7 +119,7 @@ function buildAUKTAVERegistrationForm() {
   // Robotics sub-event sections
   const roboSoccerPage = form.addPageBreakItem()
       .setTitle("Robo Soccer")
-      .setHelpText("Timed goals, tight control, zero tolerance for faults.");
+      .setHelpText("Duration: 2.5 Hours\nTimed goals, tight control, zero tolerance for faults.");
 
   form.addSectionHeaderItem().setTitle("Team and bot details");
   addText("Team name", true);
@@ -151,7 +151,7 @@ function buildAUKTAVERegistrationForm() {
 
   const mazeSolverPage = form.addPageBreakItem()
       .setTitle("Maze Solver")
-      .setHelpText("Explore, learn, then sprint the shortest path.");
+      .setHelpText("Duration: 2.5 Hours\nExplore, learn, then sprint the shortest path.");
 
   form.addSectionHeaderItem().setTitle("Team and bot details");
   addText("Team name", true);
@@ -179,7 +179,7 @@ function buildAUKTAVERegistrationForm() {
   const dronePage = form.addPageBreakItem()
       .setTitle("Drone Obstacle Course")
       .setHelpText(
-        "Duration: 2 Hours | Team Size: 1-3 Members | Prize Pool: Rs. 10,000\n" +
+        "Duration: 2.5 Hours | Team Size: 1-3 Members | Prize Pool: Rs. 12,000\n" +
         "Venue: Atrium | Day 2 - 11:00 AM to 1:30 PM\n\n" +
         "Registration fee: Rs. 400 per participant or team.\n" +
         "Required documents: photocopy of valid Government ID and photocopy of valid College or University or Work ID.\n" +

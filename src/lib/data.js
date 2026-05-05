@@ -228,9 +228,9 @@ export const events = [
     name: "Robotics Competition",
     tagline: "Three arenas. One robotics league.",
     summary: "Pick your battlefield: Robo Soccer, Maze Solver, or Drone Obstacle Course. Register once, compete in one sub-event.",
-    duration: "8 Hours",
-    teamSize: "2 - 4 Members",
-    prizePool: "Rs. 40,000",
+    duration: "2.5 Hours",
+    teamSize: "Varies by sub-event",
+    prizePool: "Rs. 30,000",
     highlight: true,
     coordinator: { name: "Riya Banerjee", role: "Robotics Lead", phone: "+91 98300 00001", email: "robotics@auktave.in" },
     subEvents: [
@@ -241,7 +241,7 @@ export const events = [
         summary: "A team-based robotics football event with strict bot specs and multi-stage gameplay: prelims, knockouts, and finals.",
         duration: "2.5 Hours",
         teamSize: "2 - 4 Members",
-        prizePool: "Rs. 12,000",
+        prizePool: "Rs. 7,000",
         coordinator: { name: "Riya Banerjee", role: "Robotics Lead", phone: "+91 98300 00001", email: "robotics@auktave.in" },
         rules: [
           "This is a team event with 2 to 4 members per team.",
@@ -315,7 +315,7 @@ export const events = [
         summary: "Autonomous line-maze challenge with a Dry Run exploration phase and an Actual Run speed phase on the shortest path.",
         duration: "2.5 Hours",
         teamSize: "2 - 4 Members",
-        prizePool: "Rs. 8,000",
+        prizePool: "Rs. 7,000",
         coordinator: { name: "Riya Banerjee", role: "Robotics Lead", phone: "+91 98300 00001", email: "robotics@auktave.in" },
         rules: [
           "Design and program an autonomous robot to navigate a maze defined by a continuous black line on a flat 3 m x 3 m arena.",
@@ -446,7 +446,7 @@ export const events = [
         summary: "A timed obstacle course where each drone must clear every obstacle and follow checkpoint rules with strict penalties.",
         duration: "2.5 Hours",
         teamSize: "1 - 3 Members",
-        prizePool: "Rs. 10,000",
+        prizePool: "Rs. 12,000",
         coordinator: { name: "Riya Banerjee", role: "Robotics Lead", phone: "+91 98300 00001", email: "robotics@auktave.in" },
         rules: [
           "Open to students from all recognized colleges and universities; register via the official portal.",
