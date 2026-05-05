@@ -93,7 +93,7 @@ export default function HomePage() {
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.9, duration: 0.7 }}
-              className={`text-[24px] sm:text-2xl lg:text-3xl mt-6 max-w-2xl mx-auto sm:mx-0 text-center sm:text-left text-bone/80 tracking-tight ${bebasNeue.className}`}
+              className={`text-[24px] sm:text-2xl lg:text-3xl mt-6 max-w-2xl mx-auto sm:mx-0 text-center sm:text-left text-bone tracking-tight ${bebasNeue.className}`}
             >
               Not All Experiments Stay in the Lab.
             </motion.p>
