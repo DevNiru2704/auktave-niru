@@ -48,7 +48,19 @@ html, body {
   body.custom-cursor-active .leaflet-popup-content-wrapper,
   body.custom-cursor-active .leaflet-popup-close-button,
   body.custom-cursor-active .leaflet-control-zoom,
-  body.custom-cursor-active .leaflet-control-zoom a {
+  body.custom-cursor-active .leaflet-control-zoom a,
+  body.custom-cursor-active a:active,
+  body.custom-cursor-active a:focus,
+  body.custom-cursor-active button:active,
+  body.custom-cursor-active button:focus,
+  body.custom-cursor-active [role='button']:active,
+  body.custom-cursor-active [role='button']:focus,
+  body.custom-cursor-active input:active,
+  body.custom-cursor-active input:focus,
+  body.custom-cursor-active textarea:active,
+  body.custom-cursor-active textarea:focus,
+  body.custom-cursor-active select:active,
+  body.custom-cursor-active select:focus {
     cursor: none !important;
   }
 }
@@ -411,12 +423,43 @@ input.upside, textarea.upside, select.upside {
   width: 100%;
   font-family: 'Manrope', sans-serif;
   transition: all 220ms;
+  cursor: none !important;
 }
+
+body.custom-cursor-active input.upside,
+body.custom-cursor-active textarea.upside,
+body.custom-cursor-active select.upside,
+body.custom-cursor-active input.upside:hover,
+body.custom-cursor-active textarea.upside:hover,
+body.custom-cursor-active select.upside:hover {
+  cursor: none !important;
+}
+
 input.upside:focus, textarea.upside:focus, select.upside:focus {
   border-color: #ffe600;
   outline: none;
   box-shadow: 0 0 0 1px #ffe600, 0 0 18px rgba(255,230,0,0.25);
+  cursor: none !important;
 }
+
+input.upside:hover, textarea.upside:hover, select.upside:hover {
+  cursor: none !important;
+}
+
+select.upside {
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffe600' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  padding-right: 40px;
+}
+
+select.upside:focus {
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffe600' stroke-width='2'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-position: right 12px center;
+}
+
 label.upside {
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;

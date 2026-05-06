@@ -25,6 +25,7 @@ export default function EventDetailPage() {
   const event = events.find((e) => e.slug === params.slug);
   if (!event) return notFound();
   const rules = event.rules ?? [];
+  const isAmityExclusive = event.slug === "btech-presentations";
 
   return (
     <div className="pt-32 pb-24 px-5 lg:px-10 vines-bg" data-testid={`event-detail-${event.slug}`}>
@@ -62,7 +63,14 @@ export default function EventDetailPage() {
             <Stat icon={Clock} label="Duration" value={event.duration} />
             <Stat icon={Users} label="Team Size" value={event.teamSize} />
             <Stat icon={Trophy} label="Prize Pool" value={event.prizePool} accent />
-            {event.slug === "hackathon" ? (
+            {isAmityExclusive ? (
+              <div className="card-upside p-5 text-center border border-ember/20 bg-midnight/40" data-testid="event-exclusive-note">
+                <p className="eyebrow mb-2">/ Registration</p>
+                <p className="text-bone/80 leading-relaxed text-sm">
+                  This event is exclusive to Amity University students and is not open through the public registration form.
+                </p>
+              </div>
+            ) : event.slug === "hackathon" ? (
               <a
                 href="https://www.hackcatalyst.tech/"
                 target="_blank"
@@ -78,7 +86,13 @@ export default function EventDetailPage() {
               </Link>
             )}
             <a
-              href={event.slug === "hackathon" ? "/brochures/ai_hackathon_rulebook.pdf" : "/brochures/event-rules.pdf"}
+              href={
+                event.slug === "hackathon"
+                  ? "/brochures/ai_hackathon_rulebook.pdf"
+                  : event.slug === "ai-film"
+                    ? "/brochures/AI Short Film Rulebook _20260506_223233_0000.pdf"
+                    : "/brochures/event-rules.pdf"
+              }
               download
               className="btn-ghost w-full flex items-center justify-center gap-2"
               data-testid="event-rules-download"
@@ -253,7 +267,13 @@ export default function EventDetailPage() {
 
         <div className="text-center mt-16">
           <h3 className="headline text-4xl mb-6">Ready to play?</h3>
-          {event.slug === "hackathon" ? (
+          {isAmityExclusive ? (
+            <div className="card-upside inline-flex max-w-2xl mx-auto px-6 py-4 border border-ember/20 bg-midnight/40" data-testid="event-bottom-exclusive-note">
+              <p className="text-bone/80 leading-relaxed text-sm">
+                This event is exclusive to Amity University students and is not open through the public registration form.
+              </p>
+            </div>
+          ) : event.slug === "hackathon" ? (
             <a
               href="https://www.hackcatalyst.tech/"
               target="_blank"

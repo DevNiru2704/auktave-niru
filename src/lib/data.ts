@@ -8,7 +8,7 @@ export const events = [
     teamSize: "2 - 5 Members",
     prizePool: "Rs. 50,000+",
     highlight: true,
-    coordinator: { name: "Aritra Sen", role: "Hackathon Lead", phone: "+91 98300 00000", email: "hackathon@auktave.in" },
+    coordinator: { name: "Aritra Sen", role: "Hackathon Lead", phone: "+91 98300 00000", email: "info.auktave@gmail.com" },
     rules: [
       "Open to all students currently enrolled in a college or university; valid college ID required.",
       "Teams must have 2 to 5 members and designate a Team Leader as the primary contact.",
@@ -230,9 +230,9 @@ export const events = [
     summary: "Pick your battlefield: Robo Soccer, Maze Solver, or Drone Obstacle Course. Register once, compete in one sub-event.",
     duration: "2.5 Hours",
     teamSize: "Varies by sub-event",
-    prizePool: "Rs. 30,000",
+    prizePool: "Rs. 26,000",
     highlight: true,
-    coordinator: { name: "Riya Banerjee", role: "Robotics Lead", phone: "+91 98300 00001", email: "robotics@auktave.in" },
+    coordinator: { name: "Riya Banerjee", role: "Robotics Lead", phone: "+91 98300 00001", email: "info.auktave@gmail.com" },
     subEvents: [
       {
         slug: "robo-soccer",
@@ -242,7 +242,7 @@ export const events = [
         duration: "2.5 Hours",
         teamSize: "2 - 4 Members",
         prizePool: "Rs. 7,000",
-        coordinator: { name: "Riya Banerjee", role: "Robotics Lead", phone: "+91 98300 00001", email: "robotics@auktave.in" },
+        coordinator: { name: "Trishanjeet Das", role: "Field Coordinator", phone: "+91 9002309368", email: "info.auktave@gmail.com" },
         rules: [
           "This is a team event with 2 to 4 members per team.",
           "A team may comprise members from different colleges.",
@@ -316,7 +316,7 @@ export const events = [
         duration: "2.5 Hours",
         teamSize: "2 - 4 Members",
         prizePool: "Rs. 7,000",
-        coordinator: { name: "Riya Banerjee", role: "Robotics Lead", phone: "+91 98300 00001", email: "robotics@auktave.in" },
+        coordinator: { name: "Md Saad", role: "Field Coordinator", phone: "+91 9875535575", email: "info.auktave@gmail.com" },
         rules: [
           "Design and program an autonomous robot to navigate a maze defined by a continuous black line on a flat 3 m x 3 m arena.",
           "Line width is 30 mm and line angle will be 90 degrees between adjacent black lines.",
@@ -445,9 +445,9 @@ export const events = [
         tagline: "Fly tight gates and sharp turns.",
         summary: "A timed obstacle course where each drone must clear every obstacle and follow checkpoint rules with strict penalties.",
         duration: "2.5 Hours",
-        teamSize: "1 - 3 Members",
+        teamSize: "1 - 5 Members",
         prizePool: "Rs. 12,000",
-        coordinator: { name: "Riya Banerjee", role: "Robotics Lead", phone: "+91 98300 00001", email: "robotics@auktave.in" },
+        coordinator: { name: "Mizan-ur Rahman Mondal", role: "Field Coordinator", phone: "+91 7003670838", email: "info.auktave@gmail.com" },
         rules: [
           "Open to students from all recognized colleges and universities; register via the official portal.",
           "Required documents: photocopy of valid Government ID and photocopy of valid College or University or Work ID.",
@@ -514,13 +514,6 @@ export const events = [
             ]
           },
           {
-            eyebrow: "/ Prize Pool",
-            title: "Awards",
-            items: [
-              "Total prize pool: Rs. 10,000 for winning teams."
-            ]
-          },
-          {
             eyebrow: "/ Disqualification",
             title: "Disqualification conditions",
             items: [
@@ -542,7 +535,7 @@ export const events = [
     duration: "2 Hours",
     teamSize: "1 - 5 Members",
     prizePool: "Rs. 25,000",
-    coordinator: { name: "Soumya Dutta", role: "Expo Lead", phone: "+91 98300 00002", email: "expo@auktave.in" },
+    coordinator: { name: "Soumya Dutta", role: "Expo Lead", phone: "+91 98300 00002", email: "info.auktave@gmail.com" },
     rules: [
       "One booth per project. Posters, demos, and printed material allowed.",
       "Each team gets a 5 minute walkthrough slot with judges.",
@@ -559,7 +552,7 @@ export const events = [
     duration: "1 Hour",
     teamSize: "1 Member",
     prizePool: "Hoodies, Swag Kits, Certificates",
-    coordinator: { name: "Vikram Roy", role: "Debate Lead", phone: "+91 98300 00003", email: "debate@auktave.in" },
+    coordinator: { name: "Vikram Roy", role: "Debate Lead", phone: "+91 98300 00003", email: "info.auktave@gmail.com" },
     rules: [
       "Open to students from all recognized colleges and universities; register via the official portal.",
       "Required documents at entry: photocopy of valid Government ID and photocopy of valid College/University ID.",
@@ -705,7 +698,7 @@ export const events = [
     duration: "1 Hour",
     teamSize: "1 - 3 Members",
     prizePool: "Rs. 10,000",
-    coordinator: { name: "Ananya Ghosh", role: "Film Lead", phone: "+91 98300 00004", email: "film@auktave.in" },
+    coordinator: { name: "Ananya Ghosh", role: "Film Lead", phone: "+91 98300 00004", email: "info.auktave@gmail.com" },
     rules: [
       "Duration: 1 to 3 minutes including credits. Format: MP4 or MOV, 1080p minimum.",
       "Teams of 1 to 3 members.",
@@ -774,7 +767,7 @@ export const events = [
     duration: "1.5 Hours",
     teamSize: "1 - 4 Members",
     prizePool: "Rs. 30,000",
-    coordinator: { name: "Prof. K. Mukherjee", role: "Academic Lead", phone: "+91 98300 00005", email: "presentations@auktave.in" },
+    coordinator: { name: "Prof. K. Mukherjee", role: "Academic Lead", phone: "+91 98300 00005", email: "info.auktave@gmail.com" },
     rules: [
       "Open to final year B.Tech students from any college.",
       "Each team gets 8 minutes presentation + 4 minutes Q&A.",
@@ -791,7 +784,7 @@ export const events = [
     duration: "1 Hour",
     teamSize: "Open to all",
     prizePool: "Certificates + IEEE SB AUK perks",
-    coordinator: { name: "IEEE SB AUK Chapter", role: "Society Liaison", phone: "+91 98300 00006", email: "ieee-sbauk@auktave.in" },
+    coordinator: { name: "IEEE SB AUK Chapter", role: "Society Liaison", phone: "+91 98300 00006", email: "info.auktave@gmail.com" },
     rules: [
       "Speakers must submit a 150–300 word abstract at least 48 hours before the session.",
       "Talk length: 20 minutes presentation + 10 minutes Q&A (unless otherwise stated).",

@@ -67,7 +67,7 @@ export default function HelpPage() {
                   <input id="help-phone" name="phone" required className="upside" data-testid="help-phone" />
                 </div>
                 <div>
-                  <label htmlFor="help-event" className="upside">Event</label>
+                  <label htmlFor="help-event" className="upside">Issue Type</label>
                   <select id="help-event" name="event" className="upside" data-testid="help-event">
                     <option value="">General Query</option>
                     {events.map((e) => <option key={e.slug} value={e.name}>{e.name}</option>)}

@@ -23,7 +23,7 @@ export default function EventCard({ event, index = 0 }: EventCardProps) {
       <Link href={`/events/${event.slug}`} className="block card-upside p-7 h-full group">
         <div className="flex items-center justify-between mb-6">
           <span className={`tag ${event.highlight ? "signal" : ""}`}>
-            {event.highlight ? <><Zap size={12} /> Headline Event</> : `Event / ${String(index + 1).padStart(2, "0")}`}
+            {event.highlight ? <><Zap size={12} /> Flagship Event</> : `Event / ${String(index + 1).padStart(2, "0")}`}
           </span>
           <ArrowUpRight size={18} className="text-bone/40 group-hover:text-signal group-hover:translate-x-1 group-hover:-translate-y-1 transition-all" />
         </div>

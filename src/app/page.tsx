@@ -228,13 +228,13 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* HEADLINE EVENTS SPOTLIGHTS */}
+      {/* FLAGSHIP EVENTS SPOTLIGHTS */}
       {events.filter((e) => e.highlight).map((e) => (
         <section key={e.slug} className="relative py-24 px-5 lg:px-10 border-y border-ember/15 bg-midnight/30" data-testid={`${e.slug}-spotlight`}>
           <div className="absolute inset-0 vines-bg pointer-events-none" />
           <div className="relative max-w-7xl mx-auto grid lg:grid-cols-12 gap-10 items-end">
             <div className="lg:col-span-7">
-              <p className="eyebrow mb-4">/ Headline Event</p>
+              <p className="eyebrow mb-4">/ Flagship Event</p>
               <h2 className="headline text-6xl lg:text-8xl leading-[0.9] mb-6">
                 {e.name.includes("Hackathon") ? (
                   <><span className="text-ember">24 Hour</span><br />Hackathon</>

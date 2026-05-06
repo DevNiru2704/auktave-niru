@@ -46,9 +46,18 @@ export default function SplashScreen({ onDismiss }: SplashScreenProps) {
       document.documentElement.style.overflow = "hidden";
       document.body.style.overflow = "hidden";
     } else {
-      lenis.start();
+      // Clear overflow first to allow scroll
       document.documentElement.style.overflow = "";
       document.body.style.overflow = "";
+
+      // Force a reflow to ensure styles are applied
+      void document.documentElement.offsetHeight;
+
+      // Re-enable Lenis and reset scroll position
+      lenis.start();
+
+      // Force Lenis to process the scroll state
+      window.scrollTo(0, 0);
     }
   }, [show, lenis]);
 

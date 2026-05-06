@@ -46,6 +46,11 @@ export default function CustomCursor() {
             setVisible(false);
         };
 
+        const onPointerDown = (event: PointerEvent) => {
+            updateHoverState(event);
+            setVisible(true);
+        };
+
         const onWindowBlur = () => setVisible(false);
 
         const animate = () => {
@@ -62,6 +67,7 @@ export default function CustomCursor() {
         window.addEventListener("pointermove", onPointerMove);
         window.addEventListener("pointerenter", onPointerEnter);
         window.addEventListener("pointerleave", onPointerLeave);
+        window.addEventListener("pointerdown", onPointerDown);
         window.addEventListener("blur", onWindowBlur);
         requestRef.current = window.requestAnimationFrame(animate);
 
@@ -69,6 +75,7 @@ export default function CustomCursor() {
             window.removeEventListener("pointermove", onPointerMove);
             window.removeEventListener("pointerenter", onPointerEnter);
             window.removeEventListener("pointerleave", onPointerLeave);
+            window.removeEventListener("pointerdown", onPointerDown);
             window.removeEventListener("blur", onWindowBlur);
             if (requestRef.current) {
                 window.cancelAnimationFrame(requestRef.current);
