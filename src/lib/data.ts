@@ -783,7 +783,7 @@ export const events = [
     summary: "An exclusive IEEE SB AUK-curated session featuring keynotes, technical talks, and a research paper showcase. A trust mark for AUKTAVE 2K26.",
     duration: "1 Hour",
     teamSize: "Open to all",
-    prizePool: "Certificates + IEEE SB AUK perks",
+    prizePool: "Certificates",
     coordinator: { name: "IEEE SB AUK Chapter", role: "Society Liaison", phone: "+91 98300 00006", email: "info.auktave@gmail.com" },
     rules: [
       "Speakers must submit a 150–300 word abstract at least 48 hours before the session.",
