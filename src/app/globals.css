@@ -292,13 +292,26 @@ html.lenis { height: auto; }
 
 /* Ticker */
 .marquee {
+  position: relative;
+  overflow: hidden;
+}
+.marquee-inner {
   display: flex;
   gap: 4rem;
-  animation: marquee 40s linear infinite;
   white-space: nowrap;
+  animation: marquee 40s linear infinite;
+  will-change: transform;
 }
-.marquee > * { flex: 0 0 auto; }
-.marquee-fast {
+.marquee-inner > * { flex: 0 0 auto; }
+.ticker-track {
+  display: inline-flex;
+  gap: 4rem;
+  white-space: nowrap;
+  width: max-content;
+  will-change: transform;
+}
+.ticker-track > * { flex: 0 0 auto; }
+.marquee-fast .marquee-inner, .marquee-inner.marquee-fast {
   animation-duration: 22s;
 }
 @media (max-width: 1024px) {
@@ -311,7 +324,7 @@ html.lenis { height: auto; }
     animation-duration: 12s;
   }
 }
-.marquee-sponsor {
+.marquee-sponsor .marquee-inner, .marquee-inner.marquee-sponsor {
   animation-duration: 28s;
 }
 @media (max-width: 1024px) {
@@ -326,7 +339,7 @@ html.lenis { height: auto; }
 }
 @keyframes marquee {
   0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  100% { transform: translate3d(calc(-1 * var(--marquee-distance, 50vw)), 0, 0); }
 }
 
 /* Section divider */

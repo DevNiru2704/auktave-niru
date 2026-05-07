@@ -20,7 +20,7 @@ function InitialsAvatar({ name }: { name: string }) {
     const parts = name.split(" ").filter(Boolean);
     const initials = parts.length === 1 ? parts[0][0] : (parts[0][0] + parts[parts.length - 1][0]);
     return (
-        <div className="w-20 h-20 rounded-full bg-gradient-to-br from-ember to-signal flex items-center justify-center text-white font-bold text-xl">
+        <div className="w-20 h-20 rounded-full bg-linear-to-br from-ember to-signal flex items-center justify-center text-white font-bold text-xl">
             {initials.toUpperCase()}
         </div>
     );

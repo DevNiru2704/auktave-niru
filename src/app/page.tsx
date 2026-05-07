@@ -3,6 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Bebas_Neue } from "next/font/google";
 import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
 import { ArrowRight, Zap, Trophy, Users, Clock, Sparkles, Lock, ChevronDown } from "lucide-react";
 import GlitchText from "@/components/GlitchText";
 import Countdown from "@/components/Countdown";
@@ -29,6 +30,15 @@ function hashString(value: string) {
 }
 
 export default function HomePage() {
+  const tickerTrackRef = useRef<HTMLDivElement | null>(null);
+  const tickerRepeats = 6;
+  const tickerItems = [
+    <span key="a" className="flex items-center gap-3"><Sparkles className="text-ember" size={20} /> 48 hours of building</span>,
+    <span key="b" className="flex items-center gap-3"><Sparkles className="text-signal" size={20} /> 7 events / 1 portal</span>,
+    <span key="c" className="flex items-center gap-3"><Sparkles className="text-ember" size={20} /> First edition - history is hiring</span>,
+    <span key="d" className="flex items-center gap-3"><Sparkles className="text-signal" size={20} /> IEEE SB AUK certified session</span>,
+    <span key="e" className="flex items-center gap-3"><Sparkles className="text-ember" size={20} /> ₹1.5L+ in prizes</span>
+  ];
   const sideEvents = events.filter((e) => !e.highlight);
   const featuredSideEvents: Array<EventItem | undefined> = [
     sideEvents.find((event) => event.slug === "research-expo"),
@@ -47,6 +57,40 @@ export default function HomePage() {
       <span className="font-mono text-xs text-bone/40 group-hover:text-ember transition-colors">LOGO_{String(i + 1).padStart(2, "0")}</span>
     </div>
   ]);
+
+  useEffect(() => {
+    const track = tickerTrackRef.current;
+    if (!track) return;
+
+    let distance = Math.max(track.scrollWidth / tickerRepeats, 1);
+    const updateDistance = () => {
+      distance = Math.max(track.scrollWidth / tickerRepeats, 1);
+    };
+
+    const observer = typeof ResizeObserver !== "undefined"
+      ? new ResizeObserver(updateDistance)
+      : null;
+
+    observer?.observe(track);
+    updateDistance();
+
+    let frameId = 0;
+    const speed = 42;
+
+    const animate = (time: number) => {
+      const offset = distance > 0 ? (time * speed / 1000) % distance : 0;
+      track.style.transform = `matrix3d(1,0,0,0,0,1,0,0,0,0,1,0,${-offset},0,0,1)`;
+      frameId = requestAnimationFrame(animate);
+    };
+
+    frameId = requestAnimationFrame(animate);
+
+    return () => {
+      cancelAnimationFrame(frameId);
+      observer?.disconnect();
+      track.style.transform = "";
+    };
+  }, []);
 
   return (
     <>
@@ -157,19 +201,16 @@ export default function HomePage() {
 
       {/* TICKER */}
       <section className="border-y border-ember/20 bg-midnight/50 overflow-hidden py-5">
-        <div className="marquee marquee-fast text-bone/40 font-display text-3xl">
-          {Array.from({ length: 2 }).flatMap((_, i) => [
-            <span key={`a${i}`} className="flex items-center gap-3"><Sparkles className="text-ember" size={20} /> 48 hours of building</span>,
-            <span key={`b${i}`} className="flex items-center gap-3"><Sparkles className="text-signal" size={20} /> 7 events / 1 portal</span>,
-            <span key={`c${i}`} className="flex items-center gap-3"><Sparkles className="text-ember" size={20} /> First edition - history is hiring</span>,
-            <span key={`d${i}`} className="flex items-center gap-3"><Sparkles className="text-signal" size={20} /> IEEE SB AUK certified session</span>,
-            <span key={`e${i}`} className="flex items-center gap-3"><Sparkles className="text-ember" size={20} /> ₹1.5L+ in prizes</span>
-          ])}
+        <div className="marquee text-bone/40 font-display text-3xl">
+          <div ref={tickerTrackRef} className="ticker-track">
+            {Array.from({ length: tickerRepeats }).flatMap((_, repeatIndex) =>
+              tickerItems.map((item) => (
+                <span key={`${repeatIndex}-${item.key as string}`}>{item}</span>
+              ))
+            )}
+          </div>
         </div>
       </section>
-
-      {/* SCOREBOARD - disabled until first draft approved */}
-      {/* <PlayerScoreboard /> */}
 
       {/* ABOUT TEASER */}
       <section className="relative py-24 px-5 lg:px-10" data-testid="about-teaser">
@@ -213,9 +254,11 @@ export default function HomePage() {
           <div className="relative overflow-hidden mb-12">
             <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-linear-to-r from-bg to-transparent z-10" />
             <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-linear-to-l from-bg to-transparent z-10" />
-            <div className="marquee marquee-sponsor py-2">
-              {sponsorTickerItems}
-              {sponsorTickerItems}
+            <div className="marquee py-2">
+              <div className="marquee-inner marquee-sponsor">
+                {sponsorTickerItems}
+                {sponsorTickerItems}
+              </div>
             </div>
           </div>
           <div className="text-center">
