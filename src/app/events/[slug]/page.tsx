@@ -3,7 +3,8 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { events } from "@/lib/data";
 import GlitchText from "@/components/GlitchText";
-import { Clock, Users, Trophy, Phone, Mail, FileDown, ArrowLeft, Zap } from "lucide-react";
+import EventPoster from "../../../components/EventPoster";
+import { Clock, Users, Trophy, Phone, Mail, FileDown, ArrowLeft } from "lucide-react";
 import { notFound } from "next/navigation";
 
 type StatProps = {
@@ -26,6 +27,21 @@ export default function EventDetailPage() {
   if (!event) return notFound();
   const rules = event.rules ?? [];
   const isAmityExclusive = event.slug === "btech-presentations";
+  const posterBySlug = {
+    hackathon: {
+      src: "/images/hackathon_poster.jpeg",
+      alt: "24 Hour AI Hackathon poster",
+      width: 1056,
+      height: 1489,
+    },
+    "ai-film": {
+      src: "/images/ai_short_film_poster.jpeg",
+      alt: "AI Short Film Showcase poster",
+      width: 1053,
+      height: 1493,
+    },
+  } as const;
+  const poster = event.slug in posterBySlug ? posterBySlug[event.slug as keyof typeof posterBySlug] : null;
 
   return (
     <div className="pt-32 pb-24 px-5 lg:px-10 vines-bg" data-testid={`event-detail-${event.slug}`}>
@@ -35,7 +51,7 @@ export default function EventDetailPage() {
         </Link>
 
         <div className="grid lg:grid-cols-12 gap-10 mb-14">
-          <div className="lg:col-span-8">
+          <div className={poster ? "lg:col-span-7" : "lg:col-span-8"}>
             <GlitchText as="h1" className="text-5xl lg:text-7xl mb-4">{event.name}</GlitchText>
             <p className="text-2xl text-bone/70 font-display max-w-2xl">{event.tagline}</p>
             <p className="mt-6 text-bone/70 leading-relaxed text-lg max-w-2xl">{event.summary}</p>
@@ -58,6 +74,19 @@ export default function EventDetailPage() {
               </div>
             )}
           </div>
+
+          {poster ? (
+            <div className="lg:col-span-5">
+              <EventPoster
+                src={poster.src}
+                alt={poster.alt}
+                width={poster.width}
+                height={poster.height}
+                priority
+                className="max-w-md mx-auto lg:max-w-none lg:sticky lg:top-28"
+              />
+            </div>
+          ) : null}
 
           <div className="lg:col-span-4 space-y-4">
             <Stat icon={Clock} label="Duration" value={event.duration} />

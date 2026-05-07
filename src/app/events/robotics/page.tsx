@@ -1,6 +1,7 @@
 "use client";
 import Link from "next/link";
 import GlitchText from "@/components/GlitchText";
+import EventPoster from "@/components/EventPoster";
 import { events } from "@/lib/data";
 import { ArrowLeft, ArrowUpRight } from "lucide-react";
 
@@ -19,11 +20,36 @@ export default function RoboticsPage() {
                 >
                     <ArrowLeft size={14} /> Back to Events
                 </Link>
-                <p className="eyebrow mb-4">/ Robotics</p>
-                <GlitchText as="h1" className="text-6xl lg:text-8xl mb-6">
-                    {robotics.name}
-                </GlitchText>
-                <p className="text-bone/70 text-lg max-w-2xl mb-10">{robotics.summary}</p>
+                <div className="grid lg:grid-cols-12 gap-10 items-start mb-14">
+                    <div className="lg:col-span-7">
+                        <p className="eyebrow mb-4">/ Robotics</p>
+                        <GlitchText as="h1" className="text-6xl lg:text-8xl mb-6">
+                            {robotics.name}
+                        </GlitchText>
+                        <p className="text-bone/70 text-lg max-w-2xl mb-10">{robotics.summary}</p>
+                        <div className="grid sm:grid-cols-2 gap-4 max-w-2xl">
+                            <div className="card-upside p-5">
+                                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-bone/50">Duration</p>
+                                <p className="headline text-2xl mt-1 text-bone">{robotics.duration}</p>
+                            </div>
+                            <div className="card-upside p-5">
+                                <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-bone/50">Prize Pool</p>
+                                <p className="headline text-2xl mt-1 text-signal">{robotics.prizePool}</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="lg:col-span-5">
+                        <EventPoster
+                            src="/images/robotics_competition_poster.jpeg"
+                            alt="Robotics Competition poster"
+                            width={1055}
+                            height={1490}
+                            priority
+                            className="max-w-md mx-auto lg:max-w-none lg:sticky lg:top-28"
+                        />
+                    </div>
+                </div>
 
                 <div className="grid md:grid-cols-2 gap-5" data-testid="robotics-sub-events">
                     {subEvents.map((subEvent, index) => (

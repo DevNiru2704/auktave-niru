@@ -7,8 +7,9 @@ import { ArrowRight, Zap, Trophy, Users, Clock, Sparkles, Lock, ChevronDown } fr
 import GlitchText from "@/components/GlitchText";
 import Countdown from "@/components/Countdown";
 import EventCard from "@/components/EventCard";
+import EventPoster from "@/components/EventPoster";
 // import PlayerScoreboard from "@/components/PlayerScoreboard"; // [scoreboard] disabled until approved
-import { events, stats, sponsors } from "@/lib/data";
+import { events, stats } from "@/lib/data";
 
 type EventItem = (typeof events)[number];
 
@@ -130,11 +131,26 @@ export default function HomePage() {
             </motion.div>
           </div>
 
-          <div className="lg:col-span-4 hidden lg:block">
+          <div className="lg:col-span-4 space-y-4">
             <motion.div
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 1, duration: 0.8 }}
+            >
+              <EventPoster
+                src="/images/auktave_main_poster.jpeg"
+                alt="AUKTAVE 2K26 main poster"
+                width={1055}
+                height={1490}
+                priority
+                className="max-w-md mx-auto lg:max-w-none"
+              />
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 1.15, duration: 0.8 }}
               className="card-upside p-6 transform rotate-1"
             >
               <p className="eyebrow mb-3">Live Feed / Hawkins</p>
