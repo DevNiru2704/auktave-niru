@@ -6,7 +6,7 @@ export const events = [
     summary: "CATALYST 2K26 is a 24-hour in-campus AI hackathon that brings together innovators, developers, and problem-solvers to build impactful AI solutions. The event is track-based, so teams innovate within predefined AI domains.",
     duration: "24 Hours",
     teamSize: "2 - 5 Members",
-    prizePool: "Rs. 50,000+",
+    prizePool: "₹50,000+",
     highlight: true,
     coordinator: { name: "Sriparna Das", role: "Hackathon Lead", phone: "+91 8961086320", email: "info.auktave@gmail.com" },
     rules: [
@@ -210,7 +210,7 @@ export const events = [
         eyebrow: "/ FAQs",
         title: "Frequently asked questions",
         items: [
-          "Is there any registration fee? Yes, the registration fee is Rs. 500 per team.",
+          "Is there any registration fee? Yes, the registration fee is ₹500 per team.",
           "Can we change our track after selecting it? Yes, teams can change their track even on the day of the event.",
           "Will basic facilities like internet, power, and food be provided? Yes, internet access, charging points, and food will be provided throughout the event.",
           "Are participants required to stay at the venue for the full duration? Yes, participants must remain at the venue for the entire duration of the hackathon.",
@@ -229,7 +229,7 @@ export const events = [
     summary: "Pick your battlefield: Robo Soccer, Maze Solver, or Drone Obstacle Course. Register once, compete in one sub-event.",
     duration: "2.5 Hours",
     teamSize: "Varies by sub-event",
-    prizePool: "Rs. 30,000",
+    prizePool: "₹30,000",
     highlight: true,
     coordinator: { name: "Riya Banerjee", role: "Robotics Lead", phone: "+91 98300 00001", email: "info.auktave@gmail.com" },
     subEvents: [
@@ -240,7 +240,7 @@ export const events = [
         summary: "A team-based robotics football event with strict bot specs and multi-stage gameplay: prelims, knockouts, and finals.",
         duration: "2.5 Hours",
         teamSize: "2 - 4 Members",
-        prizePool: "Rs. 7,000",
+        prizePool: "₹7,000",
         coordinator: { name: "Trishanjeet Das", role: "Field Coordinator", phone: "+91 9002309368", email: "info.auktave@gmail.com" },
         rules: [
           "This is a team event with 2 to 4 members per team.",
@@ -314,7 +314,7 @@ export const events = [
         summary: "Autonomous line-maze challenge with a Dry Run exploration phase and an Actual Run speed phase on the shortest path.",
         duration: "2.5 Hours",
         teamSize: "2 - 4 Members",
-        prizePool: "Rs. 7,000",
+        prizePool: "₹7,000",
         coordinator: { name: "Md Saad", role: "Field Coordinator", phone: "+91 9875535575", email: "info.auktave@gmail.com" },
         rules: [
           "Design and program an autonomous robot to navigate a maze defined by a continuous black line on a flat 3 m x 3 m arena.",
@@ -445,13 +445,13 @@ export const events = [
         summary: "A timed obstacle course where each drone must clear every obstacle and follow checkpoint rules with strict penalties.",
         duration: "2.5 Hours",
         teamSize: "1 - 5 Members",
-        prizePool: "Rs. 12,000",
+        prizePool: "₹12,000",
         coordinator: { name: "Mizan-ur Rahman Mondal", role: "Field Coordinator", phone: "+91 7003670838", email: "info.auktave@gmail.com" },
         rules: [
           "Open to students from all recognized colleges and universities; register via the official portal.",
           "Required documents: photocopy of valid Government ID and photocopy of valid College or University or Work ID.",
           "An enrollment letter will be issued after registration and must be presented as a hard copy at the entry gate.",
-          "Registration fee is Rs. 400 per participant or team.",
+          "Registration fee is ₹400 per participant or team.",
           "Allowed drone categories: 3-inch, 5-inch, 330mm, 450mm, and 550mm frame classes.",
           "Participants must report at least 30 minutes prior to the event start time; late arrivals are not permitted.",
           "Each participant will be assigned a Point of Contact on arrival.",
@@ -474,7 +474,7 @@ export const events = [
               "Register via the official portal.",
               "Required documents: photocopy of valid Government ID and photocopy of valid College or University or Work ID.",
               "Enrollment letter must be presented as a hard copy at the entry gate.",
-              "Registration fee is Rs. 400 per participant or team."
+              "Registration fee is ₹400 per participant or team."
             ]
           },
           {
@@ -534,7 +534,7 @@ export const events = [
     summary: "Showcase your research, capstone, or prototype to industry mentors and investors at the AUKTAVE Expo Floor.",
     duration: "2 Hours",
     teamSize: "1 - 5 Members",
-    prizePool: "Rs. 25,000",
+    prizePool: "₹25,000",
     fieldCoordinators: [
       { name: "Md Saad", role: "Field Coordinator", phone: "+91 98300 00002", email: "info.auktave@gmail.com" },
       { name: "Khushi Mehta", role: "Field Coordinator", phone: "+91 79808 44018", email: "info.auktave@gmail.com" }
@@ -700,7 +700,7 @@ export const events = [
     summary: "Create a 1 to 3 minute short film where AI assists the visual, audio, or narrative process. A jury selects the Top 10 for a grand auditorium screening and live judging.",
     duration: "1 Hour",
     teamSize: "1 - 3 Members",
-    prizePool: "Rs. 10,000",
+    prizePool: "₹10,000",
     coordinator: { name: "Sowhardya Biswas", role: "Field Coordinator", phone: "+91 9903404844", email: "info.auktave@gmail.com" },
     rules: [
       "Duration: 1 to 3 minutes including credits. Format: MP4 or MOV, 1080p minimum.",
@@ -744,9 +744,9 @@ export const events = [
       "Audience Choice Award is decided via live poll during the screening."
     ],
     prizes: [
-      "Grand Winner: Rs. 4,000 cash + winner’s trophy.",
-      "Runner Up: Rs. 3,000 cash.",
-      "Third Place: Rs. 2,000 cash.",
+      "Grand Winner: ₹4,000 cash + winner’s trophy.",
+      "Runner Up: ₹3,000 cash.",
+      "Third Place: ₹2,000 cash.",
       "Top 10 Finalists receive a Special Mention certificate and goodies."
     ],
     toolkit: [
@@ -880,5 +880,5 @@ export const stats = [
   { value: "48", label: "Hours of Chaos" },
   { value: "7", label: "Events to Explore" },
   { value: "500+", label: "Participants Expected" },
-  { value: "Rs. 1.5L+", label: "Total Prize Pool Worth" }
+  { value: "₹1.5L+", label: "Total Prize Pool Worth" }
 ];

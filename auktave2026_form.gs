@@ -106,7 +106,7 @@ function buildAUKTAVERegistrationForm() {
   const roboticsPage = form.addPageBreakItem()
       .setTitle("Robotics Competition")
       .setHelpText(
-        "Duration: 2.5 Hours | Team Size: 2-4 Members | Prize Pool: Rs. 30,000\n" +
+        "Duration: 2.5 Hours | Team Size: 2-4 Members | Prize Pool: ₹30,000\n" +
         "Venue: Atrium | Day 2 - 11:00 AM to 1:30 PM\n\n" +
         "Choose one robotics sub-event: Robo Soccer, Maze Solver, or Drone Obstacle Course."
       );
@@ -179,9 +179,9 @@ function buildAUKTAVERegistrationForm() {
   const dronePage = form.addPageBreakItem()
       .setTitle("Drone Obstacle Course")
       .setHelpText(
-        "Duration: 2.5 Hours | Team Size: 1-3 Members | Prize Pool: Rs. 12,000\n" +
+        "Duration: 2.5 Hours | Team Size: 1-3 Members | Prize Pool: ₹12,000\n" +
         "Venue: Atrium | Day 2 - 11:00 AM to 1:30 PM\n\n" +
-        "Registration fee: Rs. 400 per participant or team.\n" +
+        "Registration fee: ₹400 per participant or team.\n" +
         "Required documents: photocopy of valid Government ID and photocopy of valid College or University or Work ID.\n" +
         "Enrollment letter (hard copy) is required at the entry gate.\n\n" +
         "Reporting time: at least 30 minutes before the start time. Late arrivals are not permitted."
@@ -217,7 +217,7 @@ function buildAUKTAVERegistrationForm() {
   const expoPage = form.addPageBreakItem()
       .setTitle("Research and Project Expo")
       .setHelpText(
-        "Duration: 2 Hours | Team Size: 1-5 Members | Prize Pool: Rs. 25,000\n" +
+        "Duration: 2 Hours | Team Size: 1-5 Members | Prize Pool: ₹25,000\n" +
         "Venue: Audi Lobby | Day 1 - 2:00 PM to 4:00 PM and Day 2 - 1:30 PM onwards\n\n" +
         "Showcase your research, capstone, or prototype to industry mentors and investors."
       );
@@ -320,7 +320,7 @@ function buildAUKTAVERegistrationForm() {
   const filmPage = form.addPageBreakItem()
       .setTitle("AI Short Film Showcase")
       .setHelpText(
-        "Duration: 1 Hour (Screening) | Team Size: 1-3 Members | Prize Pool: Rs. 10,000\n" +
+        "Duration: 1 Hour (Screening) | Team Size: 1-3 Members | Prize Pool: ₹10,000\n" +
         "Venue: Auditorium | Finale Screening: May 22, 2026\n\n" +
         "Create a 1-3 minute short film where AI assists the visual, audio, or narrative process."
       );
@@ -376,7 +376,7 @@ function buildAUKTAVERegistrationForm() {
   const btechPage = form.addPageBreakItem()
       .setTitle("B.Tech Final Year Presentations")
       .setHelpText(
-        "Duration: 1.5 Hours | Team Size: 1-4 Members | Prize Pool: Rs. 30,000\n" +
+        "Duration: 1.5 Hours | Team Size: 1-4 Members | Prize Pool: ₹30,000\n" +
         "Venue: Audi Lobby | Day 2 - 1:30 PM to 3:00 PM\n\n" +
         "Final year B.Tech students present capstone projects to a panel of academics and industry professionals."
       );

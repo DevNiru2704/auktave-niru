@@ -157,13 +157,13 @@ export default function HomePage() {
 
       {/* TICKER */}
       <section className="border-y border-ember/20 bg-midnight/50 overflow-hidden py-5">
-        <div className="marquee marquee-fast text-bone/40 font-display text-3xl">
+            <div className="marquee marquee-fast text-bone/40 font-display text-3xl">
           {Array.from({ length: 2 }).flatMap((_, i) => [
             <span key={`a${i}`} className="flex items-center gap-3"><Sparkles className="text-ember" size={20} /> 48 hours of building</span>,
             <span key={`b${i}`} className="flex items-center gap-3"><Sparkles className="text-signal" size={20} /> 7 events / 1 portal</span>,
             <span key={`c${i}`} className="flex items-center gap-3"><Sparkles className="text-ember" size={20} /> First edition - history is hiring</span>,
             <span key={`d${i}`} className="flex items-center gap-3"><Sparkles className="text-signal" size={20} /> IEEE SB AUK certified session</span>,
-            <span key={`e${i}`} className="flex items-center gap-3"><Sparkles className="text-ember" size={20} /> Rs. 1.5L+ in prizes</span>
+            <span key={`e${i}`} className="flex items-center gap-3"><Sparkles className="text-ember" size={20} /> ₹1.5L+ in prizes</span>
           ])}
         </div>
       </section>
@@ -296,7 +296,7 @@ export default function HomePage() {
           <GlitchText className="text-5xl lg:text-6xl mb-12">Why Cross Over</GlitchText>
           <div className="grid md:grid-cols-3 gap-5">
             {[
-              { icon: Trophy, title: "Real prize money", body: "Over Rs. 1.5L+ in cash, swag, and internship pipelines across all events." },
+              { icon: Trophy, title: "Real prize money", body: "Over ₹1.5L+ in cash, swag, and internship pipelines across all events." },
               { icon: Zap, title: "IEEE SB AUK certified", body: "An IEEE SB AUK Student Chapter session that adds an actual line to your CV." },
               { icon: Users, title: "Industry mentors", body: "Talk to founders, engineers, and academics from across India." },
               { icon: Sparkles, title: "First edition energy", body: "Be a part of the founding cohort. Edition one only happens once." },
