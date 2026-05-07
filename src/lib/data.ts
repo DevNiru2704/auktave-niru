@@ -705,6 +705,7 @@ export const events = [
     rules: [
       "Duration: 1 to 3 minutes including credits. Format: MP4 or MOV, 1080p minimum.",
       "Teams of 1 to 3 members.",
+      "Registration fee is ₹200 per team.",
       "Participants must choose one official theme pillar.",
       "Submit a one-page AI Tech Stack PDF listing the tools used.",
       "Raw, unedited AI generations are discouraged; human-led editing and pacing are expected.",
