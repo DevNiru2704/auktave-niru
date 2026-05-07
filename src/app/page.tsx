@@ -157,7 +157,7 @@ export default function HomePage() {
 
       {/* TICKER */}
       <section className="border-y border-ember/20 bg-midnight/50 overflow-hidden py-5">
-            <div className="marquee marquee-fast text-bone/40 font-display text-3xl">
+        <div className="marquee marquee-fast text-bone/40 font-display text-3xl">
           {Array.from({ length: 2 }).flatMap((_, i) => [
             <span key={`a${i}`} className="flex items-center gap-3"><Sparkles className="text-ember" size={20} /> 48 hours of building</span>,
             <span key={`b${i}`} className="flex items-center gap-3"><Sparkles className="text-signal" size={20} /> 7 events / 1 portal</span>,
