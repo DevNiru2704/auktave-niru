@@ -20,7 +20,7 @@ export default function RoboticsPage() {
                 >
                     <ArrowLeft size={14} /> Back to Events
                 </Link>
-                <div className="grid lg:grid-cols-12 gap-10 items-start mb-14">
+                <div className="flex flex-col-reverse lg:grid lg:grid-cols-12 gap-10 items-start mb-14">
                     <div className="lg:col-span-7">
                         <p className="eyebrow mb-4">/ Robotics</p>
                         <GlitchText as="h1" className="text-6xl lg:text-8xl mb-6">
