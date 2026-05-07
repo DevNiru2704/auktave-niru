@@ -256,7 +256,18 @@ export default function HomePage() {
               )}
               <div className="mt-10 flex flex-wrap gap-4">
                 <Link href={`/events/${e.slug}`} className="btn-signal" data-testid={`${e.slug}-details-cta`}>View {e.name} Details</Link>
-                <Link href="/register" className="btn-ghost">Register Now</Link>
+                {e.slug === "hackathon" ? (
+                  <a
+                    href="https://www.hackcatalyst.tech/"
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="btn-ghost"
+                  >
+                    Register Now
+                  </a>
+                ) : (
+                  <Link href="/register" className="btn-ghost">Register Now</Link>
+                )}
               </div>
             </div>
             <div className="lg:col-span-5">
