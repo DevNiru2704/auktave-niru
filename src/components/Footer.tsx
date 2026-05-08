@@ -1,6 +1,26 @@
 import Image from "next/image";
 import Link from "next/link";
 
+function InstagramIcon() {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="text-bone/70 group-hover:text-signal transition-colors"
+    >
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37" />
+      <circle cx="17.5" cy="6.5" r="1.5" />
+    </svg>
+  );
+}
+
 export default function Footer() {
   return (
     <footer className="relative border-t border-ember/20 mt-24 bg-ink/80" data-testid="site-footer">
@@ -23,6 +43,13 @@ export default function Footer() {
           <div className="mt-6 flex gap-3">
             <span className="tag">Amity University Kolkata</span>
             <span className="tag signal">IEEE SB AUK Session</span>
+          </div>
+          <div className="mt-8">
+            <p className="eyebrow mb-3">Follow us</p>
+            <a href="https://www.instagram.com/auktave_2026?igsh=MTVuYWVxcTgyMGRjYQ%3D%3D&utm_source=qr" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-bone/70 hover:text-signal transition-colors group">
+              <InstagramIcon />
+              Follow us on Instagram
+            </a>
           </div>
         </div>
 

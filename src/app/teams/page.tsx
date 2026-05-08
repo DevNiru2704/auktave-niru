@@ -88,7 +88,23 @@ export default function TeamsPage() {
                     ))}
                 </div>
 
-
+                                {/* Follow us section */}
+                                <div className="mt-20 text-center card-upside p-12">
+                                    <div className="flex justify-center mb-4">
+                                        <InstagramIcon />
+                                    </div>
+                                    <p className="eyebrow mb-4">/ Stay Connected</p>
+                                    <h3 className="headline text-3xl mb-6">Follow us on Instagram</h3>
+                                    <a
+                                        href="https://www.instagram.com/auktave_2026?igsh=MTVuYWVxcTgyMGRjYQ%3D%3D&utm_source=qr"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="inline-flex items-center gap-2 text-signal font-mono text-sm uppercase tracking-[0.2em] hover:gap-4 transition-all"
+                                    >
+                                        @auktave_2026
+                                        <span className="text-ember">↗</span>
+                                    </a>
+                                </div>
             </div>
         </div>
     );

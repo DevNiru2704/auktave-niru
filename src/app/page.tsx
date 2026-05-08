@@ -5,6 +5,26 @@ import { Bebas_Neue } from "next/font/google";
 import { motion } from "framer-motion";
 import { useEffect, useRef } from "react";
 import { ArrowRight, Zap, Trophy, Users, Clock, Sparkles, Lock, ChevronDown } from "lucide-react";
+
+function InstagramIcon() {
+  return (
+    <svg
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="text-bone/70 group-hover:text-signal transition-colors"
+    >
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37" />
+      <circle cx="17.5" cy="6.5" r="1.5" />
+    </svg>
+  );
+}
 import GlitchText from "@/components/GlitchText";
 import Countdown from "@/components/Countdown";
 import EventCard from "@/components/EventCard";
@@ -427,6 +447,24 @@ export default function HomePage() {
           <div className="flex flex-wrap gap-4 justify-center">
             <Link href="/register" className="btn-signal text-base" data-testid="final-register-cta">Register Now</Link>
             <Link href="/sponsorship" className="btn-ghost text-base">Become a Sponsor</Link>
+          </div>
+
+          {/* Follow us section */}
+          <div className="mt-20 text-center card-upside p-12">
+            <div className="flex justify-center mb-4">
+              <InstagramIcon />
+            </div>
+            <p className="eyebrow mb-4">/ Stay Connected</p>
+            <h3 className="headline text-3xl mb-6">Follow us on Instagram</h3>
+            <a
+              href="https://www.instagram.com/auktave_2026?igsh=MTVuYWVxcTgyMGRjYQ%3D%3D&utm_source=qr"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-signal font-mono text-sm uppercase tracking-[0.2em] hover:gap-4 transition-all"
+            >
+              @auktave_2026
+              <span className="text-ember">↗</span>
+            </a>
           </div>
         </div>
       </section>
