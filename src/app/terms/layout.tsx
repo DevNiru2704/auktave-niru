@@ -6,6 +6,8 @@ export const metadata: Metadata = buildPageMetadata({
     title: "Terms And Conditions | AUKTAVE",
     description: "Review AUKTAVE 2K26 terms and conditions for eligibility, conduct, refunds, liability, and participation guidelines.",
     path: "/terms",
+    ogTitle: "Review Terms Before Entering AUKTAVE 2K26",
+    twitterTitle: "AUKTAVE Terms And Conditions",
     keywords: ["AUKTAVE terms", "event terms and conditions", "TechFest guidelines"]
 });
 

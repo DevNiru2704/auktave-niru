@@ -22,12 +22,23 @@ export async function generateMetadata({ params }: LayoutProps): Promise<Metadat
         });
     }
 
+    const detailParts = [subEvent.tagline, subEvent.duration, subEvent.teamSize, subEvent.prizePool].filter(Boolean);
+    const enrichedDescription = `${subEvent.summary} ${detailParts.join(" | ")}`.trim();
+
     return buildPageMetadata({
         title: `${subEvent.name} | Robotics | AUKTAVE`,
-        description: subEvent.summary,
+        description: enrichedDescription,
         path: `/events/robotics/${subEvent.slug}`,
         type: "article",
-        keywords: [subEvent.name, "AUKTAVE robotics", "AUKTAVE 2K26", subEvent.tagline]
+        keywords: [
+            subEvent.name,
+            "AUKTAVE robotics",
+            "AUKTAVE 2K26",
+            subEvent.tagline,
+            subEvent.duration,
+            subEvent.teamSize,
+            subEvent.prizePool
+        ].filter(Boolean) as string[]
     });
 }
 

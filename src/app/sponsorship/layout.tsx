@@ -6,6 +6,8 @@ export const metadata: Metadata = buildPageMetadata({
     title: "Sponsorship Opportunities | AUKTAVE",
     description: "Explore AUKTAVE 2K26 sponsorship tiers, brochure, and custom collaboration opportunities with Amity University Kolkata TechFest.",
     path: "/sponsorship",
+    ogTitle: "Sponsor AUKTAVE 2K26 And Lead The Signal",
+    twitterTitle: "Sponsor AUKTAVE 2K26",
     keywords: ["AUKTAVE sponsorship", "TechFest sponsor", "student event branding", "Amity Kolkata sponsorship"]
 });
 

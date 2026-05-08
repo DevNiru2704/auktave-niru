@@ -4,6 +4,7 @@ import { useParams, notFound } from "next/navigation";
 import { events } from "@/lib/data";
 import GlitchText from "@/components/GlitchText";
 import { Clock, Users, Trophy, Phone, Mail, ArrowLeft, FileDown } from "lucide-react";
+import Script from "next/script";
 
 type StatProps = {
     icon: React.ComponentType<{ className?: string; size?: number }>;
@@ -18,9 +19,37 @@ export default function RoboticsSubEventPage() {
     const subEvent = robotics?.subEvents?.find((s) => s.slug === params.subslug);
 
     if (!robotics || !subEvent) return notFound();
+    const siteUrl = "https://auktave.co.in";
+    const routePath = `/events/robotics/${subEvent.slug}`;
+    const eventJsonLd = {
+        "@context": "https://schema.org",
+        "@type": "Event",
+        name: subEvent.name,
+        description: subEvent.summary,
+        eventStatus: "https://schema.org/EventScheduled",
+        eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+        startDate: "2026-05-22T11:00:00+05:30",
+        endDate: "2026-05-22T13:30:00+05:30",
+        url: `${siteUrl}${routePath}`,
+        image: [`${siteUrl}/api/og?title=${encodeURIComponent(subEvent.name)}&route=${encodeURIComponent(routePath)}`],
+        location: {
+            "@type": "Place",
+            name: "Amity University Kolkata",
+            address: "Amity University Kolkata, Major Arterial Road, Action Area II, New Town, Kolkata 700135"
+        },
+        organizer: {
+            "@type": "Organization",
+            name: "AUKTAVE 2K26",
+            url: siteUrl,
+            email: "info.auktave@gmail.com"
+        }
+    };
 
     return (
         <div className="pt-32 pb-24 px-5 lg:px-10 vines-bg" data-testid={`robotics-sub-event-${subEvent.slug}`}>
+            <Script id={`ld-robotics-${subEvent.slug}`} type="application/ld+json" strategy="afterInteractive">
+                {JSON.stringify(eventJsonLd)}
+            </Script>
             <div className="max-w-6xl mx-auto">
                 <Link
                     href="/events/robotics"

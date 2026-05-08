@@ -21,9 +21,12 @@ export async function generateMetadata({ params }: LayoutProps): Promise<Metadat
         });
     }
 
+    const detailParts = [event.tagline, event.duration, event.teamSize, event.prizePool].filter(Boolean);
+    const enrichedDescription = `${event.summary} ${detailParts.join(" | ")}`.trim();
+
     return buildPageMetadata({
         title: `${event.name} | AUKTAVE Event`,
-        description: event.summary,
+        description: enrichedDescription,
         path: `/events/${event.slug}`,
         type: "article",
         keywords: [
@@ -31,8 +34,11 @@ export async function generateMetadata({ params }: LayoutProps): Promise<Metadat
             "AUKTAVE event",
             "AUKTAVE 2K26",
             event.tagline,
+            event.duration,
+            event.teamSize,
+            event.prizePool,
             "Amity University Kolkata"
-        ]
+        ].filter(Boolean) as string[]
     });
 }
 

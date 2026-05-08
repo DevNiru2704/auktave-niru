@@ -11,7 +11,9 @@ import type { ReactNode } from "react";
 import { events, faqs, sponsors, stats } from "@/lib/data";
 import { getSocialProfiles } from "@/lib/seo";
 
-const baseUrl = "https://auktave.in";
+const baseUrl = "https://auktave.co.in";
+const homeOgTitle = "Enter The Upside Down Of Innovation";
+const homeOgImage = `${baseUrl}/api/og?title=${encodeURIComponent(homeOgTitle)}&route=${encodeURIComponent("/")}`;
 
 export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
@@ -30,7 +32,7 @@ export const metadata: Metadata = {
     canonical: "/"
   },
   openGraph: {
-    title: "AUKTAVE 2K26 | Enter The Upside Down Of Innovation",
+    title: homeOgTitle,
     description: "Not all experiments stay in the lab. Step into the upside down of innovation at Amity University Kolkata.",
     type: "website",
     locale: "en_IN",
@@ -38,18 +40,18 @@ export const metadata: Metadata = {
     url: baseUrl,
     images: [
       {
-        url: "/images/auktave_logo.png",
+        url: homeOgImage,
         width: 1200,
         height: 630,
-        alt: "AUKTAVE 2K26 official banner"
+        alt: "Enter The Upside Down Of Innovation social preview"
       }
     ]
   },
   twitter: {
     card: "summary_large_image",
-    title: "AUKTAVE 2K26",
+    title: homeOgTitle,
     description: "Not all experiments stay in the lab.",
-    images: ["/images/auktave_logo.png"]
+    images: [homeOgImage]
   },
   robots: {
     index: true,

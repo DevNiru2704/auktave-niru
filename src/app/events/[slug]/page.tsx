@@ -6,6 +6,7 @@ import GlitchText from "@/components/GlitchText";
 import EventPoster from "../../../components/EventPoster";
 import { Clock, Users, Trophy, Phone, Mail, FileDown, ArrowLeft } from "lucide-react";
 import { notFound } from "next/navigation";
+import Script from "next/script";
 
 type StatProps = {
   icon: React.ComponentType<{ className?: string; size?: number }>;
@@ -25,6 +26,30 @@ export default function EventDetailPage() {
   const params = useParams();
   const event = events.find((e) => e.slug === params.slug);
   if (!event) return notFound();
+  const siteUrl = "https://auktave.co.in";
+  const eventJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    name: event.name,
+    description: event.summary,
+    eventStatus: "https://schema.org/EventScheduled",
+    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+    startDate: "2026-05-21T10:00:00+05:30",
+    endDate: "2026-05-22T17:00:00+05:30",
+    url: `${siteUrl}/events/${event.slug}`,
+    image: [`${siteUrl}/api/og?title=${encodeURIComponent(event.name)}&route=${encodeURIComponent(`/events/${event.slug}`)}`],
+    location: {
+      "@type": "Place",
+      name: "Amity University Kolkata",
+      address: "Amity University Kolkata, Major Arterial Road, Action Area II, New Town, Kolkata 700135"
+    },
+    organizer: {
+      "@type": "Organization",
+      name: "AUKTAVE 2K26",
+      url: siteUrl,
+      email: "info.auktave@gmail.com"
+    }
+  };
   const rules = event.rules ?? [];
   const isAmityExclusive = event.slug === "btech-presentations";
   const fieldCoordinators = "fieldCoordinators" in event && Array.isArray(event.fieldCoordinators)
@@ -50,6 +75,9 @@ export default function EventDetailPage() {
 
   return (
     <div className="pt-32 pb-24 px-5 lg:px-10 vines-bg" data-testid={`event-detail-${event.slug}`}>
+      <Script id={`ld-event-${event.slug}`} type="application/ld+json" strategy="afterInteractive">
+        {JSON.stringify(eventJsonLd)}
+      </Script>
       <div className="max-w-6xl mx-auto">
         <Link href="/events" className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-bone/60 hover:text-ember mb-8" data-testid="back-to-events">
           <ArrowLeft size={14} /> Back to Events

@@ -6,6 +6,8 @@ export const metadata: Metadata = buildPageMetadata({
     title: "AUKTAVE Schedule",
     description: "View the full two day schedule for AUKTAVE 2K26 including event timings, sessions, and venue timeline.",
     path: "/schedule",
+    ogTitle: "View The Full AUKTAVE 2K26 Schedule",
+    twitterTitle: "View The AUKTAVE 2K26 Schedule",
     keywords: ["AUKTAVE schedule", "TechFest timeline", "AUKTAVE day 1", "AUKTAVE day 2"]
 });
 

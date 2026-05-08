@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 
-const SITE_URL = "https://auktave.in";
-const OG_IMAGE = "/images/auktave_logo.png";
+const SITE_URL = "https://auktave.co.in";
 const INSTAGRAM_URL = "https://www.instagram.com/auktave_2026/";
 
 type PageSeoOptions = {
@@ -11,6 +10,8 @@ type PageSeoOptions = {
     keywords?: string[];
     type?: "website" | "article";
     index?: boolean;
+    ogTitle?: string;
+    twitterTitle?: string;
 };
 
 export function getSiteUrl() {
@@ -26,14 +27,28 @@ export function getSocialProfiles() {
     return [INSTAGRAM_URL];
 }
 
+export function buildOgImageUrl(title: string, path: string) {
+    const params = new URLSearchParams({
+        title,
+        route: path
+    });
+    return `${SITE_URL}/api/og?${params.toString()}`;
+}
+
 export function buildPageMetadata({
     title,
     description,
     path,
     keywords = [],
     type = "website",
-    index = true
+    index = true,
+    ogTitle,
+    twitterTitle
 }: PageSeoOptions): Metadata {
+    const ogImageUrl = buildOgImageUrl(title, path);
+    const resolvedOgTitle = ogTitle || title;
+    const resolvedTwitterTitle = twitterTitle || ogTitle || title;
+
     return {
         title,
         description,
@@ -42,7 +57,7 @@ export function buildPageMetadata({
         },
         keywords,
         openGraph: {
-            title,
+            title: resolvedOgTitle,
             description,
             url: toAbsoluteUrl(path),
             siteName: "AUKTAVE 2K26",
@@ -50,18 +65,18 @@ export function buildPageMetadata({
             type,
             images: [
                 {
-                    url: OG_IMAGE,
+                    url: ogImageUrl,
                     width: 1200,
                     height: 630,
-                    alt: "AUKTAVE 2K26 official banner"
+                    alt: `${title} social preview`
                 }
             ]
         },
         twitter: {
             card: "summary_large_image",
-            title,
+            title: resolvedTwitterTitle,
             description,
-            images: [OG_IMAGE]
+            images: [ogImageUrl]
         },
         robots: {
             index,
