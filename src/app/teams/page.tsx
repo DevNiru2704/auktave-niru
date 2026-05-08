@@ -56,10 +56,11 @@ export default function TeamsPage() {
                                 <Image
                                     src={`/images/teams_auktave/${member.image}`}
                                     alt={member.name}
-                                    width={400}
-                                    height={320}
-                                    className="object-cover h-full w-full"
-                                    priority={false}
+                                    fill
+                                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                                    className="object-cover"
+                                  loading={member.name === "Sriparna Das" ? "eager" : "lazy"}
+                                  priority={member.name === "Sriparna Das"}
                                 />
                             </div>
                             <div className="p-6 flex flex-col gap-3 grow">
