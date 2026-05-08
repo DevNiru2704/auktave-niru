@@ -31,6 +31,11 @@ export default function CustomCursor() {
             setHovering(interactive);
         };
 
+        const hideCursor = () => {
+            setHovering(false);
+            setVisible(false);
+        };
+
         const onPointerMove = (event: PointerEvent) => {
             setCursorPosition(event.clientX, event.clientY);
             updateHoverState(event);
@@ -39,23 +44,28 @@ export default function CustomCursor() {
 
         const onPointerEnter = () => setVisible(true);
 
-        const onPointerLeave = () => {
-            setHovering(false);
-            setVisible(false);
-        };
+        const onPointerLeave = hideCursor;
 
         const onPointerDown = (event: PointerEvent) => {
             updateHoverState(event);
             setVisible(true);
         };
 
-        const onWindowBlur = () => setVisible(false);
+        const onWindowBlur = hideCursor;
+        const onDocumentMouseLeave = hideCursor;
+        const onDocumentMouseOut = (event: MouseEvent) => {
+            if (!event.relatedTarget) {
+                hideCursor();
+            }
+        };
 
         window.addEventListener("pointermove", onPointerMove);
         window.addEventListener("pointerenter", onPointerEnter);
         window.addEventListener("pointerleave", onPointerLeave);
         window.addEventListener("pointerdown", onPointerDown);
         window.addEventListener("blur", onWindowBlur);
+        document.documentElement.addEventListener("mouseleave", onDocumentMouseLeave);
+        document.documentElement.addEventListener("mouseout", onDocumentMouseOut);
 
         setCursorPosition(window.innerWidth / 2, window.innerHeight / 2);
 
@@ -65,6 +75,8 @@ export default function CustomCursor() {
             window.removeEventListener("pointerleave", onPointerLeave);
             window.removeEventListener("pointerdown", onPointerDown);
             window.removeEventListener("blur", onWindowBlur);
+            document.documentElement.removeEventListener("mouseleave", onDocumentMouseLeave);
+            document.documentElement.removeEventListener("mouseout", onDocumentMouseOut);
             document.body.classList.remove("custom-cursor-active");
         };
     }, []);
