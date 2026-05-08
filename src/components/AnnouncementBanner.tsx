@@ -6,6 +6,7 @@ export default function AnnouncementBanner() {
   const tickerRef = useRef<HTMLDivElement | null>(null);
   const [show, setShow] = useState(true);
   const [countdown, setCountdown] = useState<string>("computing...");
+  const [registrationClosed, setRegistrationClosed] = useState(false);
 
   const registrationEnd = new Date("2026-05-17T23:59:59").getTime();
 
@@ -14,10 +15,12 @@ export default function AnnouncementBanner() {
     const distance = registrationEnd - now;
 
     if (distance <= 0) {
-      setCountdown("portal sealed");
+      setRegistrationClosed(true);
+      setCountdown("closed");
       return;
     }
 
+    setRegistrationClosed(false);
     const days = Math.floor(distance / (1000 * 60 * 60 * 24));
     const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
@@ -34,7 +37,9 @@ export default function AnnouncementBanner() {
     }
   };
 
-  const message = `The temporal gateway opens. Registration cascade initiated on May 8th. The veil closes in ${countdown} on May 17th. Seal your passage before the portal collapses.`;
+  const message = registrationClosed
+    ? "The veil has fractured. The gateway collapses. AUKTAVE emerges from the rifts. The experiment begins now. Welcome to the upside down."
+    : `The temporal gateway opens. Registration cascade initiated on May 8th. The veil closes in ${countdown} on May 17th. Seal your passage before the portal collapses.`;
 
   const tickerRepeats = 6;
 
