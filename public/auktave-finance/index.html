@@ -69,7 +69,7 @@
     .form-input:focus { outline: none; ring: 2px; ring-color: #3b82f6; border-color: #3b82f6; }
     
     /* Modal */
-    .modal-backdrop { backdrop-filter: blur(4px); }
+    .modal-backdrop { -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px); }
     
     /* Toast notifications */
     .toast { animation: slideIn 0.3s ease; }
@@ -116,7 +116,7 @@
     <aside id="sidebar" class="sidebar sidebar-expanded bg-sidebar text-white flex flex-col overflow-y-auto">
       <!-- Logo Area -->
       <div class="flex items-center gap-3 px-5 py-5 border-b border-gray-700">
-        <div class="w-9 h-9 bg-primary-500 rounded-lg flex items-center justify-center flex-shrink-0">
+        <div class="w-9 h-9 bg-primary-500 rounded-lg flex items-center justify-center shrink-0">
           <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
           </svg>
@@ -125,7 +125,7 @@
           <h1 class="font-bold text-base leading-tight">AUKTAVE 2026</h1>
           <p class="text-xs text-gray-400">Finance Control</p>
         </div>
-        <button onclick="toggleSidebar()" class="ml-auto text-gray-400 hover:text-white transition-colors sidebar-logo-text">
+        <button onclick="toggleSidebar()" class="ml-auto text-gray-400 hover:text-white transition-colors sidebar-logo-text" title="Close sidebar">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/>
           </svg>
@@ -135,47 +135,47 @@
       <!-- Navigation -->
       <nav class="flex-1 py-4 px-3 space-y-1">
         <a href="#" onclick="navigateTo('dashboard'); return false;" id="nav-dashboard" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-sidebarHover transition-colors text-gray-300 hover:text-white group relative" data-tooltip="Dashboard">
-          <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+          <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
           <span class="sidebar-text text-sm font-medium">Dashboard</span>
         </a>
         
         <a href="#" onclick="navigateTo('income'); return false;" id="nav-income" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-sidebarHover transition-colors text-gray-300 hover:text-white group relative" data-tooltip="Income">
-          <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12"/></svg>
+          <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12"/></svg>
           <span class="sidebar-text text-sm font-medium">Income</span>
         </a>
         
         <a href="#" onclick="navigateTo('expenses'); return false;" id="nav-expenses" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-sidebarHover transition-colors text-gray-300 hover:text-white group relative" data-tooltip="Expenses">
-          <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+          <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
           <span class="sidebar-text text-sm font-medium">Expenses</span>
         </a>
         
         <a href="#" onclick="navigateTo('committees'); return false;" id="nav-committees" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-sidebarHover transition-colors text-gray-300 hover:text-white group relative" data-tooltip="Committees">
-          <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+          <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
           <span class="sidebar-text text-sm font-medium">Committees</span>
         </a>
         
         <a href="#" onclick="navigateTo('events'); return false;" id="nav-events" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-sidebarHover transition-colors text-gray-300 hover:text-white group relative" data-tooltip="Events">
-          <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
           <span class="sidebar-text text-sm font-medium">Events</span>
         </a>
         
         <a href="#" onclick="navigateTo('vendors'); return false;" id="nav-vendors" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-sidebarHover transition-colors text-gray-300 hover:text-white group relative" data-tooltip="Vendors">
-          <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
           <span class="sidebar-text text-sm font-medium">Vendors</span>
         </a>
         
         <a href="#" onclick="navigateTo('approvals'); return false;" id="nav-approvals" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-sidebarHover transition-colors text-gray-300 hover:text-white group relative" data-tooltip="Approvals">
-          <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
           <span class="sidebar-text text-sm font-medium">Approvals</span>
         </a>
         
         <a href="#" onclick="navigateTo('invoices'); return false;" id="nav-invoices" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-sidebarHover transition-colors text-gray-300 hover:text-white group relative" data-tooltip="Invoices">
-          <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
           <span class="sidebar-text text-sm font-medium">Invoices</span>
         </a>
         
         <a href="#" onclick="navigateTo('analytics'); return false;" id="nav-analytics" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-sidebarHover transition-colors text-gray-300 hover:text-white group relative" data-tooltip="Analytics">
-          <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+          <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
           <span class="sidebar-text text-sm font-medium">Analytics</span>
         </a>
       </nav>
@@ -198,9 +198,9 @@
     <div class="flex-1 flex flex-col overflow-hidden">
       
       <!-- Top Header -->
-      <header class="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between flex-shrink-0">
+      <header class="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between shrink-0">
         <div class="flex items-center gap-4">
-          <button onclick="toggleSidebar()" class="p-2 rounded-lg hover:bg-gray-100 transition-colors text-gray-500">
+          <button onclick="toggleSidebar()" class="p-2 rounded-lg hover:bg-gray-100 transition-colors text-gray-500" title="Toggle sidebar">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
           </button>
           <div>
@@ -1449,7 +1449,7 @@ function deleteExpenseConfirm(expenseId) {
   const content = `
     <div class="p-6">
       <div class="flex items-center gap-4 mb-4">
-        <div class="w-12 h-12 bg-red-50 rounded-full flex items-center justify-center flex-shrink-0">
+        <div class="w-12 h-12 bg-red-50 rounded-full flex items-center justify-center shrink-0">
           <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
         </div>
         <div>
@@ -2148,7 +2148,7 @@ async function renderInvoices() {
         
         <!-- Info Banner -->
         <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 flex items-start gap-3">
-          <svg class="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <svg class="w-5 h-5 text-blue-500 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
           <div>
             <p class="text-sm font-medium text-blue-900">Upload Instructions</p>
             <p class="text-xs text-blue-700 mt-1">Upload files to Google Drive manually, set sharing to "Anyone with link", then paste the link here to create a record.</p>
