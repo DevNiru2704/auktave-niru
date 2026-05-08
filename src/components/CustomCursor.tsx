@@ -5,9 +5,6 @@ import { MousePointer2 } from "lucide-react";
 
 export default function CustomCursor() {
     const cursorRef = useRef<HTMLDivElement | null>(null);
-    const requestRef = useRef<number | null>(null);
-    const positionRef = useRef({ x: 0, y: 0 });
-    const targetRef = useRef({ x: 0, y: 0 });
     const [active, setActive] = useState(false);
     const [hovering, setHovering] = useState(false);
     const [visible, setVisible] = useState(false);
@@ -22,10 +19,11 @@ export default function CustomCursor() {
         setActive(true);
         document.body.classList.add("custom-cursor-active");
 
-        const centerX = window.innerWidth / 2;
-        const centerY = window.innerHeight / 2;
-        positionRef.current = { x: centerX, y: centerY };
-        targetRef.current = { x: centerX, y: centerY };
+        const setCursorPosition = (x: number, y: number) => {
+            if (cursorRef.current) {
+                cursorRef.current.style.transform = `translate3d(${x}px, ${y}px, 0) translate(-50%, -50%)`;
+            }
+        };
 
         const updateHoverState = (event: PointerEvent) => {
             const target = event.target;
@@ -34,7 +32,7 @@ export default function CustomCursor() {
         };
 
         const onPointerMove = (event: PointerEvent) => {
-            targetRef.current = { x: event.clientX, y: event.clientY };
+            setCursorPosition(event.clientX, event.clientY);
             updateHoverState(event);
             setVisible(true);
         };
@@ -53,23 +51,13 @@ export default function CustomCursor() {
 
         const onWindowBlur = () => setVisible(false);
 
-        const animate = () => {
-            positionRef.current.x += (targetRef.current.x - positionRef.current.x) * 0.16;
-            positionRef.current.y += (targetRef.current.y - positionRef.current.y) * 0.16;
-
-            if (cursorRef.current) {
-                cursorRef.current.style.transform = `translate3d(${positionRef.current.x}px, ${positionRef.current.y}px, 0) translate(-50%, -50%)`;
-            }
-
-            requestRef.current = window.requestAnimationFrame(animate);
-        };
-
         window.addEventListener("pointermove", onPointerMove);
         window.addEventListener("pointerenter", onPointerEnter);
         window.addEventListener("pointerleave", onPointerLeave);
         window.addEventListener("pointerdown", onPointerDown);
         window.addEventListener("blur", onWindowBlur);
-        requestRef.current = window.requestAnimationFrame(animate);
+
+        setCursorPosition(window.innerWidth / 2, window.innerHeight / 2);
 
         return () => {
             window.removeEventListener("pointermove", onPointerMove);
@@ -77,9 +65,6 @@ export default function CustomCursor() {
             window.removeEventListener("pointerleave", onPointerLeave);
             window.removeEventListener("pointerdown", onPointerDown);
             window.removeEventListener("blur", onWindowBlur);
-            if (requestRef.current) {
-                window.cancelAnimationFrame(requestRef.current);
-            }
             document.body.classList.remove("custom-cursor-active");
         };
     }, []);
