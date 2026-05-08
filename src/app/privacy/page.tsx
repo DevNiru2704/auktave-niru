@@ -9,7 +9,7 @@ export default function PrivacyPage() {
         <div className="prose prose-invert max-w-none space-y-5 text-bone/75 leading-relaxed">
           <p><strong>First Created:</strong> 04/05/2026</p>
           <p><strong>Effective Date:</strong> 04/05/2026</p>
-          <p><strong>Last Updated:</strong> 04/05/2026</p>
+          <p><strong>Last Updated:</strong> 09/05/2026</p>
 
           <p>
             Welcome to AUKTAVE ("we", "our", or "us"), hosted by ASETK at Amity University Kolkata.
@@ -107,7 +107,7 @@ export default function PrivacyPage() {
           <h3 className="headline text-2xl text-bone mt-8">12. Contact Us</h3>
           <p>If you have questions about this Privacy Policy or data handling practices, contact us at:</p>
           <p><strong>Email:</strong> <a href="mailto:info.auktave@gmail.com">info.auktave@gmail.com</a></p>
-          <p><strong>Website:</strong> <a href="https://auktave.in" target="_blank" rel="noreferrer noopener">auktave.in</a></p>
+          <p><strong>Website:</strong> <a href="https://auktave.co.in" target="_blank" rel="noreferrer noopener">auktave.co.in</a></p>
         </div>
       </div>
     </div>

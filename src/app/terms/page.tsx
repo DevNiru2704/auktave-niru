@@ -20,7 +20,7 @@ export default function TermsPage() {
           <p>Participants attend at their own risk. Organisers are not liable for personal property loss, injury, or damage incurred during the event.</p>
           <h3 className="headline text-2xl text-bone mt-8">Changes</h3>
           <p>The schedule, prize pool, and rules may be updated to maintain fairness. Material changes will be communicated via email and the website.</p>
-          <p>Last updated: February 2026.</p>
+          <p>Last updated: May 2026.</p>
         </div>
       </div>
     </div>
