@@ -5,13 +5,48 @@ import { X } from "lucide-react";
 export default function AnnouncementBanner() {
   const tickerRef = useRef<HTMLDivElement | null>(null);
   const [show, setShow] = useState(true);
-  const message = "Early bird registrations close in 7 days. Lock your slot before the portal closes.";
+  const [countdown, setCountdown] = useState<string>("computing...");
+
+  const registrationEnd = new Date("2026-05-17T23:59:59").getTime();
+
+  const calculateCountdown = () => {
+    const now = new Date().getTime();
+    const distance = registrationEnd - now;
+
+    if (distance <= 0) {
+      setCountdown("portal sealed");
+      return;
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    if (days > 0) {
+      setCountdown(`${days} day${days !== 1 ? "s" : ""}`);
+    } else if (hours > 0) {
+      setCountdown(`${hours} hour${hours !== 1 ? "s" : ""}`);
+    } else if (minutes > 0) {
+      setCountdown(`${minutes} minute${minutes !== 1 ? "s" : ""}`);
+    } else {
+      setCountdown(`${seconds} second${seconds !== 1 ? "s" : ""}`);
+    }
+  };
+
+  const message = `The temporal gateway opens. Registration cascade initiated on May 8th. The veil closes in ${countdown} on May 17th. Seal your passage before the portal collapses.`;
 
   const tickerRepeats = 6;
 
   useEffect(() => {
     const dismissed = typeof window !== "undefined" && sessionStorage.getItem("auktave-banner-dismissed");
     if (dismissed) setShow(false);
+  }, []);
+
+  useEffect(() => {
+    calculateCountdown();
+    const timer = setInterval(calculateCountdown, 1000);
+    return () => clearInterval(timer);
   }, []);
 
   useEffect(() => {
