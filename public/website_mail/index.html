@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AUKTAVE — Secure Access</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="login-body">
+
+  <!-- Ambient background grid -->
+  <div class="grid-bg"></div>
+  <!-- Global scan line effect -->
+  <div class="scan-overlay"></div>
+
+  <!-- ─── Login card ─────────────────────────── -->
+  <main class="login-wrapper">
+    <div class="login-card">
+
+      <!-- Corner bracket accents -->
+      <span class="corner tl"></span>
+      <span class="corner tr"></span>
+      <span class="corner bl"></span>
+      <span class="corner br"></span>
+
+      <!-- Moving scan line inside card -->
+      <div class="card-scan"></div>
+
+      <!-- Logo + Brand -->
+      <div class="logo-area">
+        <div class="hex-ring">
+          <div class="hex-inner">
+            <img src="assets/logos/logo.png" alt="AUKTAVE Logo" class="logo-img">
+          </div>
+        </div>
+        <div class="brand-text">
+          <h1 class="brand-name">AUKTAVE</h1>
+          <p class="brand-sub">ANNUAL TECH FEST · OUTREACH CONSOLE</p>
+        </div>
+      </div>
+
+      <!-- System status label -->
+      <div class="access-label">
+        <span class="dot blink"></span>
+        <span>SECURE ACCESS TERMINAL v2.0</span>
+      </div>
+
+      <!-- ─── Auth Form ─────────────────────── -->
+      <div class="login-form">
+        <div class="field-group">
+          <label class="field-label" for="password">ACCESS CREDENTIAL</label>
+          <div class="input-wrapper">
+            <input
+              type="password"
+              id="password"
+              class="field-input"
+              placeholder="Enter access code..."
+              autocomplete="off"
+              spellcheck="false"
+              data-lpignore="true"
+            >
+            <button
+              type="button"
+              class="toggle-eye"
+              id="togglePwd"
+              title="Toggle visibility"
+              aria-label="Toggle password visibility"
+            >
+              <svg id="eyeIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <button class="btn-login" id="loginBtn">
+          <span class="btn-text">AUTHENTICATE</span>
+          <span class="btn-loader" style="display:none; align-items:center; gap:8px;">
+            <svg class="spin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="width:16px;height:16px;">
+              <circle cx="12" cy="12" r="10" opacity="0.25"/>
+              <path d="M12 2a10 10 0 0 1 10 10"/>
+            </svg>
+            <span>VERIFYING</span>
+          </span>
+        </button>
+
+        <div class="login-status" id="loginStatus" role="alert" aria-live="polite"></div>
+      </div>
+
+      <!-- Footer -->
+      <div class="login-footer">
+        <span>AMITY UNIVERSITY KOLKATA</span>
+        <span class="divider">·</span>
+        <span>TECH FEST COMMITTEE</span>
+        <span class="divider">·</span>
+        <span>INTERNAL SYSTEM</span>
+      </div>
+
+    </div><!-- /.login-card -->
+  </main>
+
+  <script src="app.js"></script>
+  <script>
+    // ─── Eye toggle ───────────────────────────────────────
+    document.getElementById('togglePwd').addEventListener('click', function () {
+      const input = document.getElementById('password');
+      const icon  = document.getElementById('eyeIcon');
+      const isPassword = input.type === 'password';
+
+      input.type = isPassword ? 'text' : 'password';
+      icon.innerHTML = isPassword
+        ? `<path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>`
+        : `<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>`;
+    });
+
+    // ─── Enter key ────────────────────────────────────────
+    document.getElementById('password').addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') handleLogin();
+    });
+
+    // ─── Button click ─────────────────────────────────────
+    document.getElementById('loginBtn').addEventListener('click', handleLogin);
+  </script>
+</body>
+</html>

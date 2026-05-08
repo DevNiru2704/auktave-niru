@@ -1,0 +1,2553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AUKTAVE 2026 - Financial Management System</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          colors: {
+            primary: { 50: '#eff6ff', 100: '#dbeafe', 200: '#bfdbfe', 300: '#93c5fd', 400: '#60a5fa', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af', 900: '#1e3a8a' },
+            sidebar: '#0f172a',
+            sidebarHover: '#1e293b',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    * { scroll-behavior: smooth; }
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    
+    /* Sidebar */
+    .sidebar { transition: width 0.3s ease; }
+    .sidebar-collapsed { width: 70px; }
+    .sidebar-expanded { width: 260px; }
+    .sidebar-text { transition: opacity 0.2s ease; }
+    .sidebar-collapsed .sidebar-text { opacity: 0; display: none; }
+    .sidebar-collapsed .sidebar-logo-text { opacity: 0; display: none; }
+    
+    /* Cards */
+    .kpi-card { transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .kpi-card:hover { transform: translateY(-2px); box-shadow: 0 10px 40px rgba(0,0,0,0.1); }
+    
+    /* Table styles */
+    .data-table { border-collapse: separate; border-spacing: 0; }
+    .data-table th { position: sticky; top: 0; z-index: 10; }
+    .data-table tbody tr { transition: background 0.15s ease; }
+    .data-table tbody tr:hover { background: #f8fafc; }
+    
+    /* Status badges */
+    .badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 9999px; font-size: 0.75rem; font-weight: 500; }
+    .badge-received { background: #dcfce7; color: #166534; }
+    .badge-pending { background: #fef3c7; color: #92400e; }
+    .badge-partial { background: #dbeafe; color: #1e40af; }
+    .badge-overdue { background: #fee2e2; color: #991b1b; }
+    .badge-approved { background: #dcfce7; color: #166534; }
+    .badge-rejected { background: #fee2e2; color: #991b1b; }
+    .badge-escalated { background: #f3e8ff; color: #6b21a8; }
+    .badge-paid { background: #dcfce7; color: #166534; }
+    .badge-active { background: #dbeafe; color: #1e40af; }
+    .badge-verified { background: #dcfce7; color: #166534; }
+    
+    /* Progress bar */
+    .progress-bar { height: 8px; border-radius: 4px; background: #e2e8f0; overflow: hidden; }
+    .progress-fill { height: 100%; border-radius: 4px; transition: width 0.5s ease; }
+    
+    /* Form elements */
+    .form-input:focus { outline: none; ring: 2px; ring-color: #3b82f6; border-color: #3b82f6; }
+    
+    /* Modal */
+    .modal-backdrop { backdrop-filter: blur(4px); }
+    
+    /* Toast notifications */
+    .toast { animation: slideIn 0.3s ease; }
+    @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    
+    /* Loading spinner */
+    .spinner { border: 3px solid #e2e8f0; border-top-color: #3b82f6; border-radius: 50%; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    
+    /* Custom scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #64748b; }
+    
+    /* Page transitions */
+    .page-content { animation: fadeIn 0.3s ease; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+    /* Tooltip */
+    [data-tooltip]:hover::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      left: 100%;
+      top: 50%;
+      transform: translateY(-50%);
+      margin-left: 10px;
+      padding: 4px 10px;
+      background: #1e293b;
+      color: white;
+      font-size: 12px;
+      border-radius: 4px;
+      white-space: nowrap;
+      z-index: 100;
+    }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+  
+  <!-- App Container -->
+  <div class="flex h-screen overflow-hidden">
+    
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar sidebar-expanded bg-sidebar text-white flex flex-col overflow-y-auto">
+      <!-- Logo Area -->
+      <div class="flex items-center gap-3 px-5 py-5 border-b border-gray-700">
+        <div class="w-9 h-9 bg-primary-500 rounded-lg flex items-center justify-center flex-shrink-0">
+          <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+        <div class="sidebar-logo-text">
+          <h1 class="font-bold text-base leading-tight">AUKTAVE 2026</h1>
+          <p class="text-xs text-gray-400">Finance Control</p>
+        </div>
+        <button onclick="toggleSidebar()" class="ml-auto text-gray-400 hover:text-white transition-colors sidebar-logo-text">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/>
+          </svg>
+        </button>
+      </div>
+      
+      <!-- Navigation -->
+      <nav class="flex-1 py-4 px-3 space-y-1">
+        <a href="#" onclick="navigateTo('dashboard'); return false;" id="nav-dashboard" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-sidebarHover transition-colors text-gray-300 hover:text-white group relative" data-tooltip="Dashboard">
+          <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+          <span class="sidebar-text text-sm font-medium">Dashboard</span>
+        </a>
+        
+        <a href="#" onclick="navigateTo('income'); return false;" id="nav-income" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-sidebarHover transition-colors text-gray-300 hover:text-white group relative" data-tooltip="Income">
+          <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12"/></svg>
+          <span class="sidebar-text text-sm font-medium">Income</span>
+        </a>
+        
+        <a href="#" onclick="navigateTo('expenses'); return false;" id="nav-expenses" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-sidebarHover transition-colors text-gray-300 hover:text-white group relative" data-tooltip="Expenses">
+          <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+          <span class="sidebar-text text-sm font-medium">Expenses</span>
+        </a>
+        
+        <a href="#" onclick="navigateTo('committees'); return false;" id="nav-committees" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-sidebarHover transition-colors text-gray-300 hover:text-white group relative" data-tooltip="Committees">
+          <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+          <span class="sidebar-text text-sm font-medium">Committees</span>
+        </a>
+        
+        <a href="#" onclick="navigateTo('events'); return false;" id="nav-events" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-sidebarHover transition-colors text-gray-300 hover:text-white group relative" data-tooltip="Events">
+          <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          <span class="sidebar-text text-sm font-medium">Events</span>
+        </a>
+        
+        <a href="#" onclick="navigateTo('vendors'); return false;" id="nav-vendors" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-sidebarHover transition-colors text-gray-300 hover:text-white group relative" data-tooltip="Vendors">
+          <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          <span class="sidebar-text text-sm font-medium">Vendors</span>
+        </a>
+        
+        <a href="#" onclick="navigateTo('approvals'); return false;" id="nav-approvals" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-sidebarHover transition-colors text-gray-300 hover:text-white group relative" data-tooltip="Approvals">
+          <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <span class="sidebar-text text-sm font-medium">Approvals</span>
+        </a>
+        
+        <a href="#" onclick="navigateTo('invoices'); return false;" id="nav-invoices" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-sidebarHover transition-colors text-gray-300 hover:text-white group relative" data-tooltip="Invoices">
+          <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          <span class="sidebar-text text-sm font-medium">Invoices</span>
+        </a>
+        
+        <a href="#" onclick="navigateTo('analytics'); return false;" id="nav-analytics" class="nav-item flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-sidebarHover transition-colors text-gray-300 hover:text-white group relative" data-tooltip="Analytics">
+          <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+          <span class="sidebar-text text-sm font-medium">Analytics</span>
+        </a>
+      </nav>
+      
+      <!-- Footer -->
+      <div class="px-5 py-4 border-t border-gray-700">
+        <div class="flex items-center gap-3 sidebar-text">
+          <div class="w-8 h-8 rounded-full overflow-hidden">
+            <img src="assets/image.jpg" alt="Profile" class="w-full h-full object-cover">
+          </div>
+          <div>
+            <p class="text-sm font-medium text-white">Humza Ahmad</p>
+            <p class="text-xs text-gray-400">Event Leader</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+    
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col overflow-hidden">
+      
+      <!-- Top Header -->
+      <header class="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between flex-shrink-0">
+        <div class="flex items-center gap-4">
+          <button onclick="toggleSidebar()" class="p-2 rounded-lg hover:bg-gray-100 transition-colors text-gray-500">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+          </button>
+          <div>
+            <h2 id="page-title" class="text-xl font-semibold text-gray-900">Dashboard</h2>
+            <p id="page-subtitle" class="text-sm text-gray-500">Overview of AUKTAVE 2026 finances</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-3">
+          <!-- Connection Status -->
+          <div id="connection-status" class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-50 text-green-700 text-sm">
+            <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+            <span class="font-medium">Connected</span>
+          </div>
+          <!-- Refresh Button -->
+          <button onclick="refreshCurrentPage()" class="p-2 rounded-lg hover:bg-gray-100 transition-colors text-gray-500" title="Refresh Data">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+          </button>
+          <!-- Date Display -->
+          <div class="px-3 py-1.5 bg-gray-50 rounded-lg text-sm text-gray-600">
+            <span id="current-date"></span>
+          </div>
+        </div>
+      </header>
+      
+      <!-- Page Content Container -->
+      <main id="main-content" class="flex-1 overflow-y-auto p-6">
+        <!-- Content injected by JavaScript -->
+      </main>
+      
+    </div>
+  </div>
+  
+  <!-- Toast Container -->
+  <div id="toast-container" class="fixed bottom-4 right-4 z-50 space-y-2"></div>
+  
+  <!-- Modal Container -->
+  <div id="modal-container" class="fixed inset-0 z-50 hidden">
+    <div class="modal-backdrop absolute inset-0 bg-black/50" onclick="closeModal()"></div>
+    <div class="absolute inset-0 flex items-center justify-center p-4">
+      <div id="modal-content" class="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto"></div>
+    </div>
+  </div>
+
+
+<script>
+// ============================================
+// AUKTAVE 2026 Financial System - Frontend
+// ============================================
+
+// ─── CONFIGURATION ───
+const CONFIG = {
+  // Replace with your deployed Google Apps Script Web App URL
+  API_BASE_URL: 'https://script.google.com/macros/s/AKfycbzW1Wnk1DnRxymYA6J9lySseBgxl467m62qTmF9C9OBmCkbAQffas6u6vVBkx3XCos6kQ/exec',
+  ITEMS_PER_PAGE: 25
+};
+
+// ─── STATE MANAGEMENT ───
+const state = {
+  currentPage: 'dashboard',
+  sidebarCollapsed: false,
+  cache: {},
+  currentData: [],
+  filteredData: [],
+  currentPageNum: 1,
+  charts: {},
+  editingId: null
+};
+
+// ─── INITIALIZATION ───
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('current-date').textContent = new Date().toLocaleDateString('en-US', { 
+    weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' 
+  });
+  
+  // Check if API URL is configured
+  if (!CONFIG.API_BASE_URL) {
+    showApiConfigModal();
+  } else {
+    navigateTo('dashboard');
+  }
+});
+
+// ─── NAVIGATION ───
+function navigateTo(page) {
+  state.currentPage = page;
+  state.currentPageNum = 1;
+  state.editingId = null;
+  
+  // Update nav active state
+  document.querySelectorAll('.nav-item').forEach(el => {
+    el.classList.remove('bg-primary-600', 'text-white');
+    el.classList.add('text-gray-300');
+  });
+  const activeNav = document.getElementById('nav-' + page);
+  if (activeNav) {
+    activeNav.classList.add('bg-primary-600', 'text-white');
+    activeNav.classList.remove('text-gray-300');
+  }
+  
+  // Update page title
+  const titles = {
+    dashboard: { title: 'Dashboard', subtitle: 'Overview of AUKTAVE 2026 finances' },
+    income: { title: 'Income Management', subtitle: 'Track sponsorships and funding' },
+    expenses: { title: 'Expense Management', subtitle: 'Monitor all expenditures' },
+    committees: { title: 'Committee Budgets', subtitle: 'Budget allocation and utilization' },
+    events: { title: 'Event Finances', subtitle: 'Event-wise financial tracking' },
+    vendors: { title: 'Vendor Management', subtitle: 'Vendor payments and status' },
+    approvals: { title: 'Approval Workflow', subtitle: 'Budget approval requests' },
+    invoices: { title: 'Invoice Records', subtitle: 'Document and invoice management' },
+    analytics: { title: 'Analytics & Reports', subtitle: 'Comprehensive financial analytics' }
+  };
+  
+  const pageInfo = titles[page] || titles.dashboard;
+  document.getElementById('page-title').textContent = pageInfo.title;
+  document.getElementById('page-subtitle').textContent = pageInfo.subtitle;
+  
+  // Render page content
+  const mainContent = document.getElementById('main-content');
+  mainContent.innerHTML = '<div class="flex items-center justify-center h-64"><div class="spinner w-8 h-8"></div></div>';
+  
+  switch(page) {
+    case 'dashboard': renderDashboard(); break;
+    case 'income': renderIncome(); break;
+    case 'expenses': renderExpenses(); break;
+    case 'committees': renderCommittees(); break;
+    case 'events': renderEvents(); break;
+    case 'vendors': renderVendors(); break;
+    case 'approvals': renderApprovals(); break;
+    case 'invoices': renderInvoices(); break;
+    case 'analytics': renderAnalytics(); break;
+    default: renderDashboard();
+  }
+}
+
+function toggleSidebar() {
+  state.sidebarCollapsed = !state.sidebarCollapsed;
+  const sidebar = document.getElementById('sidebar');
+  if (state.sidebarCollapsed) {
+    sidebar.classList.remove('sidebar-expanded');
+    sidebar.classList.add('sidebar-collapsed');
+  } else {
+    sidebar.classList.remove('sidebar-collapsed');
+    sidebar.classList.add('sidebar-expanded');
+  }
+}
+
+function refreshCurrentPage() {
+  state.cache = {}; // Clear cache
+  navigateTo(state.currentPage);
+  showToast('Data refreshed', 'success');
+}
+
+// ─── API COMMUNICATION ───
+
+async function apiGet(action) {
+  if (!CONFIG.API_BASE_URL) throw new Error('API URL not configured');
+  
+  const cacheKey = 'get_' + action;
+  if (state.cache[cacheKey]) return state.cache[cacheKey];
+  
+  try {
+    const response = await fetch(`${CONFIG.API_BASE_URL}?action=${action}`);
+    const text = await response.text();
+    let result;
+    try {
+      result = JSON.parse(text);
+    } catch(parseErr) {
+      throw new Error('Invalid response from server: ' + text.substring(0, 100));
+    }
+    if (!result.success) throw new Error(result.error);
+    state.cache[cacheKey] = result.data;
+    updateConnectionStatus(true);
+    return result.data;
+  } catch(error) {
+    console.error('API GET Error:', error);
+    updateConnectionStatus(false);
+    throw error;
+  }
+}
+
+async function apiPost(action, data) {
+  if (!CONFIG.API_BASE_URL) throw new Error('API URL not configured');
+  
+  try {
+    const response = await fetch(CONFIG.API_BASE_URL, {
+      method: 'POST',
+      redirect: 'follow',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ action, ...data })
+    });
+    const text = await response.text();
+    let result;
+    try {
+      result = JSON.parse(text);
+    } catch(parseErr) {
+      throw new Error('Invalid response from server: ' + text.substring(0, 100));
+    }
+    if (!result.success) throw new Error(result.error || JSON.stringify(result));
+    state.cache = {}; // Clear cache on mutation
+    updateConnectionStatus(true);
+    return result.data;
+  } catch(error) {
+    console.error('API POST Error:', error);
+    updateConnectionStatus(false);
+    throw error;
+  }
+}
+
+function updateConnectionStatus(connected) {
+  const el = document.getElementById('connection-status');
+  if (connected) {
+    el.className = 'flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-50 text-green-700 text-sm';
+    el.innerHTML = '<span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span><span class="font-medium">Connected</span>';
+  } else {
+    el.className = 'flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-50 text-red-700 text-sm';
+    el.innerHTML = '<span class="w-2 h-2 rounded-full bg-red-500"></span><span class="font-medium">Error</span>';
+  }
+}
+
+// ─── UI COMPONENTS ───
+
+function showToast(message, type = 'success') {
+  const container = document.getElementById('toast-container');
+  const toast = document.createElement('div');
+  
+  const colors = {
+    success: 'bg-green-500',
+    error: 'bg-red-500',
+    warning: 'bg-amber-500',
+    info: 'bg-blue-500'
+  };
+  
+  const icons = {
+    success: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>',
+    error: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>',
+    warning: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>',
+    info: '<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>'
+  };
+  
+  toast.className = `toast flex items-center gap-3 px-4 py-3 rounded-lg shadow-lg text-white ${colors[type]}`;
+  toast.innerHTML = `${icons[type]}<span class="font-medium">${message}</span>`;
+  
+  container.appendChild(toast);
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateX(100%)';
+    setTimeout(() => toast.remove(), 300);
+  }, 4000);
+}
+
+function openModal(content) {
+  document.getElementById('modal-content').innerHTML = content;
+  document.getElementById('modal-container').classList.remove('hidden');
+}
+
+function closeModal() {
+  document.getElementById('modal-container').classList.add('hidden');
+  state.editingId = null;
+}
+
+function showApiConfigModal() {
+  const content = `
+    <div class="p-6">
+      <div class="flex items-center justify-between mb-6">
+        <h3 class="text-lg font-semibold text-gray-900">Configure API Connection</h3>
+      </div>
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 mb-1">Google Apps Script Web App URL</label>
+          <input type="text" id="api-url-input" placeholder="https://script.google.com/macros/s/.../exec" 
+            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm">
+          <p class="text-xs text-gray-500 mt-1">Paste your deployed GAS Web App URL here</p>
+        </div>
+        <div class="flex justify-end gap-3 mt-6">
+          <button onclick="saveApiUrl()" class="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors text-sm font-medium">
+            Connect
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+  openModal(content);
+}
+
+function saveApiUrl() {
+  const url = document.getElementById('api-url-input').value.trim();
+  if (!url || !url.includes('script.google.com')) {
+    showToast('Please enter a valid Google Apps Script URL', 'error');
+    return;
+  }
+  CONFIG.API_BASE_URL = url;
+  localStorage.setItem('auktave_api_url', url);
+  closeModal();
+  showToast('API connected successfully', 'success');
+  navigateTo('dashboard');
+}
+
+// ─── FORMATTING UTILITIES ───
+
+function formatCurrency(amount) {
+  const num = parseFloat(amount) || 0;
+  return '₹' + num.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+}
+
+function formatNumber(num) {
+  return parseFloat(num).toLocaleString('en-IN');
+}
+
+function formatDate(dateStr) {
+  if (!dateStr) return '-';
+  const d = new Date(dateStr);
+  if (isNaN(d)) return dateStr;
+  return d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+
+function getStatusBadge(status) {
+  const statusMap = {
+    'Received': 'badge-received',
+    'Pending': 'badge-pending',
+    'Partial': 'badge-partial',
+    'Overdue': 'badge-overdue',
+    'Approved': 'badge-approved',
+    'Rejected': 'badge-rejected',
+    'Escalated': 'badge-escalated',
+    'Paid': 'badge-paid',
+    'Active': 'badge-active',
+    'Verified': 'badge-verified',
+    'Reimbursed': 'badge-approved'
+  };
+  const className = statusMap[status] || 'badge-pending';
+  return `<span class="badge ${className}">${status || 'Pending'}</span>`;
+}
+
+function getProgressBar(percent, color = 'bg-primary-500') {
+  const pct = Math.min(100, Math.max(0, parseFloat(percent) || 0));
+  let barColor = color;
+  if (pct > 90) barColor = 'bg-red-500';
+  else if (pct > 75) barColor = 'bg-amber-500';
+  
+  return `
+    <div class="flex items-center gap-2">
+      <div class="progress-bar flex-1"><div class="progress-fill ${barColor}" style="width: ${pct}%"></div></div>
+      <span class="text-xs text-gray-500 w-10 text-right">${pct.toFixed(1)}%</span>
+    </div>
+  `;
+}
+
+// ─── PAGINATION ───
+
+function paginateData(data) {
+  const totalPages = Math.ceil(data.length / CONFIG.ITEMS_PER_PAGE);
+  const start = (state.currentPageNum - 1) * CONFIG.ITEMS_PER_PAGE;
+  const paginated = data.slice(start, start + CONFIG.ITEMS_PER_PAGE);
+  return { data: paginated, totalPages, totalItems: data.length };
+}
+
+function renderPagination(totalPages, containerId) {
+  if (totalPages <= 1) return '';
+  
+  let html = '<div class="flex items-center justify-between mt-4 px-2">';
+  html += `<span class="text-sm text-gray-500">Page ${state.currentPageNum} of ${totalPages}</span>`;
+  html += '<div class="flex items-center gap-2">';
+  
+  html += `<button onclick="changePage(${state.currentPageNum - 1})" ${state.currentPageNum === 1 ? 'disabled' : ''} 
+    class="px-3 py-1.5 rounded-lg border border-gray-200 text-sm ${state.currentPageNum === 1 ? 'text-gray-300 cursor-not-allowed' : 'text-gray-600 hover:bg-gray-50'}">Previous</button>`;
+  
+  for (let i = 1; i <= totalPages; i++) {
+    if (i === 1 || i === totalPages || (i >= state.currentPageNum - 1 && i <= state.currentPageNum + 1)) {
+      html += `<button onclick="changePage(${i})" 
+        class="px-3 py-1.5 rounded-lg text-sm font-medium ${i === state.currentPageNum ? 'bg-primary-600 text-white' : 'text-gray-600 hover:bg-gray-50'}">${i}</button>`;
+    } else if (i === state.currentPageNum - 2 || i === state.currentPageNum + 2) {
+      html += '<span class="text-gray-400 px-1">...</span>';
+    }
+  }
+  
+  html += `<button onclick="changePage(${state.currentPageNum + 1})" ${state.currentPageNum === totalPages ? 'disabled' : ''} 
+    class="px-3 py-1.5 rounded-lg border border-gray-200 text-sm ${state.currentPageNum === totalPages ? 'text-gray-300 cursor-not-allowed' : 'text-gray-600 hover:bg-gray-50'}">Next</button>`;
+  
+  html += '</div></div>';
+  return html;
+}
+
+function changePage(page) {
+  state.currentPageNum = page;
+  // Re-render current page data
+  switch(state.currentPage) {
+    case 'income': renderIncomeTable(); break;
+    case 'expenses': renderExpensesTable(); break;
+    case 'vendors': renderVendorsTable(); break;
+    case 'approvals': renderApprovalsTable(); break;
+    case 'invoices': renderInvoicesTable(); break;
+  }
+}
+
+// ─── SEARCH & FILTER ───
+
+function setupSearchFilter(searchId, filterIds, dataKey, renderFn) {
+  const searchEl = document.getElementById(searchId);
+  if (searchEl) {
+    searchEl.addEventListener('input', debounce(() => {
+      applyFilters(dataKey, filterIds, renderFn);
+    }, 300));
+  }
+  
+  filterIds.forEach(fid => {
+    const el = document.getElementById(fid);
+    if (el) {
+      el.addEventListener('change', () => applyFilters(dataKey, filterIds, renderFn));
+    }
+  });
+}
+
+function applyFilters(dataKey, filterIds, renderFn) {
+  let data = state.currentData || [];
+  
+  // Apply search (first filterIds entry IS the search input)
+  const searchEl = document.getElementById(filterIds[0]);
+  const search = searchEl ? searchEl.value.toLowerCase() : '';
+  if (search) {
+    data = data.filter(row => Object.values(row).some(v => String(v).toLowerCase().includes(search)));
+  }
+  
+  // Apply select filters (remaining filterIds after search)
+  for (let i = 1; i < filterIds.length; i++) {
+    const el = document.getElementById(filterIds[i]);
+    if (el && el.value) {
+      const filterField = el.dataset.filterField;
+      if (filterField) {
+        data = data.filter(row => String(row[filterField]) === el.value);
+      }
+    }
+  }
+  
+  state.filteredData = data;
+  state.currentPageNum = 1;
+  renderFn();
+}
+
+function debounce(fn, ms) {
+  let timer;
+  return (...args) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => fn(...args), ms);
+  };
+}
+
+// ─── MODAL FORM BUILDER ───
+
+function buildForm(fields, values = {}, title = '', submitFn = '') {
+  let html = `
+    <div class="p-6">
+      <div class="flex items-center justify-between mb-6">
+        <h3 class="text-lg font-semibold text-gray-900">${title}</h3>
+        <button onclick="closeModal()" class="p-1.5 rounded-lg hover:bg-gray-100 text-gray-400 hover:text-gray-600">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+      <form id="modal-form" onsubmit="event.preventDefault(); ${submitFn};" class="space-y-4">
+  `;
+  
+  fields.forEach(field => {
+    const value = values[field.name] || '';
+    html += '<div>';
+    html += `<label class="block text-sm font-medium text-gray-700 mb-1">${field.label}${field.required ? ' <span class="text-red-500">*</span>' : ''}</label>`;
+    
+    if (field.type === 'select') {
+      html += `<select name="${field.name}" ${field.required ? 'required' : ''} class="form-input w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm">`;
+      html += `<option value="">Select ${field.label}</option>`;
+      field.options.forEach(opt => {
+        html += `<option value="${opt}" ${value === opt ? 'selected' : ''}>${opt}</option>`;
+      });
+      html += '</select>';
+    } else if (field.type === 'textarea') {
+      html += `<textarea name="${field.name}" ${field.required ? 'required' : ''} rows="3" 
+        class="form-input w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm">${value}</textarea>`;
+    } else {
+      html += `<input type="${field.type || 'text'}" name="${field.name}" value="${value}" ${field.required ? 'required' : ''} 
+        placeholder="${field.placeholder || ''}" 
+        class="form-input w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 text-sm">`;
+    }
+    
+    html += '</div>';
+  });
+  
+  html += `
+      <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-gray-100">
+        <button type="button" onclick="closeModal()" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors text-sm font-medium">Cancel</button>
+        <button type="submit" class="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors text-sm font-medium">Save</button>
+      </div>
+    </form></div>
+  `;
+  
+  return html;
+}
+
+function getFormData(formId) {
+  const form = document.getElementById(formId);
+  const data = {};
+  new FormData(form).forEach((value, key) => {
+    data[key] = value;
+  });
+  return data;
+}
+</script>
+
+<script>
+// ============================================
+// DASHBOARD PAGE
+// ============================================
+
+async function renderDashboard() {
+  const mainContent = document.getElementById('main-content');
+  
+  try {
+    const data = await apiGet('dashboard');
+    
+    mainContent.innerHTML = `
+      <div class="page-content space-y-6">
+        <!-- KPI Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div class="kpi-card bg-white rounded-xl border border-gray-200 p-5">
+            <div class="flex items-center justify-between mb-3">
+              <p class="text-sm text-gray-500 font-medium">Total Budget Approved</p>
+              <div class="w-10 h-10 bg-primary-50 rounded-lg flex items-center justify-center">
+                <svg class="w-5 h-5 text-primary-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              </div>
+            </div>
+            <p class="text-2xl font-bold text-gray-900">${formatCurrency(data.kpi.totalBudget)}</p>
+            <p class="text-xs text-gray-400 mt-1">Across all committees</p>
+          </div>
+          
+          <div class="kpi-card bg-white rounded-xl border border-gray-200 p-5">
+            <div class="flex items-center justify-between mb-3">
+              <p class="text-sm text-gray-500 font-medium">Total Income Received</p>
+              <div class="w-10 h-10 bg-green-50 rounded-lg flex items-center justify-center">
+                <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11l5-5m0 0l5 5m-5-5v12"/></svg>
+              </div>
+            </div>
+            <p class="text-2xl font-bold text-gray-900">${formatCurrency(data.kpi.totalIncomeReceived)}</p>
+            <p class="text-xs text-green-600 mt-1 font-medium">${formatCurrency(data.kpi.totalSponsorshipReceived)} from sponsors</p>
+          </div>
+          
+          <div class="kpi-card bg-white rounded-xl border border-gray-200 p-5">
+            <div class="flex items-center justify-between mb-3">
+              <p class="text-sm text-gray-500 font-medium">Total Expenses</p>
+              <div class="w-10 h-10 bg-red-50 rounded-lg flex items-center justify-center">
+                <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+              </div>
+            </div>
+            <p class="text-2xl font-bold text-gray-900">${formatCurrency(data.kpi.totalExpenses)}</p>
+            <p class="text-xs text-gray-400 mt-1">${data.kpi.expenseCount} expense entries</p>
+          </div>
+          
+          <div class="kpi-card bg-white rounded-xl border border-gray-200 p-5">
+            <div class="flex items-center justify-between mb-3">
+              <p class="text-sm text-gray-500 font-medium">Remaining Balance</p>
+              <div class="w-10 h-10 bg-amber-50 rounded-lg flex items-center justify-center">
+                <svg class="w-5 h-5 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+              </div>
+            </div>
+            <p class="text-2xl font-bold ${data.kpi.remainingBalance >= 0 ? 'text-gray-900' : 'text-red-600'}">${formatCurrency(data.kpi.remainingBalance)}</p>
+            <p class="text-xs text-gray-400 mt-1">${formatCurrency(data.kpi.pendingPayments)} pending payments</p>
+          </div>
+        </div>
+        
+        <!-- Secondary KPIs -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div class="bg-white rounded-xl border border-gray-200 p-4 text-center">
+            <p class="text-2xl font-bold text-primary-600">${data.kpi.incomeCount}</p>
+            <p class="text-xs text-gray-500 mt-1">Income Entries</p>
+          </div>
+          <div class="bg-white rounded-xl border border-gray-200 p-4 text-center">
+            <p class="text-2xl font-bold text-primary-600">${data.kpi.expenseCount}</p>
+            <p class="text-xs text-gray-500 mt-1">Expense Entries</p>
+          </div>
+          <div class="bg-white rounded-xl border border-gray-200 p-4 text-center">
+            <p class="text-2xl font-bold text-amber-600">${data.kpi.pendingApprovals}</p>
+            <p class="text-xs text-gray-500 mt-1">Pending Approvals</p>
+          </div>
+          <div class="bg-white rounded-xl border border-gray-200 p-4 text-center">
+            <p class="text-2xl font-bold text-green-600">${formatCurrency(data.kpi.totalSponsorshipCommitted)}</p>
+            <p class="text-xs text-gray-500 mt-1">Sponsorship Committed</p>
+          </div>
+        </div>
+        
+        <!-- Charts Row 1 -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="bg-white rounded-xl border border-gray-200 p-5">
+            <h3 class="text-base font-semibold text-gray-900 mb-4">Expense Distribution by Category</h3>
+            <div class="h-64"><canvas id="expenseCategoryChart"></canvas></div>
+          </div>
+          <div class="bg-white rounded-xl border border-gray-200 p-5">
+            <h3 class="text-base font-semibold text-gray-900 mb-4">Committee Budget vs Spent</h3>
+            <div class="h-64"><canvas id="committeeChart"></canvas></div>
+          </div>
+        </div>
+        
+        <!-- Charts Row 2 -->
+        <div class="bg-white rounded-xl border border-gray-200 p-5">
+          <h3 class="text-base font-semibold text-gray-900 mb-4">Cash Flow Timeline</h3>
+          <div class="h-72"><canvas id="cashFlowChart"></canvas></div>
+        </div>
+        
+        <!-- Recent Activity -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="bg-white rounded-xl border border-gray-200 p-5">
+            <h3 class="text-base font-semibold text-gray-900 mb-4">Recent Income</h3>
+            <div class="space-y-3">
+              ${data.recentIncome.length === 0 ? '<p class="text-sm text-gray-400 text-center py-4">No income records</p>' : ''}
+              ${data.recentIncome.map(item => `
+                <div class="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
+                  <div>
+                    <p class="text-sm font-medium text-gray-900">${item['Sponsor Name'] || 'Unknown'}</p>
+                    <p class="text-xs text-gray-500">${item['Source Type'] || ''} · ${formatDate(item['Date'])}</p>
+                  </div>
+                  <div class="text-right">
+                    <p class="text-sm font-semibold text-green-600">${formatCurrency(item['Amount Received'])}</p>
+                    ${getStatusBadge(item['Status'])}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+          
+          <div class="bg-white rounded-xl border border-gray-200 p-5">
+            <h3 class="text-base font-semibold text-gray-900 mb-4">Recent Expenses</h3>
+            <div class="space-y-3">
+              ${data.recentExpenses.length === 0 ? '<p class="text-sm text-gray-400 text-center py-4">No expense records</p>' : ''}
+              ${data.recentExpenses.map(item => `
+                <div class="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
+                  <div>
+                    <p class="text-sm font-medium text-gray-900">${item['Description'] || 'Unknown'}</p>
+                    <p class="text-xs text-gray-500">${item['Committee'] || ''} · ${item['Category'] || ''}</p>
+                  </div>
+                  <div class="text-right">
+                    <p class="text-sm font-semibold text-red-600">${formatCurrency(item['Amount Spent'])}</p>
+                    ${getStatusBadge(item['Payment Status'])}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+      </div>
+    `;
+    
+    // Render Charts
+    renderDashboardCharts(data);
+    
+  } catch(error) {
+    mainContent.innerHTML = `
+      <div class="flex flex-col items-center justify-center h-96 text-center">
+        <div class="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mb-4">
+          <svg class="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-900 mb-2">Failed to load dashboard</h3>
+        <p class="text-sm text-gray-500 mb-4">${error.message}</p>
+        <button onclick="renderDashboard()" class="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 text-sm font-medium">Retry</button>
+      </div>
+    `;
+  }
+}
+
+function renderDashboardCharts(data) {
+  // Destroy existing charts
+  Object.values(state.charts).forEach(c => c.destroy());
+  state.charts = {};
+  
+  // Expense by Category (Pie)
+  const expenseCtx = document.getElementById('expenseCategoryChart');
+  if (expenseCtx && data.expenseByCategory.length > 0) {
+    state.charts.expenseCategory = new Chart(expenseCtx, {
+      type: 'doughnut',
+      data: {
+        labels: data.expenseByCategory.map(d => d.label),
+        datasets: [{
+          data: data.expenseByCategory.map(d => d.value),
+          backgroundColor: ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4', '#84cc16'],
+          borderWidth: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'right', labels: { boxWidth: 12, font: { size: 11 } } }
+        }
+      }
+    });
+  }
+  
+  // Committee Spending (Bar)
+  const committeeCtx = document.getElementById('committeeChart');
+  if (committeeCtx && data.committeeSpending.length > 0) {
+    state.charts.committee = new Chart(committeeCtx, {
+      type: 'bar',
+      data: {
+        labels: data.committeeSpending.map(d => d.label.length > 12 ? d.label.substring(0, 12) + '...' : d.label),
+        datasets: [
+          { label: 'Budget', data: data.committeeSpending.map(d => d.budget), backgroundColor: '#3b82f6', borderRadius: 4 },
+          { label: 'Spent', data: data.committeeSpending.map(d => d.spent), backgroundColor: '#ef4444', borderRadius: 4 }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: { grid: { display: false }, ticks: { font: { size: 10 } } },
+          y: { grid: { color: '#f1f5f9' }, ticks: { callback: v => '₹' + (v/1000).toFixed(0) + 'K' } }
+        },
+        plugins: { legend: { position: 'top', labels: { boxWidth: 12, font: { size: 11 } } } }
+      }
+    });
+  }
+  
+  // Cash Flow Timeline (Line)
+  const cashFlowCtx = document.getElementById('cashFlowChart');
+  if (cashFlowCtx && data.cashFlowTimeline.length > 0) {
+    state.charts.cashFlow = new Chart(cashFlowCtx, {
+      type: 'line',
+      data: {
+        labels: data.cashFlowTimeline.map(d => {
+          const [y, m] = d.month.split('-');
+          return `${m}/${y}`;
+        }),
+        datasets: [
+          { label: 'Income', data: data.cashFlowTimeline.map(d => d.income), borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.1)', fill: true, tension: 0.4 },
+          { label: 'Expense', data: data.cashFlowTimeline.map(d => d.expense), borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,0.1)', fill: true, tension: 0.4 }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: { grid: { display: false } },
+          y: { grid: { color: '#f1f5f9' }, ticks: { callback: v => '₹' + (v/1000).toFixed(0) + 'K' } }
+        },
+        plugins: { legend: { position: 'top', labels: { boxWidth: 12, font: { size: 11 } } } }
+      }
+    });
+  }
+}
+</script>
+
+<script>
+// ============================================
+// INCOME PAGE
+// ============================================
+
+async function renderIncome() {
+  const mainContent = document.getElementById('main-content');
+  mainContent.innerHTML = '<div class="flex items-center justify-center h-64"><div class="spinner w-8 h-8"></div></div>';
+  
+  try {
+    const data = await apiGet('income');
+    state.currentData = data;
+    state.filteredData = data;
+    
+    mainContent.innerHTML = `
+      <div class="page-content space-y-5">
+        <!-- Action Bar -->
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <button onclick="showAddIncomeForm()" class="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors text-sm font-medium flex items-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+              Add Income
+            </button>
+          </div>
+          <div class="flex items-center gap-3 w-full sm:w-auto">
+            <div class="relative flex-1 sm:flex-none">
+              <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+              <input type="text" id="income-search" placeholder="Search income..." 
+                class="pl-9 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500 focus:border-primary-500 w-full sm:w-64">
+            </div>
+            <select id="income-filter-type" data-filter-field="Source Type" class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500">
+              <option value="">All Sources</option>
+              <option value="Sponsorship">Sponsorship</option>
+              <option value="AUK Funding">AUK Funding</option>
+              <option value="Other">Other</option>
+            </select>
+            <select id="income-filter-status" data-filter-field="Status" class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500">
+              <option value="">All Status</option>
+              <option value="Pending">Pending</option>
+              <option value="Partial">Partial</option>
+              <option value="Received">Received</option>
+              <option value="Overdue">Overdue</option>
+            </select>
+          </div>
+        </div>
+        
+        <!-- Income Table -->
+        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+          <div class="overflow-x-auto" id="income-table-container">
+            ${renderIncomeTableHTML(data)}
+          </div>
+          <div id="income-pagination"></div>
+        </div>
+      </div>
+    `;
+    
+    // Setup pagination
+    const paginated = paginateData(data);
+    document.getElementById('income-pagination').innerHTML = renderPagination(paginated.totalPages, 'income-pagination');
+    
+    // Setup search/filter
+    setupSearchFilter('income-search', ['income-search', 'income-filter-type', 'income-filter-status'], 'income', renderIncomeTable);
+    
+  } catch(error) {
+    mainContent.innerHTML = `<div class="text-center py-12 text-red-500">Failed to load income data: ${error.message}</div>`;
+  }
+}
+
+function renderIncomeTableHTML(data) {
+  const paginated = paginateData(state.filteredData || data);
+  
+  let html = `
+    <table class="data-table w-full text-sm">
+      <thead>
+        <tr class="bg-gray-50 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+          <th class="px-4 py-3">Date</th>
+          <th class="px-4 py-3">Source</th>
+          <th class="px-4 py-3">Sponsor</th>
+          <th class="px-4 py-3">Tier</th>
+          <th class="px-4 py-3 text-right">Committed</th>
+          <th class="px-4 py-3 text-right">Received</th>
+          <th class="px-4 py-3 text-right">Pending</th>
+          <th class="px-4 py-3">Status</th>
+          <th class="px-4 py-3">Mode</th>
+          <th class="px-4 py-3">Handled By</th>
+          <th class="px-4 py-3 text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+  `;
+  
+  if (paginated.data.length === 0) {
+    html += `<tr><td colspan="11" class="px-4 py-8 text-center text-gray-400">No income records found</td></tr>`;
+  }
+  
+  paginated.data.forEach(row => {
+    html += `
+      <tr class="hover:bg-gray-50">
+        <td class="px-4 py-3 whitespace-nowrap">${formatDate(row['Date'])}</td>
+        <td class="px-4 py-3">
+          <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${row['Source Type'] === 'Sponsorship' ? 'bg-primary-50 text-primary-700' : row['Source Type'] === 'AUK Funding' ? 'bg-green-50 text-green-700' : 'bg-gray-100 text-gray-700'}">${row['Source Type'] || '-'}</span>
+        </td>
+        <td class="px-4 py-3 font-medium text-gray-900">${row['Sponsor Name'] || '-'}</td>
+        <td class="px-4 py-3 text-gray-500">${row['Sponsorship Tier'] || '-'}</td>
+        <td class="px-4 py-3 text-right font-medium">${formatCurrency(row['Amount Committed'])}</td>
+        <td class="px-4 py-3 text-right text-green-600">${formatCurrency(row['Amount Received'])}</td>
+        <td class="px-4 py-3 text-right text-amber-600">${formatCurrency(row['Pending Amount'])}</td>
+        <td class="px-4 py-3">${getStatusBadge(row['Status'])}</td>
+        <td class="px-4 py-3 text-gray-500">${row['Payment Mode'] || '-'}</td>
+        <td class="px-4 py-3 text-gray-500">${row['Handled By'] || '-'}</td>
+        <td class="px-4 py-3">
+          <div class="flex items-center justify-center gap-2">
+            <button onclick="editIncome(${row._rowIndex})" class="p-1.5 rounded-lg hover:bg-blue-50 text-blue-600 transition-colors" title="Edit">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+            </button>
+            ${row['Invoice Link'] ? `<a href="${row['Invoice Link']}" target="_blank" class="p-1.5 rounded-lg hover:bg-green-50 text-green-600 transition-colors" title="View Invoice"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg></a>` : ''}
+          </div>
+        </td>
+      </tr>
+    `;
+  });
+  
+  html += '</tbody></table>';
+  return html;
+}
+
+function renderIncomeTable() {
+  const container = document.getElementById('income-table-container');
+  if (container) {
+    container.innerHTML = renderIncomeTableHTML(state.filteredData);
+    const paginated = paginateData(state.filteredData);
+    document.getElementById('income-pagination').innerHTML = renderPagination(paginated.totalPages, 'income-pagination');
+  }
+}
+
+function showAddIncomeForm() {
+  const fields = [
+    { name: 'date', label: 'Date', type: 'date', required: true },
+    { name: 'sourceType', label: 'Source Type', type: 'select', options: ['Sponsorship', 'AUK Funding', 'Other'], required: true },
+    { name: 'sponsorName', label: 'Sponsor Name', type: 'text', required: true, placeholder: 'Enter sponsor or source name' },
+    { name: 'sponsorshipTier', label: 'Sponsorship Tier', type: 'select', options: ['Title', 'Powered', 'Sponsored', 'Co-Sponsored', 'Partner', 'In-Kind'] },
+    { name: 'amountCommitted', label: 'Amount Committed (₹)', type: 'number', required: true, placeholder: '0.00' },
+    { name: 'amountReceived', label: 'Amount Received (₹)', type: 'number', placeholder: '0.00' },
+    { name: 'paymentMode', label: 'Payment Mode', type: 'select', options: ['Bank Transfer', 'Cash', 'Cheque', 'UPI', 'Other'] },
+    { name: 'invoiceLink', label: 'Invoice Link (Google Drive)', type: 'url', placeholder: 'https://drive.google.com/...' },
+    { name: 'handledBy', label: 'Handled By', type: 'text', placeholder: 'Person name' },
+    { name: 'remarks', label: 'Remarks', type: 'text', placeholder: 'Additional notes' }
+  ];
+  
+  openModal(buildForm(fields, {}, 'Add Income', 'submitIncome()'));
+}
+
+async function submitIncome() {
+  try {
+    const form = getFormData('modal-form');
+    
+    // Explicitly map frontend keys to Backend column expectations
+    const data = {
+      ...form,
+      "Amount Received": form.amountReceived,
+      "Amount Committed": form.amountCommitted
+    };
+
+    await apiPost('addIncome', data);
+    closeModal();
+    showToast('Income added successfully', 'success');
+    renderIncome();
+  } catch(error) {
+    showToast('Error: ' + error.message, 'error');
+  }
+}
+
+async function editIncome(rowIndex) {
+  try {
+    const data = state.currentData.find(r => r._rowIndex === rowIndex);
+    if (!data) return;
+    
+    const fields = [
+      { name: 'date', label: 'Date', type: 'date' },
+      { name: 'sourceType', label: 'Source Type', type: 'select', options: ['Sponsorship', 'AUK Funding', 'Other'] },
+      { name: 'sponsorName', label: 'Sponsor Name', type: 'text' },
+      { name: 'sponsorshipTier', label: 'Sponsorship Tier', type: 'select', options: ['Title', 'Powered', 'Sponsored', 'Co-Sponsored', 'Partner', 'In-Kind'] },
+      { name: 'amountCommitted', label: 'Amount Committed (₹)', type: 'number' },
+      { name: 'amountReceived', label: 'Amount Received (₹)', type: 'number' },
+      { name: 'paymentMode', label: 'Payment Mode', type: 'select', options: ['Bank Transfer', 'Cash', 'Cheque', 'UPI', 'Other'] },
+      { name: 'invoiceLink', label: 'Invoice Link', type: 'url' },
+      { name: 'handledBy', label: 'Handled By', type: 'text' },
+      { name: 'remarks', label: 'Remarks', type: 'text' }
+    ];
+    
+    state.editingId = rowIndex;
+    openModal(buildForm(fields, {
+      date: data['Date'] ? new Date(data['Date']).toISOString().split('T')[0] : '',
+      sourceType: data['Source Type'] || '',
+      sponsorName: data['Sponsor Name'] || '',
+      sponsorshipTier: data['Sponsorship Tier'] || '',
+      amountCommitted: data['Amount Committed'] || '',
+      amountReceived: data['Amount Received'] || '',
+      paymentMode: data['Payment Mode'] || '',
+      invoiceLink: data['Invoice Link'] || '',
+      handledBy: data['Handled By'] || '',
+      remarks: data['Remarks'] || ''
+    }, 'Edit Income', 'updateIncome()'));
+  } catch(error) {
+    showToast('Error: ' + error.message, 'error');
+  }
+}
+
+async function updateIncome() {
+  try {
+    const form = getFormData('modal-form');
+    
+    // Apply the same mapping for edits
+    const data = {
+      ...form,
+      "Amount Received": form.amountReceived,
+      "Amount Committed": form.amountCommitted
+    };
+
+    await apiPost('updateIncome', { id: state.editingId, ...data });
+    closeModal();
+    showToast('Income updated successfully', 'success');
+    renderIncome();
+  } catch(error) {
+    showToast('Error: ' + error.message, 'error');
+  }
+}
+</script>
+
+<script>
+// ============================================
+// EXPENSES PAGE
+// ============================================
+
+async function renderExpenses() {
+  const mainContent = document.getElementById('main-content');
+  mainContent.innerHTML = '<div class="flex items-center justify-center h-64"><div class="spinner w-8 h-8"></div></div>';
+  
+  try {
+    const [expenses, committees, events] = await Promise.all([
+      apiGet('expenses'),
+      apiGet('committees'),
+      apiGet('events')
+    ]);
+    
+    state.currentData = expenses;
+    state.filteredData = expenses;
+    state.committees = committees;
+    state.events = events;
+    
+    mainContent.innerHTML = `
+      <div class="page-content space-y-5">
+        <!-- Action Bar -->
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <button onclick="showAddExpenseForm()" class="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors text-sm font-medium flex items-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+              Add Expense
+            </button>
+          </div>
+          <div class="flex flex-wrap items-center gap-3 w-full sm:w-auto">
+            <div class="relative flex-1 sm:flex-none">
+              <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+              <input type="text" id="expense-search" placeholder="Search expenses..." 
+                class="pl-9 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500 w-full sm:w-56">
+            </div>
+            <select id="expense-filter-committee" data-filter-field="Committee" class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500">
+              <option value="">All Committees</option>
+              ${committees.map(c => `<option value="${c['Committee Name']}">${c['Committee Name']}</option>`).join('')}
+            </select>
+            <select id="expense-filter-category" data-filter-field="Category" class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500">
+              <option value="">All Categories</option>
+              <option value="Production">Production</option>
+              <option value="Marketing">Marketing</option>
+              <option value="Prize">Prize</option>
+              <option value="Logistics">Logistics</option>
+              <option value="Food">Food</option>
+              <option value="Tech">Tech</option>
+              <option value="Misc">Misc</option>
+            </select>
+            <select id="expense-filter-status" data-filter-field="Payment Status" class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500">
+              <option value="">All Status</option>
+              <option value="Pending">Pending</option>
+              <option value="Approved">Approved</option>
+              <option value="Paid">Paid</option>
+              <option value="Reimbursed">Reimbursed</option>
+            </select>
+          </div>
+        </div>
+        
+        <!-- Expenses Table -->
+        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+          <div class="overflow-x-auto" id="expense-table-container">
+            ${renderExpenseTableHTML(expenses)}
+          </div>
+          <div id="expense-pagination"></div>
+        </div>
+      </div>
+    `;
+    
+    const paginated = paginateData(expenses);
+    document.getElementById('expense-pagination').innerHTML = renderPagination(paginated.totalPages, 'expense-pagination');
+    
+    setupSearchFilter('expense-search', ['expense-search', 'expense-filter-committee', 'expense-filter-category', 'expense-filter-status'], 'expenses', renderExpensesTable);
+    
+  } catch(error) {
+    mainContent.innerHTML = `<div class="text-center py-12 text-red-500">Failed to load expenses: ${error.message}</div>`;
+  }
+}
+
+function renderExpenseTableHTML(data) {
+  const paginated = paginateData(state.filteredData || data);
+  
+  let html = `
+    <table class="data-table w-full text-sm">
+      <thead>
+        <tr class="bg-gray-50 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+          <th class="px-3 py-3">Expense ID</th>
+          <th class="px-3 py-3">Date</th>
+          <th class="px-3 py-3">Committee</th>
+          <th class="px-3 py-3">Event</th>
+          <th class="px-3 py-3">Category</th>
+          <th class="px-3 py-3">Description</th>
+          <th class="px-3 py-3">Vendor</th>
+          <th class="px-3 py-3 text-right">Estimated</th>
+          <th class="px-3 py-3 text-right">Approved</th>
+          <th class="px-3 py-3 text-right">Spent</th>
+          <th class="px-3 py-3">Status</th>
+          <th class="px-3 py-3">Mode</th>
+          <th class="px-3 py-3 text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+  `;
+  
+  if (paginated.data.length === 0) {
+    html += `<tr><td colspan="13" class="px-4 py-8 text-center text-gray-400">No expense records found</td></tr>`;
+  }
+  
+  const categoryColors = {
+    'Production': 'bg-purple-50 text-purple-700',
+    'Marketing': 'bg-blue-50 text-blue-700',
+    'Prize': 'bg-amber-50 text-amber-700',
+    'Logistics': 'bg-gray-100 text-gray-700',
+    'Food': 'bg-orange-50 text-orange-700',
+    'Tech': 'bg-cyan-50 text-cyan-700',
+    'Misc': 'bg-gray-50 text-gray-600'
+  };
+  
+  paginated.data.forEach(row => {
+    html += `
+      <tr class="hover:bg-gray-50" data-expense-id="${row['Expense ID']}">
+        <td class="px-3 py-3 font-mono text-xs font-semibold text-primary-600">${row['Expense ID'] || '-'}</td>
+        <td class="px-3 py-3 whitespace-nowrap">${formatDate(row['Date'])}</td>
+        <td class="px-3 py-3 text-gray-700">${row['Committee'] || '-'}</td>
+        <td class="px-3 py-3 text-gray-500">${row['Event'] || '-'}</td>
+        <td class="px-3 py-3"><span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium ${categoryColors[row['Category']] || 'bg-gray-100 text-gray-700'}">${row['Category'] || 'Misc'}</span></td>
+        <td class="px-3 py-3 max-w-xs truncate" title="${row['Description'] || ''}">${row['Description'] || '-'}</td>
+        <td class="px-3 py-3 text-gray-500">${row['Vendor Name'] || '-'}</td>
+        <td class="px-3 py-3 text-right">${formatCurrency(row['Amount Estimated'])}</td>
+        <td class="px-3 py-3 text-right text-blue-600">${formatCurrency(row['Amount Approved'])}</td>
+        <td class="px-3 py-3 text-right font-medium text-red-600">${formatCurrency(row['Amount Spent'])}</td>
+        <td class="px-3 py-3">${getStatusBadge(row['Payment Status'])}</td>
+        <td class="px-3 py-3 text-gray-500">${row['Payment Mode'] || '-'}</td>
+        <td class="px-3 py-3">
+          <div class="flex items-center justify-center gap-1">
+            <button onclick="editExpense('${row['Expense ID']}')" class="p-1.5 rounded-lg hover:bg-blue-50 text-blue-600 transition-colors" title="Edit">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+            </button>
+            ${row['Invoice Link'] ? `<a href="${row['Invoice Link']}" target="_blank" class="p-1.5 rounded-lg hover:bg-green-50 text-green-600 transition-colors" title="Invoice"><svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg></a>` : ''}
+            <button onclick="deleteExpenseConfirm('${row['Expense ID']}')" class="p-1.5 rounded-lg hover:bg-red-50 text-red-600 transition-colors" title="Delete">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+    `;
+  });
+  
+  html += '</tbody></table>';
+  return html;
+}
+
+function renderExpensesTable() {
+  const container = document.getElementById('expense-table-container');
+  if (container) {
+    container.innerHTML = renderExpenseTableHTML(state.filteredData);
+    const paginated = paginateData(state.filteredData);
+    document.getElementById('expense-pagination').innerHTML = renderPagination(paginated.totalPages, 'expense-pagination');
+  }
+}
+
+function showAddExpenseForm() {
+  // 1. Guard against async timing issues
+  if (!state.committees || state.committees.length === 0) {
+    console.log('Committees:', state.committees);
+    showToast('Committees not loaded yet. Try again.', 'error');
+    return;
+  }
+
+  // 2. Robust mapping against schema mismatches
+  const committeeOptions = state.committees
+    ? state.committees
+        .map(c => c['Committee Name'] || c['Committee'] || '')
+        .filter(Boolean)
+    : [];
+    
+  const eventOptions = state.events ? state.events.map(e => e['Event Name']).filter(Boolean) : [];
+  
+  const fields = [
+    { name: 'date', label: 'Date', type: 'date', required: true },
+    { name: 'committee', label: 'Committee', type: 'select', options: committeeOptions, required: true },
+    { name: 'event', label: 'Event', type: 'select', options: eventOptions },
+    { name: 'category', label: 'Category', type: 'select', options: ['Production', 'Marketing', 'Prize', 'Logistics', 'Food', 'Tech', 'Misc'], required: true },
+    { name: 'description', label: 'Description', type: 'text', required: true, placeholder: 'What is this expense for?' },
+    { name: 'vendorName', label: 'Vendor Name', type: 'text', placeholder: 'Vendor or service provider' },
+    { name: 'amountEstimated', label: 'Amount Estimated (₹)', type: 'number', required: true, placeholder: '0.00' },
+    { name: 'amountApproved', label: 'Amount Approved (₹)', type: 'number', placeholder: '0.00' },
+    { name: 'amountSpent', label: 'Amount Spent (₹)', type: 'number', placeholder: '0.00' },
+    { name: 'paymentStatus', label: 'Payment Status', type: 'select', options: ['Pending', 'Approved', 'Paid', 'Reimbursed'] },
+    { name: 'paymentMode', label: 'Payment Mode', type: 'select', options: ['Bank Transfer', 'Cash', 'Cheque', 'UPI', 'Other'] },
+    { name: 'invoiceLink', label: 'Invoice Link (Google Drive)', type: 'url', placeholder: 'https://drive.google.com/...' },
+    { name: 'approvedBy', label: 'Approved By', type: 'text', placeholder: 'Approver name' },
+    { name: 'remarks', label: 'Remarks', type: 'text', placeholder: 'Additional notes' }
+  ];
+  
+  openModal(buildForm(fields, {}, 'Add Expense', 'submitExpense()'));
+}
+
+async function submitExpense() {
+  try {
+    const data = getFormData('modal-form');
+    await apiPost('addExpense', data);
+    closeModal();
+    showToast('Expense added successfully', 'success');
+    renderExpenses();
+  } catch(error) {
+    showToast('Error: ' + error.message, 'error');
+  }
+}
+
+async function editExpense(expenseId) {
+  try {
+    const data = state.currentData.find(r => r['Expense ID'] === expenseId);
+    if (!data) return;
+    
+    const committeeOptions = state.committees ? state.committees.map(c => c['Committee Name']).filter(Boolean) : [];
+    const eventOptions = state.events ? state.events.map(e => e['Event Name']).filter(Boolean) : [];
+    
+    const fields = [
+      { name: 'date', label: 'Date', type: 'date' },
+      { name: 'committee', label: 'Committee', type: 'select', options: committeeOptions },
+      { name: 'event', label: 'Event', type: 'select', options: eventOptions },
+      { name: 'category', label: 'Category', type: 'select', options: ['Production', 'Marketing', 'Prize', 'Logistics', 'Food', 'Tech', 'Misc'] },
+      { name: 'description', label: 'Description', type: 'text' },
+      { name: 'vendorName', label: 'Vendor Name', type: 'text' },
+      { name: 'amountEstimated', label: 'Amount Estimated (₹)', type: 'number' },
+      { name: 'amountApproved', label: 'Amount Approved (₹)', type: 'number' },
+      { name: 'amountSpent', label: 'Amount Spent (₹)', type: 'number' },
+      { name: 'paymentStatus', label: 'Payment Status', type: 'select', options: ['Pending', 'Approved', 'Paid', 'Reimbursed'] },
+      { name: 'paymentMode', label: 'Payment Mode', type: 'select', options: ['Bank Transfer', 'Cash', 'Cheque', 'UPI', 'Other'] },
+      { name: 'invoiceLink', label: 'Invoice Link', type: 'url' },
+      { name: 'approvedBy', label: 'Approved By', type: 'text' },
+      { name: 'remarks', label: 'Remarks', type: 'text' }
+    ];
+    
+    state.editingId = expenseId;
+    openModal(buildForm(fields, {
+      date: data['Date'] ? new Date(data['Date']).toISOString().split('T')[0] : '',
+      committee: data['Committee'] || '',
+      event: data['Event'] || '',
+      category: data['Category'] || '',
+      description: data['Description'] || '',
+      vendorName: data['Vendor Name'] || '',
+      amountEstimated: data['Amount Estimated'] || '',
+      amountApproved: data['Amount Approved'] || '',
+      amountSpent: data['Amount Spent'] || '',
+      paymentStatus: data['Payment Status'] || '',
+      paymentMode: data['Payment Mode'] || '',
+      invoiceLink: data['Invoice Link'] || '',
+      approvedBy: data['Approved By'] || '',
+      remarks: data['Remarks'] || ''
+    }, 'Edit Expense', 'updateExpense()'));
+  } catch(error) {
+    showToast('Error: ' + error.message, 'error');
+  }
+}
+
+async function updateExpense() {
+  try {
+    const data = getFormData('modal-form');
+    await apiPost('updateExpense', { id: state.editingId, ...data });
+    closeModal();
+    showToast('Expense updated successfully', 'success');
+    renderExpenses();
+  } catch(error) {
+    showToast('Error: ' + error.message, 'error');
+  }
+}
+
+function deleteExpenseConfirm(expenseId) {
+  const content = `
+    <div class="p-6">
+      <div class="flex items-center gap-4 mb-4">
+        <div class="w-12 h-12 bg-red-50 rounded-full flex items-center justify-center flex-shrink-0">
+          <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+        </div>
+        <div>
+          <h3 class="text-lg font-semibold text-gray-900">Delete Expense</h3>
+          <p class="text-sm text-gray-500">Are you sure you want to delete <span class="font-mono font-medium text-primary-600">${expenseId}</span>? This action cannot be undone.</p>
+        </div>
+      </div>
+      <div class="flex justify-end gap-3 mt-6">
+        <button onclick="closeModal()" class="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 text-sm font-medium">Cancel</button>
+        <button onclick="confirmDeleteExpense('${expenseId}')" class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 text-sm font-medium">Delete Expense</button>
+      </div>
+    </div>
+  `;
+  openModal(content);
+}
+
+async function confirmDeleteExpense(expenseId) {
+  try {
+    await apiPost('deleteExpense', { id: expenseId });
+    closeModal();
+    showToast('Expense deleted successfully', 'success');
+    renderExpenses();
+  } catch(error) {
+    showToast('Error: ' + error.message, 'error');
+  }
+}
+</script>
+
+<script>
+// ============================================
+// COMMITTEES PAGE
+// ============================================
+
+async function renderCommittees() {
+  const mainContent = document.getElementById('main-content');
+  mainContent.innerHTML = '<div class="flex items-center justify-center h-64"><div class="spinner w-8 h-8"></div></div>';
+  
+  try {
+    const committees = await apiGet('committees');
+    
+    mainContent.innerHTML = `
+      <div class="page-content space-y-5">
+        <div class="flex items-center justify-between">
+          <p class="text-sm text-gray-500">${committees.length} committees registered</p>
+          <button onclick="showAddCommitteeForm()" class="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors text-sm font-medium flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            Add Committee
+          </button>
+        </div>
+        
+        <!-- Committees Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          ${committees.length === 0 ? '<div class="col-span-2 text-center py-12 text-gray-400 bg-white rounded-xl border border-gray-200">No committees found. Click "Add Committee" to get started.</div>' : ''}
+          ${committees.map(c => {
+            const utilization = parseFloat(c['Utilization %']) || 0;
+            const remaining = parseFloat(c['Remaining Budget']) || 0;
+            const total = parseFloat(c['Total Available Budget']) || 0;
+            const spent = parseFloat(c['Total Spent']) || 0;
+            
+            return `
+              <div class="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition-shadow">
+                <div class="flex items-start justify-between mb-4">
+                  <div>
+                    <h3 class="text-base font-semibold text-gray-900">${c['Committee Name'] || 'Unnamed'}</h3>
+                    <p class="text-xs text-gray-500 mt-0.5">Budget: ${formatCurrency(c['Budget Approved'])} + Sponsorship: ${formatCurrency(c['Sponsorship Allocated'])}</p>
+                  </div>
+                  <span class="text-lg font-bold ${remaining >= 0 ? 'text-gray-900' : 'text-red-600'}">${formatCurrency(total)}</span>
+                </div>
+                
+                ${getProgressBar(utilization)}
+                
+                <div class="grid grid-cols-3 gap-4 mt-4 pt-4 border-t border-gray-100">
+                  <div class="text-center">
+                    <p class="text-xs text-gray-500">Available</p>
+                    <p class="text-sm font-semibold text-gray-900">${formatCurrency(total)}</p>
+                  </div>
+                  <div class="text-center">
+                    <p class="text-xs text-gray-500">Spent</p>
+                    <p class="text-sm font-semibold text-red-600">${formatCurrency(spent)}</p>
+                  </div>
+                  <div class="text-center">
+                    <p class="text-xs text-gray-500">Remaining</p>
+                    <p class="text-sm font-semibold ${remaining < 0 ? 'text-red-600' : 'text-green-600'}">${formatCurrency(remaining)}</p>
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+        
+        <!-- Detailed Table -->
+        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="data-table w-full text-sm">
+              <thead>
+                <tr class="bg-gray-50 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  <th class="px-4 py-3">Committee</th>
+                  <th class="px-4 py-3 text-right">Budget Required</th>
+                  <th class="px-4 py-3 text-right">Budget Approved</th>
+                  <th class="px-4 py-3 text-right">Sponsorship</th>
+                  <th class="px-4 py-3 text-right">Total Available</th>
+                  <th class="px-4 py-3 text-right">Spent</th>
+                  <th class="px-4 py-3 text-right">Remaining</th>
+                  <th class="px-4 py-3">Utilization</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-100">
+                ${committees.map(c => `
+                  <tr class="hover:bg-gray-50">
+                    <td class="px-4 py-3 font-medium text-gray-900">${c['Committee Name'] || '-'}</td>
+                    <td class="px-4 py-3 text-right">${formatCurrency(c['Budget Required'])}</td>
+                    <td class="px-4 py-3 text-right text-primary-600">${formatCurrency(c['Budget Approved'])}</td>
+                    <td class="px-4 py-3 text-right text-green-600">${formatCurrency(c['Sponsorship Allocated'])}</td>
+                    <td class="px-4 py-3 text-right font-medium">${formatCurrency(c['Total Available Budget'])}</td>
+                    <td class="px-4 py-3 text-right text-red-600">${formatCurrency(c['Total Spent'])}</td>
+                    <td class="px-4 py-3 text-right ${parseFloat(c['Remaining Budget']) < 0 ? 'text-red-600 font-semibold' : 'text-green-600'}">${formatCurrency(c['Remaining Budget'])}</td>
+                    <td class="px-4 py-3 w-48">${getProgressBar(c['Utilization %'])}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    `;
+  } catch(error) {
+    mainContent.innerHTML = `<div class="text-center py-12 text-red-500">Failed to load committees: ${error.message}</div>`;
+  }
+}
+
+// ─── COMMITTEE FORM ───
+
+function showAddCommitteeForm() {
+  const fields = [
+    { name: 'committeeName', label: 'Committee Name', type: 'text', required: true, placeholder: 'e.g. Technical Committee' },
+    { name: 'budgetRequired', label: 'Budget Required (₹)', type: 'number', placeholder: '0.00' },
+    { name: 'budgetApproved', label: 'Budget Approved (₹)', type: 'number', placeholder: '0.00' },
+    { name: 'sponsorshipAllocated', label: 'Sponsorship Allocated (₹)', type: 'number', placeholder: '0.00' }
+  ];
+  openModal(buildForm(fields, {}, 'Add Committee', 'submitCommittee()'));
+}
+
+async function submitCommittee() {
+  try {
+    const data = getFormData('modal-form');
+    await apiPost('addCommittee', data);
+    closeModal();
+    showToast('Committee added successfully', 'success');
+    state.cache = {};
+    renderCommittees();
+  } catch(error) {
+    showToast('Error: ' + error.message, 'error');
+  }
+}
+
+// ─── EVENT FORM ───
+
+function showAddEventForm() {
+  const fields = [
+    { name: 'eventName', label: 'Event Name', type: 'text', required: true, placeholder: 'e.g. Hackathon Night' },
+    { name: 'category', label: 'Category', type: 'select', options: ['Competition', 'Workshop', 'Cultural', 'Sports', 'Technical', 'Other'] },
+    { name: 'budgetRequired', label: 'Budget Required (₹)', type: 'number', placeholder: '0.00' },
+    { name: 'budgetApproved', label: 'Budget Approved (₹)', type: 'number', placeholder: '0.00' },
+    { name: 'sponsorshipAssigned', label: 'Sponsorship Assigned (₹)', type: 'number', placeholder: '0.00' }
+  ];
+  openModal(buildForm(fields, {}, 'Add Event', 'submitEvent()'));
+}
+
+async function submitEvent() {
+  try {
+    const data = getFormData('modal-form');
+    await apiPost('addEvent', data);
+    closeModal();
+    showToast('Event added successfully', 'success');
+    state.cache = {};
+    renderEvents();
+  } catch(error) {
+    showToast('Error: ' + error.message, 'error');
+  }
+}
+
+// ─── VENDOR FORM ───
+
+function showAddVendorForm() {
+  const committeeOptions = state.committees ? state.committees.map(c => c['Committee Name']).filter(Boolean) : [];
+  const fields = [
+    { name: 'vendorName', label: 'Vendor Name', type: 'text', required: true, placeholder: 'Company or individual name' },
+    { name: 'serviceType', label: 'Service Type', type: 'text', required: true, placeholder: 'e.g. Catering, AV Equipment' },
+    { name: 'committee', label: 'Committee', type: 'select', options: committeeOptions },
+    { name: 'totalAmount', label: 'Total Amount (₹)', type: 'number', required: true, placeholder: '0.00' },
+    { name: 'paidAmount', label: 'Amount Paid (₹)', type: 'number', placeholder: '0.00' },
+    { name: 'dueDate', label: 'Due Date', type: 'date' },
+    { name: 'contactInfo', label: 'Contact Info', type: 'text', placeholder: 'Phone / Email' }
+  ];
+  openModal(buildForm(fields, {}, 'Add Vendor', 'submitVendor()'));
+}
+
+async function submitVendor() {
+  try {
+    const data = getFormData('modal-form');
+    await apiPost('addVendor', data);
+    closeModal();
+    showToast('Vendor added successfully', 'success');
+    state.cache = {};
+    renderVendors();
+  } catch(error) {
+    showToast('Error: ' + error.message, 'error');
+  }
+}
+
+
+async function renderEvents() {
+  const mainContent = document.getElementById('main-content');
+  mainContent.innerHTML = '<div class="flex items-center justify-center h-64"><div class="spinner w-8 h-8"></div></div>';
+  
+  try {
+    const events = await apiGet('events');
+    
+    mainContent.innerHTML = `
+      <div class="page-content space-y-5">
+        <div class="flex items-center justify-between">
+          <p class="text-sm text-gray-500">${events.length} events registered</p>
+          <button onclick="showAddEventForm()" class="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors text-sm font-medium flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            Add Event
+          </button>
+        </div>
+        
+        <!-- Events Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+          ${events.length === 0 ? '<div class="col-span-3 text-center py-12 text-gray-400 bg-white rounded-xl border border-gray-200">No events found. Add events in the Google Sheet.</div>' : ''}
+          ${events.map(e => {
+            const total = parseFloat(e['Total Budget Available']) || 0;
+            const spent = parseFloat(e['Total Spent']) || 0;
+            const remaining = parseFloat(e['Remaining Budget']) || 0;
+            const utilization = total > 0 ? (spent / total) * 100 : 0;
+            
+            return `
+              <div class="bg-white rounded-xl border border-gray-200 p-5 hover:shadow-md transition-shadow">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-primary-50 text-primary-700">${e['Category'] || 'General'}</span>
+                  <span class="text-sm font-bold ${remaining >= 0 ? 'text-gray-900' : 'text-red-600'}">${formatCurrency(total)}</span>
+                </div>
+                <h3 class="text-base font-semibold text-gray-900 mb-3">${e['Event Name'] || 'Unnamed'}</h3>
+                ${getProgressBar(utilization)}
+                <div class="flex items-center justify-between mt-3 text-xs text-gray-500">
+                  <span>Spent: <span class="font-medium text-red-600">${formatCurrency(spent)}</span></span>
+                  <span>Left: <span class="font-medium ${remaining < 0 ? 'text-red-600' : 'text-green-600'}">${formatCurrency(remaining)}</span></span>
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+        
+        <!-- Detailed Table -->
+        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="data-table w-full text-sm">
+              <thead>
+                <tr class="bg-gray-50 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+                  <th class="px-4 py-3">Event Name</th>
+                  <th class="px-4 py-3">Category</th>
+                  <th class="px-4 py-3 text-right">Budget Required</th>
+                  <th class="px-4 py-3 text-right">Budget Approved</th>
+                  <th class="px-4 py-3 text-right">Sponsorship</th>
+                  <th class="px-4 py-3 text-right">Total Available</th>
+                  <th class="px-4 py-3 text-right">Spent</th>
+                  <th class="px-4 py-3 text-right">Remaining</th>
+                </tr>
+              </thead>
+              <tbody class="divide-y divide-gray-100">
+                ${events.map(e => `
+                  <tr class="hover:bg-gray-50">
+                    <td class="px-4 py-3 font-medium text-gray-900">${e['Event Name'] || '-'}</td>
+                    <td class="px-4 py-3"><span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-primary-50 text-primary-700">${e['Category'] || '-'}</span></td>
+                    <td class="px-4 py-3 text-right">${formatCurrency(e['Budget Required'])}</td>
+                    <td class="px-4 py-3 text-right text-primary-600">${formatCurrency(e['Budget Approved'])}</td>
+                    <td class="px-4 py-3 text-right text-green-600">${formatCurrency(e['Sponsorship Assigned'])}</td>
+                    <td class="px-4 py-3 text-right font-medium">${formatCurrency(e['Total Budget Available'])}</td>
+                    <td class="px-4 py-3 text-right text-red-600">${formatCurrency(e['Total Spent'])}</td>
+                    <td class="px-4 py-3 text-right ${parseFloat(e['Remaining Budget']) < 0 ? 'text-red-600 font-semibold' : 'text-green-600'}">${formatCurrency(e['Remaining Budget'])}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    `;
+  } catch(error) {
+    mainContent.innerHTML = `<div class="text-center py-12 text-red-500">Failed to load events: ${error.message}</div>`;
+  }
+}
+
+// ============================================
+// VENDORS PAGE
+// ============================================
+
+async function renderVendors() {
+  const mainContent = document.getElementById('main-content');
+  mainContent.innerHTML = '<div class="flex items-center justify-center h-64"><div class="spinner w-8 h-8"></div></div>';
+  
+  try {
+    const vendors = await apiGet('vendors');
+    state.currentData = vendors;
+    state.filteredData = vendors;
+    
+    mainContent.innerHTML = `
+      <div class="page-content space-y-5">
+        <!-- Summary Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div class="bg-white rounded-xl border border-gray-200 p-4">
+            <p class="text-xs text-gray-500 font-medium uppercase">Total Vendor Payments</p>
+            <p class="text-xl font-bold text-gray-900 mt-1">${formatCurrency(vendors.reduce((s, v) => s + (parseFloat(v['Total Amount']) || 0), 0))}</p>
+          </div>
+          <div class="bg-white rounded-xl border border-gray-200 p-4">
+            <p class="text-xs text-gray-500 font-medium uppercase">Total Paid</p>
+            <p class="text-xl font-bold text-green-600 mt-1">${formatCurrency(vendors.reduce((s, v) => s + (parseFloat(v['Paid Amount']) || 0), 0))}</p>
+          </div>
+          <div class="bg-white rounded-xl border border-gray-200 p-4">
+            <p class="text-xs text-gray-500 font-medium uppercase">Total Pending</p>
+            <p class="text-xl font-bold text-amber-600 mt-1">${formatCurrency(vendors.reduce((s, v) => s + (parseFloat(v['Pending Amount']) || 0), 0))}</p>
+          </div>
+        </div>
+        
+        <!-- Filters -->
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+          <button onclick="showAddVendorForm()" class="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors text-sm font-medium flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            Add Vendor
+          </button>
+          <div class="flex items-center gap-3">
+          <div class="relative flex-1 sm:flex-none">
+            <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+            <input type="text" id="vendor-search" placeholder="Search vendors..." 
+              class="pl-9 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500 w-full sm:w-64">
+          </div>
+          <select id="vendor-filter-status" data-filter-field="Status" class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500">
+            <option value="">All Status</option>
+            <option value="Active">Active</option>
+            <option value="Paid">Paid</option>
+            <option value="Overdue">Overdue</option>
+          </select>
+          </div>
+        </div>
+        
+        <!-- Vendors Table -->
+        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+          <div class="overflow-x-auto" id="vendor-table-container">
+            ${renderVendorsTableHTML(vendors)}
+          </div>
+          <div id="vendor-pagination"></div>
+        </div>
+      </div>
+    `;
+    
+    const paginated = paginateData(vendors);
+    document.getElementById('vendor-pagination').innerHTML = renderPagination(paginated.totalPages, 'vendor-pagination');
+    
+    setupSearchFilter('vendor-search', ['vendor-search', 'vendor-filter-status'], 'vendors', renderVendorsTable);
+    
+  } catch(error) {
+    mainContent.innerHTML = `<div class="text-center py-12 text-red-500">Failed to load vendors: ${error.message}</div>`;
+  }
+}
+
+function renderVendorsTableHTML(data) {
+  const paginated = paginateData(state.filteredData || data);
+  
+  let html = `
+    <table class="data-table w-full text-sm">
+      <thead>
+        <tr class="bg-gray-50 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+          <th class="px-4 py-3">Vendor Name</th>
+          <th class="px-4 py-3">Service Type</th>
+          <th class="px-4 py-3">Committee</th>
+          <th class="px-4 py-3 text-right">Total Amount</th>
+          <th class="px-4 py-3 text-right">Paid</th>
+          <th class="px-4 py-3 text-right">Pending</th>
+          <th class="px-4 py-3">Due Date</th>
+          <th class="px-4 py-3">Contact</th>
+          <th class="px-4 py-3">Status</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+  `;
+  
+  if (paginated.data.length === 0) {
+    html += `<tr><td colspan="9" class="px-4 py-8 text-center text-gray-400">No vendors found</td></tr>`;
+  }
+  
+  paginated.data.forEach(v => {
+    const pending = parseFloat(v['Pending Amount']) || 0;
+    const total = parseFloat(v['Total Amount']) || 0;
+    const paidPercent = total > 0 ? ((parseFloat(v['Paid Amount']) || 0) / total) * 100 : 0;
+    
+    html += `
+      <tr class="hover:bg-gray-50">
+        <td class="px-4 py-3 font-medium text-gray-900">${v['Vendor Name'] || '-'}</td>
+        <td class="px-4 py-3 text-gray-500">${v['Service Type'] || '-'}</td>
+        <td class="px-4 py-3 text-gray-500">${v['Committee'] || '-'}</td>
+        <td class="px-4 py-3 text-right font-medium">${formatCurrency(v['Total Amount'])}</td>
+        <td class="px-4 py-3 text-right text-green-600">${formatCurrency(v['Paid Amount'])}</td>
+        <td class="px-4 py-3 text-right ${pending > 0 ? 'text-amber-600 font-medium' : 'text-gray-400'}">${formatCurrency(v['Pending Amount'])}</td>
+        <td class="px-4 py-3 whitespace-nowrap">${formatDate(v['Due Date'])}</td>
+        <td class="px-4 py-3 text-gray-500 text-xs">${v['Contact Info'] || '-'}</td>
+        <td class="px-4 py-3">${getStatusBadge(v['Status'])}</td>
+      </tr>
+    `;
+  });
+  
+  html += '</tbody></table>';
+  return html;
+}
+
+function renderVendorsTable() {
+  const container = document.getElementById('vendor-table-container');
+  if (container) {
+    container.innerHTML = renderVendorsTableHTML(state.filteredData);
+    const paginated = paginateData(state.filteredData);
+    document.getElementById('vendor-pagination').innerHTML = renderPagination(paginated.totalPages, 'vendor-pagination');
+  }
+}
+</script>
+
+<script>
+// ============================================
+// APPROVALS PAGE
+// ============================================
+
+async function renderApprovals() {
+  const mainContent = document.getElementById('main-content');
+  mainContent.innerHTML = '<div class="flex items-center justify-center h-64"><div class="spinner w-8 h-8"></div></div>';
+  
+  try {
+    const approvals = await apiGet('approvals');
+    state.currentData = approvals;
+    state.filteredData = approvals;
+    
+    const pendingCount = approvals.filter(a => a['Status'] === 'Pending').length;
+    const approvedCount = approvals.filter(a => a['Status'] === 'Approved').length;
+    const rejectedCount = approvals.filter(a => a['Status'] === 'Rejected').length;
+    const totalRequested = approvals.reduce((s, a) => s + (parseFloat(a['Amount Requested']) || 0), 0);
+    const totalApproved = approvals.reduce((s, a) => s + (parseFloat(a['Amount Approved']) || 0), 0);
+    
+    mainContent.innerHTML = `
+      <div class="page-content space-y-5">
+        <!-- Summary Cards -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div class="bg-white rounded-xl border border-gray-200 p-4">
+            <p class="text-xs text-gray-500 font-medium uppercase">Pending</p>
+            <p class="text-2xl font-bold text-amber-600 mt-1">${pendingCount}</p>
+          </div>
+          <div class="bg-white rounded-xl border border-gray-200 p-4">
+            <p class="text-xs text-gray-500 font-medium uppercase">Approved</p>
+            <p class="text-2xl font-bold text-green-600 mt-1">${approvedCount}</p>
+          </div>
+          <div class="bg-white rounded-xl border border-gray-200 p-4">
+            <p class="text-xs text-gray-500 font-medium uppercase">Total Requested</p>
+            <p class="text-lg font-bold text-gray-900 mt-1">${formatCurrency(totalRequested)}</p>
+          </div>
+          <div class="bg-white rounded-xl border border-gray-200 p-4">
+            <p class="text-xs text-gray-500 font-medium uppercase">Total Approved</p>
+            <p class="text-lg font-bold text-green-600 mt-1">${formatCurrency(totalApproved)}</p>
+          </div>
+        </div>
+        
+        <!-- Action Bar -->
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <button onclick="showAddApprovalForm()" class="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors text-sm font-medium flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            New Request
+          </button>
+          <div class="flex items-center gap-3">
+            <div class="relative">
+              <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+              <input type="text" id="approval-search" placeholder="Search requests..." 
+                class="pl-9 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500 w-full sm:w-56">
+            </div>
+            <select id="approval-filter-status" data-filter-field="Status" class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500">
+              <option value="">All Status</option>
+              <option value="Pending">Pending</option>
+              <option value="Approved">Approved</option>
+              <option value="Rejected">Rejected</option>
+              <option value="Escalated">Escalated</option>
+            </select>
+          </div>
+        </div>
+        
+        <!-- Approvals Table -->
+        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+          <div class="overflow-x-auto" id="approval-table-container">
+            ${renderApprovalsTableHTML(approvals)}
+          </div>
+          <div id="approval-pagination"></div>
+        </div>
+      </div>
+    `;
+    
+    const paginated = paginateData(approvals);
+    document.getElementById('approval-pagination').innerHTML = renderPagination(paginated.totalPages, 'approval-pagination');
+    
+    setupSearchFilter('approval-search', ['approval-search', 'approval-filter-status'], 'approvals', renderApprovalsTable);
+    
+  } catch(error) {
+    mainContent.innerHTML = `<div class="text-center py-12 text-red-500">Failed to load approvals: ${error.message}</div>`;
+  }
+}
+
+function renderApprovalsTableHTML(data) {
+  const paginated = paginateData(state.filteredData || data);
+  
+  let html = `
+    <table class="data-table w-full text-sm">
+      <thead>
+        <tr class="bg-gray-50 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+          <th class="px-4 py-3">Request ID</th>
+          <th class="px-4 py-3">Date</th>
+          <th class="px-4 py-3">Requested By</th>
+          <th class="px-4 py-3">Committee</th>
+          <th class="px-4 py-3">Purpose</th>
+          <th class="px-4 py-3 text-right">Requested</th>
+          <th class="px-4 py-3 text-right">Approved</th>
+          <th class="px-4 py-3">Approved By</th>
+          <th class="px-4 py-3">Status</th>
+          <th class="px-4 py-3 text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+  `;
+  
+  if (paginated.data.length === 0) {
+    html += `<tr><td colspan="10" class="px-4 py-8 text-center text-gray-400">No approval requests found</td></tr>`;
+  }
+  
+  paginated.data.forEach(a => {
+    html += `
+      <tr class="hover:bg-gray-50">
+        <td class="px-4 py-3 font-mono text-xs font-semibold text-primary-600">${a['Request ID'] || '-'}</td>
+        <td class="px-4 py-3 whitespace-nowrap">${formatDate(a['Request Date'])}</td>
+        <td class="px-4 py-3 font-medium text-gray-900">${a['Requested By'] || '-'}</td>
+        <td class="px-4 py-3 text-gray-500">${a['Committee'] || '-'}</td>
+        <td class="px-4 py-3 max-w-xs truncate" title="${a['Purpose'] || ''}">${a['Purpose'] || '-'}</td>
+        <td class="px-4 py-3 text-right font-medium text-gray-900">${formatCurrency(a['Amount Requested'])}</td>
+        <td class="px-4 py-3 text-right text-green-600">${formatCurrency(a['Amount Approved'])}</td>
+        <td class="px-4 py-3 text-gray-500">${a['Approved By'] || '-'}</td>
+        <td class="px-4 py-3">${getStatusBadge(a['Status'])}</td>
+        <td class="px-4 py-3">
+          <div class="flex items-center justify-center gap-1">
+            <button onclick="editApproval('${a['Request ID']}')" class="p-1.5 rounded-lg hover:bg-blue-50 text-blue-600 transition-colors" title="Edit">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+            </button>
+          </div>
+        </td>
+      </tr>
+    `;
+  });
+  
+  html += '</tbody></table>';
+  return html;
+}
+
+function renderApprovalsTable() {
+  const container = document.getElementById('approval-table-container');
+  if (container) {
+    container.innerHTML = renderApprovalsTableHTML(state.filteredData);
+    const paginated = paginateData(state.filteredData);
+    document.getElementById('approval-pagination').innerHTML = renderPagination(paginated.totalPages, 'approval-pagination');
+  }
+}
+
+function showAddApprovalForm() {
+  const committeeOptions = state.committees ? state.committees.map(c => c['Committee Name']).filter(Boolean) : [];
+  
+  const fields = [
+    { name: 'requestedBy', label: 'Requested By', type: 'text', required: true, placeholder: 'Your name' },
+    { name: 'committee', label: 'Committee', type: 'select', options: committeeOptions, required: true },
+    { name: 'purpose', label: 'Purpose', type: 'text', required: true, placeholder: 'What do you need this budget for?' },
+    { name: 'amountRequested', label: 'Amount Requested (₹)', type: 'number', required: true, placeholder: '0.00' },
+    { name: 'notes', label: 'Notes', type: 'textarea', placeholder: 'Additional details' }
+  ];
+  
+  openModal(buildForm(fields, {}, 'New Approval Request', 'submitApproval()'));
+}
+
+async function submitApproval() {
+  try {
+    const data = getFormData('modal-form');
+    await apiPost('addApproval', data);
+    closeModal();
+    showToast('Approval request submitted', 'success');
+    renderApprovals();
+  } catch(error) {
+    showToast('Error: ' + error.message, 'error');
+  }
+}
+
+async function editApproval(requestId) {
+  try {
+    const data = state.currentData.find(r => r['Request ID'] === requestId);
+    if (!data) return;
+    
+    const fields = [
+      { name: 'requestedBy', label: 'Requested By', type: 'text' },
+      { name: 'committee', label: 'Committee', type: 'text' },
+      { name: 'purpose', label: 'Purpose', type: 'text' },
+      { name: 'amountRequested', label: 'Amount Requested (₹)', type: 'number' },
+      { name: 'amountApproved', label: 'Amount Approved (₹)', type: 'number' },
+      { name: 'approvedBy', label: 'Approved By', type: 'text' },
+      { name: 'status', label: 'Status', type: 'select', options: ['Pending', 'Approved', 'Rejected', 'Escalated'] },
+      { name: 'notes', label: 'Notes', type: 'textarea' }
+    ];
+    
+    state.editingId = requestId;
+    openModal(buildForm(fields, {
+      requestedBy: data['Requested By'] || '',
+      committee: data['Committee'] || '',
+      purpose: data['Purpose'] || '',
+      amountRequested: data['Amount Requested'] || '',
+      amountApproved: data['Amount Approved'] || '',
+      approvedBy: data['Approved By'] || '',
+      status: data['Status'] || '',
+      notes: data['Notes'] || ''
+    }, 'Edit Approval', 'updateApproval()'));
+  } catch(error) {
+    showToast('Error: ' + error.message, 'error');
+  }
+}
+
+async function updateApproval() {
+  try {
+    const data = getFormData('modal-form');
+    await apiPost('updateApproval', { id: state.editingId, ...data });
+    closeModal();
+    showToast('Approval updated successfully', 'success');
+    renderApprovals();
+  } catch(error) {
+    showToast('Error: ' + error.message, 'error');
+  }
+}
+
+// ============================================
+// INVOICES PAGE
+// ============================================
+
+async function renderInvoices() {
+  const mainContent = document.getElementById('main-content');
+  mainContent.innerHTML = '<div class="flex items-center justify-center h-64"><div class="spinner w-8 h-8"></div></div>';
+  
+  try {
+    const invoices = await apiGet('invoices');
+    state.currentData = invoices;
+    state.filteredData = invoices;
+    
+    const verifiedCount = invoices.filter(i => i['Verification Status'] === 'Verified').length;
+    const pendingCount = invoices.filter(i => i['Verification Status'] === 'Pending').length;
+    
+    mainContent.innerHTML = `
+      <div class="page-content space-y-5">
+        <!-- Summary Cards -->
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+          <div class="bg-white rounded-xl border border-gray-200 p-4">
+            <p class="text-xs text-gray-500 font-medium uppercase">Total Invoices</p>
+            <p class="text-2xl font-bold text-gray-900 mt-1">${invoices.length}</p>
+          </div>
+          <div class="bg-white rounded-xl border border-gray-200 p-4">
+            <p class="text-xs text-gray-500 font-medium uppercase">Verified</p>
+            <p class="text-2xl font-bold text-green-600 mt-1">${verifiedCount}</p>
+          </div>
+          <div class="bg-white rounded-xl border border-gray-200 p-4">
+            <p class="text-xs text-gray-500 font-medium uppercase">Pending Verification</p>
+            <p class="text-2xl font-bold text-amber-600 mt-1">${pendingCount}</p>
+          </div>
+        </div>
+        
+        <!-- Action Bar -->
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <button onclick="showAddInvoiceForm()" class="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 transition-colors text-sm font-medium flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            Add Invoice Record
+          </button>
+          <div class="flex items-center gap-3">
+            <div class="relative">
+              <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+              <input type="text" id="invoice-search" placeholder="Search invoices..." 
+                class="pl-9 pr-4 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500 w-full sm:w-56">
+            </div>
+            <select id="invoice-filter-status" data-filter-field="Verification Status" class="px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-primary-500">
+              <option value="">All Status</option>
+              <option value="Pending">Pending</option>
+              <option value="Verified">Verified</option>
+              <option value="Rejected">Rejected</option>
+            </select>
+          </div>
+        </div>
+        
+        <!-- Info Banner -->
+        <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 flex items-start gap-3">
+          <svg class="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <div>
+            <p class="text-sm font-medium text-blue-900">Upload Instructions</p>
+            <p class="text-xs text-blue-700 mt-1">Upload files to Google Drive manually, set sharing to "Anyone with link", then paste the link here to create a record.</p>
+          </div>
+        </div>
+        
+        <!-- Invoices Table -->
+        <div class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+          <div class="overflow-x-auto" id="invoice-table-container">
+            ${renderInvoicesTableHTML(invoices)}
+          </div>
+          <div id="invoice-pagination"></div>
+        </div>
+      </div>
+    `;
+    
+    const paginated = paginateData(invoices);
+    document.getElementById('invoice-pagination').innerHTML = renderPagination(paginated.totalPages, 'invoice-pagination');
+    
+    setupSearchFilter('invoice-search', ['invoice-search', 'invoice-filter-status'], 'invoices', renderInvoicesTable);
+    
+  } catch(error) {
+    mainContent.innerHTML = `<div class="text-center py-12 text-red-500">Failed to load invoices: ${error.message}</div>`;
+  }
+}
+
+function renderInvoicesTableHTML(data) {
+  const paginated = paginateData(state.filteredData || data);
+  
+  let html = `
+    <table class="data-table w-full text-sm">
+      <thead>
+        <tr class="bg-gray-50 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
+          <th class="px-4 py-3">Invoice ID</th>
+          <th class="px-4 py-3">Linked Reference</th>
+          <th class="px-4 py-3">File Link</th>
+          <th class="px-4 py-3">Uploaded By</th>
+          <th class="px-4 py-3">Date</th>
+          <th class="px-4 py-3">Status</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-100">
+  `;
+  
+  if (paginated.data.length === 0) {
+    html += `<tr><td colspan="6" class="px-4 py-8 text-center text-gray-400">No invoice records found</td></tr>`;
+  }
+  
+  paginated.data.forEach(inv => {
+    html += `
+      <tr class="hover:bg-gray-50">
+        <td class="px-4 py-3 font-mono text-xs font-semibold text-primary-600">${inv['Invoice ID'] || '-'}</td>
+        <td class="px-4 py-3 text-gray-700">${inv['Linked Reference'] || '-'}</td>
+        <td class="px-4 py-3">
+          ${inv['File Link'] ? `<a href="${inv['File Link']}" target="_blank" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-green-50 text-green-700 rounded-lg text-xs font-medium hover:bg-green-100 transition-colors"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>Open in Drive</a>` : '<span class="text-gray-400 text-xs">No link</span>'}
+        </td>
+        <td class="px-4 py-3 text-gray-500">${inv['Uploaded By'] || '-'}</td>
+        <td class="px-4 py-3 whitespace-nowrap">${formatDate(inv['Date'])}</td>
+        <td class="px-4 py-3">${getStatusBadge(inv['Verification Status'])}</td>
+      </tr>
+    `;
+  });
+  
+  html += '</tbody></table>';
+  return html;
+}
+
+function renderInvoicesTable() {
+  const container = document.getElementById('invoice-table-container');
+  if (container) {
+    container.innerHTML = renderInvoicesTableHTML(state.filteredData);
+    const paginated = paginateData(state.filteredData);
+    document.getElementById('invoice-pagination').innerHTML = renderPagination(paginated.totalPages, 'invoice-pagination');
+  }
+}
+
+function showAddInvoiceForm() {
+  const fields = [
+    { name: 'linkedReference', label: 'Linked Expense ID / Income Reference', type: 'text', required: true, placeholder: 'e.g., EXP-0001 or Sponsor Name' },
+    { name: 'fileLink', label: 'Google Drive File Link', type: 'url', required: true, placeholder: 'https://drive.google.com/file/d/...' },
+    { name: 'uploadedBy', label: 'Uploaded By', type: 'text', required: true, placeholder: 'Your name' },
+    { name: 'verificationStatus', label: 'Verification Status', type: 'select', options: ['Pending', 'Verified', 'Rejected'] }
+  ];
+  
+  openModal(buildForm(fields, {}, 'Add Invoice Record', 'submitInvoice()'));
+}
+
+async function submitInvoice() {
+  try {
+    const data = getFormData('modal-form');
+    await apiPost('addInvoice', data);
+    closeModal();
+    showToast('Invoice record added', 'success');
+    renderInvoices();
+  } catch(error) {
+    showToast('Error: ' + error.message, 'error');
+  }
+}
+</script>
+
+<script>
+// ============================================
+// ANALYTICS PAGE
+// ============================================
+
+async function renderAnalytics() {
+  const mainContent = document.getElementById('main-content');
+  mainContent.innerHTML = '<div class="flex items-center justify-center h-64"><div class="spinner w-8 h-8"></div></div>';
+  
+  try {
+    const data = await apiGet('dashboard');
+    const analytics = await apiGet('analytics');
+    
+    mainContent.innerHTML = `
+      <div class="page-content space-y-6">
+        <!-- Expense Breakdown Section -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="bg-white rounded-xl border border-gray-200 p-5">
+            <h3 class="text-base font-semibold text-gray-900 mb-4">Expenses by Category</h3>
+            <div class="h-72"><canvas id="analyticsCategoryChart"></canvas></div>
+          </div>
+          <div class="bg-white rounded-xl border border-gray-200 p-5">
+            <h3 class="text-base font-semibold text-gray-900 mb-4">Income by Source</h3>
+            <div class="h-72"><canvas id="analyticsIncomeChart"></canvas></div>
+          </div>
+        </div>
+        
+        <!-- Sponsorship Tiers -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="bg-white rounded-xl border border-gray-200 p-5">
+            <h3 class="text-base font-semibold text-gray-900 mb-4">Sponsorship Tier Distribution</h3>
+            <div class="h-72"><canvas id="analyticsTierChart"></canvas></div>
+          </div>
+          <div class="bg-white rounded-xl border border-gray-200 p-5">
+            <h3 class="text-base font-semibold text-gray-900 mb-4">Payment Status Distribution</h3>
+            <div class="h-72"><canvas id="analyticsPaymentChart"></canvas></div>
+          </div>
+        </div>
+        
+        <!-- Cash Flow -->
+        <div class="bg-white rounded-xl border border-gray-200 p-5">
+          <h3 class="text-base font-semibold text-gray-900 mb-4">Monthly Cash Flow</h3>
+          <div class="h-80"><canvas id="analyticsCashFlowChart"></canvas></div>
+        </div>
+        
+        <!-- Committee Utilization -->
+        <div class="bg-white rounded-xl border border-gray-200 p-5">
+          <h3 class="text-base font-semibold text-gray-900 mb-4">Committee Budget Utilization</h3>
+          <div class="h-80"><canvas id="analyticsCommitteeChart"></canvas></div>
+        </div>
+        
+        <!-- Top Vendors -->
+        <div class="bg-white rounded-xl border border-gray-200 p-5">
+          <h3 class="text-base font-semibold text-gray-900 mb-4">Top Vendors by Spending</h3>
+          <div class="h-80"><canvas id="analyticsVendorChart"></canvas></div>
+        </div>
+        
+        <!-- Detailed Stats Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div class="bg-gradient-to-br from-primary-500 to-primary-600 rounded-xl p-5 text-white">
+            <p class="text-xs font-medium text-primary-100 uppercase">Budget Utilization</p>
+            <p class="text-3xl font-bold mt-2">${data.kpi.totalBudget > 0 ? ((data.kpi.totalExpenses / data.kpi.totalBudget) * 100).toFixed(1) : 0}%</p>
+            <p class="text-xs text-primary-100 mt-1">${formatCurrency(data.kpi.totalExpenses)} / ${formatCurrency(data.kpi.totalBudget)}</p>
+          </div>
+          <div class="bg-gradient-to-br from-green-500 to-green-600 rounded-xl p-5 text-white">
+            <p class="text-xs font-medium text-green-100 uppercase">Collection Rate</p>
+            <p class="text-3xl font-bold mt-2">${data.kpi.totalSponsorshipCommitted > 0 ? ((data.kpi.totalSponsorshipReceived / data.kpi.totalSponsorshipCommitted) * 100).toFixed(1) : 0}%</p>
+            <p class="text-xs text-green-100 mt-1">${formatCurrency(data.kpi.totalSponsorshipReceived)} / ${formatCurrency(data.kpi.totalSponsorshipCommitted)}</p>
+          </div>
+          <div class="bg-gradient-to-br from-amber-500 to-amber-600 rounded-xl p-5 text-white">
+            <p class="text-xs font-medium text-amber-100 uppercase">Pending Dues</p>
+            <p class="text-3xl font-bold mt-2">${formatCurrency(data.kpi.pendingPayments)}</p>
+            <p class="text-xs text-amber-100 mt-1">Outstanding vendor payments</p>
+          </div>
+          <div class="bg-gradient-to-br from-red-500 to-red-600 rounded-xl p-5 text-white">
+            <p class="text-xs font-medium text-red-100 uppercase">Net Balance</p>
+            <p class="text-3xl font-bold mt-2">${formatCurrency(data.kpi.remainingBalance)}</p>
+            <p class="text-xs text-red-100 mt-1">Income minus expenses</p>
+          </div>
+        </div>
+      </div>
+    `;
+    
+    // Render Analytics Charts
+    renderAnalyticsCharts(analytics);
+    
+  } catch(error) {
+    mainContent.innerHTML = `
+      <div class="flex flex-col items-center justify-center h-96 text-center">
+        <div class="w-16 h-16 bg-red-50 rounded-full flex items-center justify-center mb-4">
+          <svg class="w-8 h-8 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+        </div>
+        <h3 class="text-lg font-semibold text-gray-900 mb-2">Failed to load analytics</h3>
+        <p class="text-sm text-gray-500 mb-4">${error.message}</p>
+        <button onclick="renderAnalytics()" class="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 text-sm font-medium">Retry</button>
+      </div>
+    `;
+  }
+}
+
+function renderAnalyticsCharts(data) {
+  // Destroy existing charts
+  Object.values(state.charts).forEach(c => c.destroy());
+  state.charts = {};
+  
+  const chartColors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6', '#06b6d4', '#84cc16', '#f97316', '#ec4899', '#14b8a6'];
+  
+  // 1. Expense by Category (Doughnut)
+  const catCtx = document.getElementById('analyticsCategoryChart');
+  if (catCtx && data.expenseByCategory && data.expenseByCategory.length > 0) {
+    state.charts.analyticsCategory = new Chart(catCtx, {
+      type: 'doughnut',
+      data: {
+        labels: data.expenseByCategory.map(d => d.label),
+        datasets: [{
+          data: data.expenseByCategory.map(d => d.value),
+          backgroundColor: chartColors,
+          borderWidth: 2,
+          borderColor: '#fff'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'right', labels: { padding: 15, font: { size: 12 }, usePointStyle: true } },
+          tooltip: { callbacks: { label: (ctx) => `${ctx.label}: ${formatCurrency(ctx.raw)}` } }
+        }
+      }
+    });
+  }
+  
+  // 2. Income by Source (Pie)
+  const incCtx = document.getElementById('analyticsIncomeChart');
+  if (incCtx && data.incomeBySource && data.incomeBySource.length > 0) {
+    state.charts.analyticsIncome = new Chart(incCtx, {
+      type: 'pie',
+      data: {
+        labels: data.incomeBySource.map(d => d.label),
+        datasets: [{
+          data: data.incomeBySource.map(d => d.value),
+          backgroundColor: ['#10b981', '#3b82f6', '#f59e0b'],
+          borderWidth: 2,
+          borderColor: '#fff'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'right', labels: { padding: 15, font: { size: 12 } } },
+          tooltip: { callbacks: { label: (ctx) => `${ctx.label}: ${formatCurrency(ctx.raw)}` } }
+        }
+      }
+    });
+  }
+  
+  // 3. Sponsorship Tiers (Polar Area)
+  const tierCtx = document.getElementById('analyticsTierChart');
+  if (tierCtx && data.sponsorshipTiers && data.sponsorshipTiers.length > 0) {
+    state.charts.analyticsTier = new Chart(tierCtx, {
+      type: 'polarArea',
+      data: {
+        labels: data.sponsorshipTiers.map(d => d.label),
+        datasets: [{
+          data: data.sponsorshipTiers.map(d => d.value),
+          backgroundColor: chartColors.map(c => c + '80'),
+          borderColor: chartColors,
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'right', labels: { padding: 10, font: { size: 11 } } },
+          tooltip: { callbacks: { label: (ctx) => `${ctx.label}: ${formatCurrency(ctx.raw)}` } }
+        },
+        scales: {
+          r: { ticks: { callback: v => '₹' + (v/1000).toFixed(0) + 'K' } }
+        }
+      }
+    });
+  }
+  
+  // 4. Payment Status Distribution (Doughnut)
+  const payCtx = document.getElementById('analyticsPaymentChart');
+  if (payCtx && data.paymentStatusDist && data.paymentStatusDist.length > 0) {
+    state.charts.analyticsPayment = new Chart(payCtx, {
+      type: 'doughnut',
+      data: {
+        labels: data.paymentStatusDist.map(d => d.label),
+        datasets: [{
+          data: data.paymentStatusDist.map(d => d.value),
+          backgroundColor: ['#f59e0b', '#10b981', '#3b82f6', '#8b5cf6'],
+          borderWidth: 2,
+          borderColor: '#fff'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        cutout: '60%',
+        plugins: {
+          legend: { position: 'bottom', labels: { padding: 15, font: { size: 12 } } }
+        }
+      }
+    });
+  }
+  
+  // 5. Cash Flow Timeline (Line)
+  const cfCtx = document.getElementById('analyticsCashFlowChart');
+  if (cfCtx && data.cashFlowTimeline && data.cashFlowTimeline.length > 0) {
+    state.charts.analyticsCashFlow = new Chart(cfCtx, {
+      type: 'line',
+      data: {
+        labels: data.cashFlowTimeline.map(d => {
+          const [y, m] = d.month.split('-');
+          return new Date(y, m-1).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+        }),
+        datasets: [
+          { label: 'Income', data: data.cashFlowTimeline.map(d => d.income), borderColor: '#10b981', backgroundColor: 'rgba(16,185,129,0.1)', fill: true, tension: 0.4, pointRadius: 4, pointHoverRadius: 6 },
+          { label: 'Expense', data: data.cashFlowTimeline.map(d => d.expense), borderColor: '#ef4444', backgroundColor: 'rgba(239,68,68,0.1)', fill: true, tension: 0.4, pointRadius: 4, pointHoverRadius: 6 },
+          { label: 'Net', data: data.cashFlowTimeline.map(d => d.income - d.expense), borderColor: '#3b82f6', backgroundColor: 'transparent', borderDash: [5, 5], tension: 0.4, pointRadius: 3 }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        scales: {
+          x: { grid: { display: false }, ticks: { font: { size: 11 } } },
+          y: { grid: { color: '#f1f5f9' }, ticks: { callback: v => '₹' + (v/1000).toFixed(0) + 'K' } }
+        },
+        plugins: {
+          legend: { position: 'top', labels: { usePointStyle: true, padding: 20 } },
+          tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${formatCurrency(ctx.raw)}` } }
+        }
+      }
+    });
+  }
+  
+  // 6. Committee Utilization (Horizontal Bar)
+  const comCtx = document.getElementById('analyticsCommitteeChart');
+  if (comCtx && data.committeeSpending && data.committeeSpending.length > 0) {
+    state.charts.analyticsCommittee = new Chart(comCtx, {
+      type: 'bar',
+      data: {
+        labels: data.committeeSpending.map(d => d.label.length > 15 ? d.label.substring(0, 15) + '...' : d.label),
+        datasets: [
+          { label: 'Spent', data: data.committeeSpending.map(d => d.spent), backgroundColor: '#ef4444', borderRadius: 4 },
+          { label: 'Remaining', data: data.committeeSpending.map(d => Math.max(0, d.remaining)), backgroundColor: '#10b981', borderRadius: 4 }
+        ]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: { grid: { color: '#f1f5f9' }, ticks: { callback: v => '₹' + (v/1000).toFixed(0) + 'K' } },
+          y: { grid: { display: false }, ticks: { font: { size: 11 } } }
+        },
+        plugins: {
+          legend: { position: 'top', labels: { usePointStyle: true } },
+          tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${formatCurrency(ctx.raw)}` } }
+        }
+      }
+    });
+  }
+  
+  // 7. Top Vendors (Horizontal Bar)
+  const venCtx = document.getElementById('analyticsVendorChart');
+  if (venCtx && data.topVendors && data.topVendors.length > 0) {
+    state.charts.analyticsVendor = new Chart(venCtx, {
+      type: 'bar',
+      data: {
+        labels: data.topVendors.map(d => d.name.length > 20 ? d.name.substring(0, 20) + '...' : d.name),
+        datasets: [
+          { label: 'Total Amount', data: data.topVendors.map(d => d.total), backgroundColor: '#3b82f6', borderRadius: 4 },
+          { label: 'Paid', data: data.topVendors.map(d => d.paid), backgroundColor: '#10b981', borderRadius: 4 },
+          { label: 'Pending', data: data.topVendors.map(d => d.pending), backgroundColor: '#f59e0b', borderRadius: 4 }
+        ]
+      },
+      options: {
+        indexAxis: 'y',
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: { grid: { color: '#f1f5f9' }, ticks: { callback: v => '₹' + (v/1000).toFixed(0) + 'K' } },
+          y: { grid: { display: false }, ticks: { font: { size: 11 } } }
+        },
+        plugins: {
+          legend: { position: 'top', labels: { usePointStyle: true } },
+          tooltip: { callbacks: { label: (ctx) => `${ctx.dataset.label}: ${formatCurrency(ctx.raw)}` } }
+        }
+      }
+    });
+  }
+}
+</script>
+</body>
+</html>
