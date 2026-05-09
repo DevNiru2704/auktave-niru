@@ -5,6 +5,7 @@ import AudioController from "@/components/AudioController";
 import HomeSplashGate from "@/components/HomeSplashGate";
 import CustomCursor from "@/components/CustomCursor";
 import LenisProvider from "@/components/LenisProvider";
+import { SplashGateProvider } from "@/contexts/SplashGateContext";
 import Script from "next/script";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
@@ -175,12 +176,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en">
       <body className="bg-ink text-bone grain vignette" data-testid="root-body">
         <LenisProvider>
-          <HomeSplashGate />
-          <CustomCursor />
-          <Navbar />
-          <main className="relative">{children}</main>
-          <Footer />
-          <AudioController />
+          <SplashGateProvider>
+            <HomeSplashGate />
+            <CustomCursor />
+            <Navbar />
+            <main className="relative">{children}</main>
+            <Footer />
+            <AudioController />
+          </SplashGateProvider>
         </LenisProvider>
         <Script id="ld-org" type="application/ld+json" strategy="afterInteractive">
           {JSON.stringify(organizationLd)}

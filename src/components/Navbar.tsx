@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import AnnouncementBanner from "./AnnouncementBanner";
 import { useLenis } from "./LenisProvider";
+import { useSplashGate } from "@/contexts/SplashGateContext";
 
 const links = [
   { href: "/", label: "Home" },
@@ -21,6 +22,7 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const lenis = useLenis();
+  const { isGateActive } = useSplashGate();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -43,6 +45,11 @@ export default function Navbar() {
       document.body.style.overflow = "";
     }
   }, [open, lenis]);
+
+  // Hide navbar when splash gates are active
+  if (isGateActive) {
+    return null;
+  }
 
   return (
     <header
