@@ -60,7 +60,7 @@ export default function AudioEntryGate({ onSelect }: AudioEntryGateProps) {
                     initial={{ opacity: 1 }}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.4 }}
-                    className="fixed inset-0 z-100 bg-ink flex items-center justify-center"
+                    className="fixed inset-0 z-2000 bg-ink flex items-center justify-center"
                     data-testid="audio-entry-gate"
                 >
                     <div className="absolute inset-0 scanlines opacity-30 pointer-events-none" />

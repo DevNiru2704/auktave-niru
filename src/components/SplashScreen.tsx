@@ -74,7 +74,7 @@ export default function SplashScreen({ onDismiss }: SplashScreenProps) {
           initial={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.98, y: -8 }}
           transition={{ duration: 0.6, ease: [0.2, 0.8, 0.2, 1] }}
-          className="fixed inset-0 z-100 bg-ink flex flex-col items-center justify-center"
+          className="fixed inset-0 z-2000 bg-ink flex flex-col items-center justify-center"
           data-testid="splash-screen"
         >
           <div className="absolute inset-0 scanlines opacity-30 pointer-events-none" />
