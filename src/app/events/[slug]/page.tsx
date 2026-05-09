@@ -142,7 +142,7 @@ export default function EventDetailPage() {
                   This event is exclusive to Amity University students and is not open through the public registration form.
                 </p>
               </div>
-            ) : event.slug === "ieee-session" ? null : event.slug === "hackathon" ? (
+                ) : event.slug === "ieee-session" ? null : event.slug === "hackathon" ? (
               <a
                 href="https://www.hackcatalyst.tech/"
                 target="_blank"
@@ -166,7 +166,9 @@ export default function EventDetailPage() {
                       ? "/brochures/AI Short Film Rulebook _20260506_223233_0000.pdf"
                       : event.slug === "tech-debate"
                         ? "/brochures/Tech Debate Rulebook _20260508_120243_0000.pdf"
-                        : "/brochures/event-rules.pdf"
+                        : event.slug === "robotics"
+                          ? "/brochures/Robotics%20Rulebook%20_20260509_111618_0000.pdf"
+                          : "/brochures/event-rules.pdf"
                 }
                 download
                 className="btn-ghost w-full flex items-center justify-center gap-2"

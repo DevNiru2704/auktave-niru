@@ -76,7 +76,7 @@ export default function RoboticsSubEventPage() {
                             Register Now
                         </Link>
                         <a
-                            href="/brochures/event-rules.pdf"
+                            href="/brochures/Robotics%20Rulebook%20_20260509_111618_0000.pdf"
                             download
                             className="btn-ghost w-full flex items-center justify-center gap-2"
                             data-testid="robotics-rules-download"
