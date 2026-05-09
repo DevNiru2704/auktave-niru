@@ -1,7 +1,16 @@
-export const events = [
+import type { EventType } from './types';
+
+const site = 'https://auktave.co.in';
+
+export const events: EventType[] = [
   {
     slug: "hackathon",
     name: "24 Hour AI Hackathon",
+    image: `${site}/api/og?title=${encodeURIComponent("24 Hour AI Hackathon")}&route=${encodeURIComponent("/events/hackathon")}`,
+    performer: { "@type": "Organization", name: "AUKTAVE Organizing Committee" },
+    offers: { "@type": "Offer", price: "500", priceCurrency: "INR", availability: "https://schema.org/InStock", url: `${site}/register` },
+    startDate: '2026-05-21T11:00:00+05:30',
+    endDate: '2026-05-22T11:00:00+05:30',
     tagline: "24 hours. Track-based AI innovation.",
     summary: "CATALYST 2K26 is a 24-hour in-campus AI hackathon that brings together innovators, developers, and problem-solvers to build impactful AI solutions. The event is track-based, so teams innovate within predefined AI domains.",
     duration: "24 Hours",
@@ -225,6 +234,11 @@ export const events = [
   {
     slug: "robotics",
     name: "Robotics Competition",
+    image: `${site}/api/og?title=${encodeURIComponent("Robotics Competition")}&route=${encodeURIComponent("/events/robotics")}`,
+    performer: { "@type": "Organization", name: "AUKTAVE Organizing Committee" },
+    offers: { "@type": "Offer", price: "200", priceCurrency: "INR", availability: "https://schema.org/InStock", url: `${site}/register` },
+    startDate: '2026-05-22T11:00:00+05:30',
+    endDate: '2026-05-22T13:30:00+05:30',
     tagline: "Three arenas. One robotics league.",
     summary: "Pick your battlefield: Robo Soccer, Maze Solver, or Drone Obstacle Course. Register once, compete in one sub-event.",
     duration: "2.5 Hours",
@@ -447,6 +461,7 @@ export const events = [
         teamSize: "1 - 5 Members",
         prizePool: "₹12,000",
         coordinator: { name: "Mizan-ur Rahman Mondal", role: "Field Coordinator", phone: "+91 7003670838", email: "info.auktave@gmail.com" },
+        offers: { "@type": "Offer", price: "400", priceCurrency: "INR", availability: "https://schema.org/InStock", url: `${site}/register` },
         rules: [
           "Open to students from all recognized colleges and universities; register via the official portal.",
           "Required documents: photocopy of valid Government ID and photocopy of valid College or University or Work ID.",
@@ -530,6 +545,11 @@ export const events = [
   {
     slug: "research-expo",
     name: "Research and Project Expo",
+    image: `${site}/api/og?title=${encodeURIComponent("Research and Project Expo")}&route=${encodeURIComponent("/events/research-expo")}`,
+    performer: { "@type": "Organization", name: "AUKTAVE Organizing Committee" },
+    offers: { "@type": "Offer", price: "0", priceCurrency: "INR", availability: "https://schema.org/InStock", url: `${site}/register` },
+    startDate: '2026-05-21T14:00:00+05:30',
+    endDate: '2026-05-21T16:00:00+05:30',
     tagline: "Show your experiment to the world.",
     summary: "Showcase your research, capstone, or prototype to industry mentors and investors at the AUKTAVE Expo Floor.",
     duration: "2 Hours",
@@ -550,6 +570,11 @@ export const events = [
   {
     slug: "tech-debate",
     name: "AUKTAVE Tech Debate",
+    image: `${site}/api/og?title=${encodeURIComponent("AUKTAVE Tech Debate")}&route=${encodeURIComponent("/events/tech-debate")}`,
+    performer: { "@type": "Organization", name: "AUKTAVE Organizing Committee" },
+    offers: { "@type": "Offer", price: "0", priceCurrency: "INR", availability: "https://schema.org/InStock", url: `${site}/register` },
+    startDate: '2026-05-21T16:00:00+05:30',
+    endDate: '2026-05-21T17:00:00+05:30',
     tagline: "Argue. Reason. Persuade.",
     summary: "A knockout-style, technology-focused debate tournament (AI ethics, cybersecurity, emerging tech) with on-the-spot motions and strict timekeeping.",
     duration: "1 Hour",
@@ -696,6 +721,11 @@ export const events = [
   {
     slug: "ai-film",
     name: "AI Short Film Showcase",
+    image: `${site}/api/og?title=${encodeURIComponent("AI Short Film Showcase")}&route=${encodeURIComponent("/events/ai-film")}`,
+    performer: { "@type": "Organization", name: "AUKTAVE Organizing Committee" },
+    offers: { "@type": "Offer", price: "0", priceCurrency: "INR", availability: "https://schema.org/InStock", url: `${site}/register` },
+    startDate: '2026-05-22T15:00:00+05:30',
+    endDate: '2026-05-22T16:00:00+05:30',
     tagline: "Prompt-to-premiere, but human-led.",
     summary: "Create a 1 to 3 minute short film where AI assists the visual, audio, or narrative process. A jury selects the Top 10 for a grand auditorium screening and live judging.",
     duration: "1 Hour",
@@ -766,6 +796,11 @@ export const events = [
   {
     slug: "btech-presentations",
     name: "B.Tech Final Year Presentations",
+    image: `${site}/api/og?title=${encodeURIComponent("B.Tech Final Year Presentations")}&route=${encodeURIComponent("/events/btech-presentations")}`,
+    performer: { "@type": "Organization", name: "AUKTAVE Organizing Committee" },
+    offers: { "@type": "Offer", price: "0", priceCurrency: "INR", availability: "https://schema.org/InStock", url: `${site}/register` },
+    startDate: '2026-05-22T13:30:00+05:30',
+    endDate: '2026-05-22T15:00:00+05:30',
     tagline: "Defend your thesis. Win the floor.",
     summary: "Final year B.Tech students present capstone projects to a panel of academics and industry pros.",
     duration: "1.5 Hours",
@@ -781,6 +816,8 @@ export const events = [
   {
     slug: "ieee-session",
     name: "IEEE Special Session",
+    startDate: '2026-05-22T10:00:00+05:30',
+    endDate: '2026-05-22T11:00:00+05:30',
     tagline: "A signal from the standards bearers.",
     summary: "An exclusive IEEE SB AUK-curated session featuring keynotes, technical talks, and a research paper showcase. A trust mark for AUKTAVE 2K26.",
     duration: "1 Hour",

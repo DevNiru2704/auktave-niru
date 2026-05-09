@@ -34,10 +34,10 @@ export default function EventDetailPage() {
     description: event.summary,
     eventStatus: "https://schema.org/EventScheduled",
     eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
-    startDate: "2026-05-21T10:00:00+05:30",
-    endDate: "2026-05-22T17:00:00+05:30",
+    startDate: event.startDate ?? undefined,
+    endDate: event.endDate ?? undefined,
     url: `${siteUrl}/events/${event.slug}`,
-    image: [`${siteUrl}/api/og?title=${encodeURIComponent(event.name)}&route=${encodeURIComponent(`/events/${event.slug}`)}`],
+    image: Array.isArray(event.image) ? event.image : [event.image ?? `${siteUrl}/api/og?title=${encodeURIComponent(event.name)}&route=${encodeURIComponent(`/events/${event.slug}`)}`],
     location: {
       "@type": "Place",
       name: "Amity University Kolkata",
@@ -128,7 +128,7 @@ export default function EventDetailPage() {
           ) : null}
 
           <div className="lg:col-span-4 space-y-4">
-            <Stat icon={Clock} label="Duration" value={event.duration} />
+            <Stat icon={Clock} label="Duration" value={event.duration ?? ""} />
             {!isAmityExclusive && (
               <>
                 <Stat icon={Users} label="Team Size" value={event.teamSize ?? ""} />
@@ -198,7 +198,7 @@ export default function EventDetailPage() {
             <p className="eyebrow mb-4">/ Official Themes</p>
             <h2 className="headline text-3xl lg:text-4xl mb-6">Pick one pillar</h2>
             <ol className="space-y-4">
-              {event.themes.map((t, i) => (
+              {event.themes.map((t: { title: string; description?: string }, i: number) => (
                 <li key={t.title} className="flex gap-5 text-bone/80 leading-relaxed">
                   <span className="font-mono text-ember text-sm pt-1 w-10 shrink-0">/{String(i + 1).padStart(2, "0")}</span>
                   <span className="flex-1">
@@ -216,7 +216,7 @@ export default function EventDetailPage() {
             <p className="eyebrow mb-4">/ Requirements</p>
             <h2 className="headline text-3xl lg:text-4xl mb-6">What you must submit</h2>
             <ul className="space-y-3 text-bone/80 leading-relaxed">
-              {event.requirements.map((item) => (
+              {event.requirements.map((item: string) => (
                 <li key={item} className="flex gap-3">
                   <span className="text-ember">•</span>
                   <span>{item}</span>
@@ -231,7 +231,7 @@ export default function EventDetailPage() {
             <p className="eyebrow mb-4">/ Selection & Awards</p>
             <h2 className="headline text-3xl lg:text-4xl mb-6">How winners are chosen</h2>
             <ul className="space-y-3 text-bone/80 leading-relaxed">
-              {event.selectionProcess.map((item) => (
+              {event.selectionProcess.map((item: string) => (
                 <li key={item} className="flex gap-3">
                   <span className="text-ember">•</span>
                   <span>{item}</span>
@@ -246,7 +246,7 @@ export default function EventDetailPage() {
             <p className="eyebrow mb-4">/ Prize Pool Worth</p>
             <h2 className="headline text-3xl lg:text-4xl mb-6">What you can win</h2>
             <ul className="space-y-3 text-bone/80 leading-relaxed">
-              {event.prizes.map((item) => (
+              {event.prizes.map((item: string) => (
                 <li key={item} className="flex gap-3">
                   <span className="text-ember">•</span>
                   <span>{item}</span>
@@ -261,7 +261,7 @@ export default function EventDetailPage() {
             <p className="eyebrow mb-4">/ Suggested AI Toolkit</p>
             <h2 className="headline text-3xl lg:text-4xl mb-6">Optional tools</h2>
             <ul className="space-y-3 text-bone/80 leading-relaxed">
-              {event.toolkit.map((item) => (
+              {event.toolkit.map((item: string) => (
                 <li key={item} className="flex gap-3">
                   <span className="text-ember">•</span>
                   <span>{item}</span>

@@ -69,9 +69,9 @@ export default function RoboticsSubEventPage() {
                     </div>
 
                     <div className="lg:col-span-4 space-y-4">
-                        <Stat icon={Clock} label="Duration" value={subEvent.duration} />
-                        <Stat icon={Users} label="Team Size" value={subEvent.teamSize} />
-                        <Stat icon={Trophy} label="Prize Pool Worth" value={subEvent.prizePool} accent />
+                        <Stat icon={Clock} label="Duration" value={subEvent.duration ?? ""} />
+                        <Stat icon={Users} label="Team Size" value={subEvent.teamSize ?? ""} />
+                        <Stat icon={Trophy} label="Prize Pool Worth" value={subEvent.prizePool ?? ""} accent />
                         <Link href="/register" className="btn-signal w-full block text-center mt-4" data-testid="robotics-register-cta">
                             Register Now
                         </Link>
@@ -91,8 +91,8 @@ export default function RoboticsSubEventPage() {
                         <p className="eyebrow mb-4">/ Rules</p>
                         <h2 className="headline text-3xl lg:text-4xl mb-6">Read before you cross over</h2>
                         <ol className="space-y-4">
-                            {subEvent.rules.map((rule, i) => (
-                                <li key={rule} className="flex gap-5 text-bone/80 leading-relaxed">
+                            {subEvent.rules.map((rule: string, i: number) => (
+                                <li key={i} className="flex gap-5 text-bone/80 leading-relaxed">
                                     <span className="font-mono text-ember text-sm pt-1 w-10 shrink-0">/{String(i + 1).padStart(2, "0")}</span>
                                     <span className="flex-1">{rule}</span>
                                 </li>
@@ -103,12 +103,12 @@ export default function RoboticsSubEventPage() {
 
                 {subEvent.sections && (
                     <div className="space-y-10" data-testid="robotics-sections">
-                        {subEvent.sections.map((section) => (
+                        {subEvent.sections.map((section: any) => (
                             <div key={section.title} className="card-upside p-8 lg:p-10">
                                 <p className="eyebrow mb-4">{section.eyebrow || "/ Details"}</p>
                                 <h2 className="headline text-3xl lg:text-4xl mb-6">{section.title}</h2>
                                 <ul className="space-y-3 text-bone/80 leading-relaxed">
-                                    {section.items.map((item) => (
+                                    {section.items.map((item: any) => (
                                         <li key={item} className="flex gap-3">
                                             <span className="text-ember">•</span>
                                             <span>{item}</span>
@@ -124,21 +124,21 @@ export default function RoboticsSubEventPage() {
                     <p className="eyebrow mb-4">/ Field Coordinator</p>
                     <div className="grid sm:grid-cols-2 gap-6 items-center">
                         <div>
-                            <h3 className="headline text-3xl">{subEvent.coordinator.name}</h3>
-                            <p className="text-ember font-mono text-xs uppercase tracking-[0.2em] mt-1">{subEvent.coordinator.role}</p>
+                            <h3 className="headline text-3xl">{subEvent.coordinator!.name}</h3>
+                            <p className="text-ember font-mono text-xs uppercase tracking-[0.2em] mt-1">{subEvent.coordinator!.role}</p>
                         </div>
                         <div className="space-y-3 font-mono text-sm">
                             <a
-                                href={`tel:${subEvent.coordinator.phone}`}
+                                href={`tel:${subEvent.coordinator!.phone}`}
                                 className="flex items-center gap-3 text-bone/70 hover:text-signal transition-colors"
                             >
-                                <Phone size={14} /> {subEvent.coordinator.phone}
+                                <Phone size={14} /> {subEvent.coordinator!.phone}
                             </a>
                             <a
-                                href={`mailto:${subEvent.coordinator.email}`}
+                                href={`mailto:${subEvent.coordinator!.email}`}
                                 className="flex items-center gap-3 text-bone/70 hover:text-signal transition-colors break-all"
                             >
-                                <Mail size={14} /> {subEvent.coordinator.email}
+                                <Mail size={14} /> {subEvent.coordinator!.email}
                             </a>
                         </div>
                     </div>

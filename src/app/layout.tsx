@@ -53,6 +53,17 @@ export const metadata: Metadata = {
     description: "Not all experiments stay in the lab.",
     images: [homeOgImage]
   },
+  icons: {
+    icon: [
+      { url: '/favicon.ico' },
+      { url: '/favicon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/favicons/icon-16x16.png', sizes: '16x16', type: 'image/png' },
+      { url: '/favicons/icon-192x192.png', sizes: '192x192', type: 'image/png' },
+      { url: '/favicons/icon-512x512.png', sizes: '512x512', type: 'image/png' }
+    ],
+    apple: '/apple-touch-icon.png',
+    shortcut: '/favicon.ico'
+  },
   robots: {
     index: true,
     follow: true,
@@ -76,38 +87,51 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     name: "AUKTAVE 2K26",
     url: baseUrl,
     email: "info.auktave@gmail.com",
-    sameAs: getSocialProfiles()
+    sameAs: getSocialProfiles(),
+    creator: {
+      "@type": "Organization",
+      name: "AUKTAVE Organizing Committee"
+    }
   };
   const websiteLd = {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: "AUKTAVE 2K26",
     url: baseUrl,
+    license: `${baseUrl}/terms`,
     potentialAction: {
       "@type": "SearchAction",
       target: `${baseUrl}/events?query={search_term_string}`,
       "query-input": "required name=search_term_string"
     }
   };
-  const eventHighlightsLd = events.map((event) => ({
-    "@context": "https://schema.org",
-    "@type": "Event",
-    name: event.name,
-    description: event.summary,
-    url: `${baseUrl}/events/${event.slug}`,
-    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
-    eventStatus: "https://schema.org/EventScheduled",
-    location: {
-      "@type": "Place",
-      name: "Amity University Kolkata",
-      address: "Amity University Kolkata, Major Arterial Road, Action Area II, New Town, Kolkata 700135"
-    },
-    organizer: {
-      "@type": "Organization",
-      name: "AUKTAVE 2K26",
-      url: baseUrl
-    }
-  }));
+  const eventHighlightsLd = events.map((event: import('@/lib/types').EventType) => {
+    const ev: Record<string, unknown> = {
+      "@context": "https://schema.org",
+      "@type": "Event",
+      name: event.name,
+      description: event.summary,
+      url: `${baseUrl}/events/${event.slug}`,
+      eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+      eventStatus: "https://schema.org/EventScheduled",
+      location: {
+        "@type": "Place",
+        name: "Amity University Kolkata",
+        address: "Amity University Kolkata, Major Arterial Road, Action Area II, New Town, Kolkata 700135"
+      },
+      organizer: {
+        "@type": "Organization",
+        name: "AUKTAVE 2K26",
+        url: baseUrl
+      }
+    };
+    if (event.startDate) ev.startDate = event.startDate;
+    if (event.endDate) ev.endDate = event.endDate;
+    if (event.performer) ev.performer = event.performer;
+    if (event.image) ev.image = event.image;
+    if (event.offers) ev.offers = event.offers;
+    return ev;
+  });
   const faqLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
@@ -127,7 +151,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     description: "A high level summary of the AUKTAVE 2K26 TechFest including event scale and participation figures.",
     hasPart: stats.map((item) => ({
       "@type": "PropertyValue",
-      name: item.label,
+      propertyID: item.label,
       value: item.value
     }))
   };
