@@ -173,7 +173,7 @@ export default function EventDetailPage() {
             )}
           </div>
           {poster ? (
-            <div className="lg:col-span-5 order-first lg:order-none">
+            <div className="lg:col-span-5 order-first lg:order-0">
               <div className="lg:sticky lg:top-28">
                 <EventPoster
                   src={poster.src}
