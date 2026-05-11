@@ -557,7 +557,7 @@ export const events: EventType[] = [
     tagline: "Innovate. Integrate. Inspire. - Emerging Trends in STEM",
     summary: "The Research Poster Competition is a platform for researchers, designers, and creative practitioners to showcase work that addresses social, environmental, and community-centred concerns through STEM.",
     duration: "2 Hours",
-    teamSize: "1 - 5 Members",
+    teamSize: "1 - 4 Members",
     prizePool: "₹10,000",
     registrationFee: "₹200 per team",
     fieldCoordinators: [
