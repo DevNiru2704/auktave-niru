@@ -222,6 +222,18 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             var l=document.createElement('link');l.rel='apple-touch-icon';l.href='/apple-touch-icon.png';document.head.appendChild(l);
           }catch(e){console.warn('pwa meta injection failed',e)}
         })();`}</Script>
+        <Script id="vh-fix" strategy="afterInteractive">{`(function(){
+          function setAppHeight(){
+            var h = window.innerHeight || document.documentElement.clientHeight || 0;
+            document.documentElement.style.setProperty('--app-height', h + 'px');
+          }
+          setAppHeight();
+          window.addEventListener('resize', setAppHeight, { passive: true });
+          window.addEventListener('orientationchange', setAppHeight, { passive: true });
+          if (window.visualViewport){
+            window.visualViewport.addEventListener('resize', setAppHeight, { passive: true });
+          }
+        })();`}</Script>
         <Script id="sw-register" strategy="afterInteractive">{`(function(){
           if('serviceWorker' in navigator){
             var refreshing = false;
