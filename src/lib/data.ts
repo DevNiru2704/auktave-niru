@@ -17,7 +17,7 @@ export const events: EventType[] = [
     teamSize: "2 - 5 Members",
     prizePool: "₹50,000+",
     highlight: true,
-    registrationFee: "₹200 per team",
+    registrationFee: "₹200 per head",
     coordinator: { name: "Sriparna Das", role: "Hackathon Lead", phone: "+91 8961086320", email: "info.auktave@gmail.com" },
     rules: [
       "Open to all students currently enrolled in a college or university; valid college ID required.",
