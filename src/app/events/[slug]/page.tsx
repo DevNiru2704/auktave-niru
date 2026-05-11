@@ -414,7 +414,7 @@ export default function EventDetailPage() {
         </div>
 
         <div className="text-center mt-16">
-          <h3 className="headline text-4xl mb-6">Ready to play?</h3>
+          <h3 className="headline text-4xl mb-6">Step into the Upside Down</h3>
           {isAmityExclusive ? (
             <div className="card-upside inline-flex max-w-2xl mx-auto px-6 py-4 border border-ember/20 bg-midnight/40" data-testid="event-bottom-exclusive-note">
               <p className="text-bone/80 leading-relaxed text-sm">
