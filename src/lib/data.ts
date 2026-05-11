@@ -559,7 +559,7 @@ export const events: EventType[] = [
     duration: "2 Hours",
     teamSize: "1 - 5 Members",
     prizePool: "₹10,000",
-    registrationFee: "",
+    registrationFee: "₹200 per team",
     fieldCoordinators: [
       { name: "Md Saad", role: "Field Coordinator", phone: "+91 98300 00002", email: "info.auktave@gmail.com" },
       { name: "Khushi Mehta", role: "Field Coordinator", phone: "+91 79808 44018", email: "info.auktave@gmail.com" }
