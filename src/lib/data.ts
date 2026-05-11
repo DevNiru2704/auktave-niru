@@ -8,7 +8,7 @@ export const events: EventType[] = [
     name: "24 Hour AI Hackathon",
     image: `${site}/images/og/custom-og.png`,
     performer: { "@type": "Organization", name: "AUKTAVE Organizing Committee" },
-    offers: { "@type": "Offer", price: "500", priceCurrency: "INR", availability: "https://schema.org/InStock", url: `${site}/register` },
+    offers: { "@type": "Offer", price: "200", priceCurrency: "INR", availability: "https://schema.org/InStock", url: `${site}/register` },
     startDate: '2026-05-21T11:00:00+05:30',
     endDate: '2026-05-22T11:00:00+05:30',
     tagline: "24 hours. Track-based AI innovation.",
@@ -17,6 +17,7 @@ export const events: EventType[] = [
     teamSize: "2 - 5 Members",
     prizePool: "₹50,000+",
     highlight: true,
+    registrationFee: "₹200 per head",
     coordinator: { name: "Sriparna Das", role: "Hackathon Lead", phone: "+91 8961086320", email: "info.auktave@gmail.com" },
     rules: [
       "Open to all students currently enrolled in a college or university; valid college ID required.",
@@ -219,7 +220,7 @@ export const events: EventType[] = [
         eyebrow: "/ FAQs",
         title: "Frequently asked questions",
         items: [
-          "Is there any registration fee? Yes, the registration fee is ₹500 per team.",
+          "Is there any registration fee? Yes, the registration fee is ₹200 per head.",
           "Can we change our track after selecting it? Yes, teams can change their track even on the day of the event.",
           "Will basic facilities like internet, power, and food be provided? Yes, internet access, charging points, and food will be provided throughout the event.",
           "Are participants required to stay at the venue for the full duration? Yes, participants must remain at the venue for the entire duration of the hackathon.",
@@ -256,6 +257,7 @@ export const events: EventType[] = [
         teamSize: "2 - 4 Members",
         prizePool: "₹7,000",
         coordinator: { name: "Trishanjeet Das", role: "Field Coordinator", phone: "+91 9002309368", email: "info.auktave@gmail.com" },
+        registrationFee: "₹300 per team",
         rules: [
           "This is a team event with 2 to 4 members per team.",
           "A team may comprise members from different colleges.",
@@ -330,6 +332,7 @@ export const events: EventType[] = [
         teamSize: "2 - 4 Members",
         prizePool: "₹7,000",
         coordinator: { name: "Md Saad", role: "Field Coordinator", phone: "+91 9875535575", email: "info.auktave@gmail.com" },
+        registrationFee: "₹300 per team",
         rules: [
           "Design and program an autonomous robot to navigate a maze defined by a continuous black line on a flat 3 m x 3 m arena.",
           "Line width is 30 mm and line angle will be 90 degrees between adjacent black lines.",
@@ -462,6 +465,7 @@ export const events: EventType[] = [
         prizePool: "₹12,000",
         coordinator: { name: "Mizan-ur Rahman Mondal", role: "Field Coordinator", phone: "+91 7003670838", email: "info.auktave@gmail.com" },
         offers: { "@type": "Offer", price: "400", priceCurrency: "INR", availability: "https://schema.org/InStock", url: `${site}/register` },
+        registrationFee: "₹400 per team",
         rules: [
           "Open to students from all recognized colleges and universities; register via the official portal.",
           "Required documents: photocopy of valid Government ID and photocopy of valid College or University or Work ID.",
@@ -555,6 +559,7 @@ export const events: EventType[] = [
     duration: "2 Hours",
     teamSize: "1 - 5 Members",
     prizePool: "₹10,000",
+    registrationFee: "",
     fieldCoordinators: [
       { name: "Md Saad", role: "Field Coordinator", phone: "+91 98300 00002", email: "info.auktave@gmail.com" },
       { name: "Khushi Mehta", role: "Field Coordinator", phone: "+91 79808 44018", email: "info.auktave@gmail.com" }
@@ -992,6 +997,7 @@ export const events: EventType[] = [
     teamSize: "1 Member",
     prizePool: "Hoodies, Swag Kits, Certificates",
     coordinator: { name: "Mizan-ur Rahman Mondal", role: "Field Coordinator", phone: "+91 8240253854", email: "info.auktave@gmail.com" },
+    registrationFee: "No registration fee",
     rules: [
       "Open to students from all recognized colleges and universities; register via the official portal.",
       "Required documents at entry: photocopy of valid Government ID and photocopy of valid College/University ID.",
@@ -1143,6 +1149,7 @@ export const events: EventType[] = [
     teamSize: "1 - 3 Members",
     prizePool: "₹10,000",
     coordinator: { name: "Sowhardya Biswas", role: "Field Coordinator", phone: "+91 9903404844", email: "info.auktave@gmail.com" },
+    registrationFee: "₹200 per team",
     rules: [
       "Duration: 1 to 3 minutes including credits. Format: MP4 or MOV, 1080p minimum.",
       "Teams of 1 to 3 members.",
@@ -1250,6 +1257,7 @@ export const events: EventType[] = [
     duration: "1 Hour",
     teamSize: "Open to all",
     prizePool: "Certificates",
+    registrationFee: "No registration fee",
     coordinator: { name: "Humza Ahmad", role: "Field Coordinator", phone: "+91 8240253854", email: "info.auktave@gmail.com" },
     rules: [
       "Speakers must submit a 150–300 word abstract at least 48 hours before the session.",

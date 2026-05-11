@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useParams, notFound } from "next/navigation";
 import { events } from "@/lib/data";
 import GlitchText from "@/components/GlitchText";
-import { Clock, Users, Trophy, Phone, Mail, ArrowLeft, FileDown } from "lucide-react";
+import { Clock, Users, Trophy, Phone, Mail, ArrowLeft, FileDown, CreditCard } from "lucide-react";
 import Script from "next/script";
 
 type StatProps = {
@@ -72,6 +72,7 @@ export default function RoboticsSubEventPage() {
                         <Stat icon={Clock} label="Duration" value={subEvent.duration ?? ""} />
                         <Stat icon={Users} label="Team Size" value={subEvent.teamSize ?? ""} />
                         <Stat icon={Trophy} label="Prize Pool Worth" value={subEvent.prizePool ?? ""} accent />
+                        <Stat icon={CreditCard} label="Registration Fee" value={subEvent.registrationFee ?? ""} />
                         <Link href="/register" className="btn-signal w-full block text-center mt-4" data-testid="robotics-register-cta">
                             Register Now
                         </Link>

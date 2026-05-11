@@ -4,7 +4,7 @@ import Link from "next/link";
 import { events } from "@/lib/data";
 import GlitchText from "@/components/GlitchText";
 import EventPoster from "../../../components/EventPoster";
-import { Clock, Users, Trophy, Phone, Mail, FileDown, ArrowLeft } from "lucide-react";
+import { Clock, Users, Trophy, Phone, Mail, FileDown, ArrowLeft, CreditCard } from "lucide-react";
 import { notFound } from "next/navigation";
 import Script from "next/script";
 
@@ -104,6 +104,7 @@ export default function EventDetailPage() {
                     <>
                       <Stat compact icon={Users} label="Team Size" value={event.teamSize ?? ""} />
                       <Stat compact icon={Trophy} label="Prize Pool Worth" value={event.prizePool ?? ""} accent />
+                      <Stat compact icon={CreditCard} label="Registration Fee" value={event.registrationFee ?? ""} />
                     </>
                   )}
 
@@ -192,6 +193,7 @@ export default function EventDetailPage() {
                 <>
                   <Stat icon={Users} label="Team Size" value={event.teamSize ?? ""} />
                   <Stat icon={Trophy} label="Prize Pool Worth" value={event.prizePool ?? ""} accent />
+                  <Stat icon={CreditCard} label="Registration Fee" value={event.registrationFee ?? ""} />
                 </>
               )}
               {isAmityExclusive ? (

@@ -20,6 +20,7 @@ export type EventType = {
     duration?: string;
     teamSize?: string;
     prizePool?: string;
+    registrationFee?: string;
     highlight?: boolean;
     coordinator?: { name: string; role?: string; phone?: string; email?: string };
     rules?: string[];
@@ -33,6 +34,7 @@ export type EventType = {
         duration?: string;
         teamSize?: string;
         prizePool?: string;
+        registrationFee?: string;
         coordinator?: { name: string; role?: string; phone?: string; email?: string };
         rules?: string[];
         sections?: Array<{ eyebrow?: string; title: string; description?: string; items: string[] }>;
