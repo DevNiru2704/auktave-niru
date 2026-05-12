@@ -79,10 +79,12 @@ export default function RegisterPage() {
               <p className="font-mono text-xs uppercase tracking-[0.18em] text-bone/50 mb-2">2. Registration &amp; Identity</p>
               <p>• Entry is permitted only through valid registration pass.</p>
               <p>• Participants must carry:</p>
-              <p>o Valid College/University ID.</p>
-              <p>o Government-issued Photo ID.</p>
-              <p>o Event Pass issued after registration of event.</p>
-              <p>• ID badges issued during the event must be worn at all times inside the venue.</p>
+              <ul className="list-disc pl-8 space-y-2 mt-2">
+                <li>Valid College/University ID.</li>
+                <li>Government-issued Photo ID.</li>
+                <li>Event Pass issued after registration.</li>
+              </ul>
+              <p className="mt-2">• ID badges issued during the event must be worn at all times inside the venue.</p>
             </div>
 
             <div>
@@ -130,9 +132,11 @@ export default function RegisterPage() {
               <p className="font-mono text-xs uppercase tracking-[0.18em] text-bone/50 mb-2">9. Intellectual Property</p>
               <p>• Participants retain rights to their work.</p>
               <p>• However, AUKTAVE/Amity/IEEE may use submissions for:</p>
-              <p>o Showcasing</p>
-              <p>o Promotion</p>
-              <p>o Documentation (with proper credit)</p>
+              <ul className="list-disc pl-8 space-y-2 mt-2">
+                <li>Showcasing</li>
+                <li>Promotion</li>
+                <li>Documentation (with proper credit)</li>
+              </ul>
             </div>
 
             <div>
@@ -145,10 +149,12 @@ export default function RegisterPage() {
             <div>
               <p className="font-mono text-xs uppercase tracking-[0.18em] text-bone/50 mb-2">11. Discipline &amp; Penalties</p>
               <p>• Violations may result in:</p>
-              <p>o Warning</p>
-              <p>o Point deduction</p>
-              <p>o Disqualification</p>
-              <p>o Removal from venue</p>
+              <ol className="list-decimal pl-8 space-y-2 mt-2">
+                <li>Warning</li>
+                <li>Point deduction</li>
+                <li>Disqualification</li>
+                <li>Removal from venue</li>
+              </ol>
               <p>• Severe misconduct may be reported to the participant’s institution.</p>
             </div>
 
@@ -161,9 +167,11 @@ export default function RegisterPage() {
             <div>
               <p className="font-mono text-xs uppercase tracking-[0.18em] text-bone/50 mb-2">13. Amendments</p>
               <p>• The organizing committee reserves the right to:</p>
-              <p>o Modify rules</p>
-              <p>o Update schedule</p>
-              <p>o Take necessary decisions for smooth execution</p>
+              <ul className="list-disc pl-8 space-y-2 mt-2">
+                <li>Modify rules</li>
+                <li>Update the schedule</li>
+                <li>Take necessary decisions for smooth execution</li>
+              </ul>
             </div>
 
 
