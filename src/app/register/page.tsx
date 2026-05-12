@@ -166,13 +166,27 @@ export default function RegisterPage() {
               <p>o Take necessary decisions for smooth execution</p>
             </div>
 
+
+
             <div>
-              <p className="font-mono text-xs uppercase tracking-[0.18em] text-bone/50 mb-2">14. Agreement Clause</p>
+              <p className="font-mono text-xs uppercase tracking-[0.18em] text-bone/50 mb-2">14. School Participants &amp; Group Registrations</p>
+              <p>• School delegations must present a valid School Photo ID for every student and produce it when requested by event staff or security.</p>
+              <p>• All school students attending AUKTAVE 2026 must be accompanied by a designated faculty member from their institution. The faculty member is responsible for the supervision, conduct, and wellbeing of the delegation for the duration of their visit.</p>
+              <p>• The designated faculty member must remain on-site while their students are present and be reachable at the contact details provided during registration.</p>
+              <p>• Prior to or at the time of registration, school delegations must submit a roster listing the total number of students attending, each student’s full name and mobile telephone number, and the assigned faculty member’s full name, official designation, institutional email address, and mobile telephone number.</p>
+              <p>• Students must remain within the area allocated to their school by the organisers and are not permitted to enter restricted or unauthorised zones without express permission from event staff.</p>
+              <p>• Students will not be permitted to leave the campus during scheduled programme hours unless accompanied by their designated faculty member and after informing event staff. Any early departures must be coordinated with the organisers in advance.</p>
+              <p>• The designated faculty member should carry records of parental consent for minor participants if required by their institution; organisers reserve the right to request proof of consent at any time.</p>
+              <p>• The organising committee reserves the right to refuse entry, remove a delegation from the venue, or disqualify participants if supervision, safety, or conduct requirements are not met.</p>
+            </div>
+
+            <div>
+              <p className="font-mono text-xs uppercase tracking-[0.18em] text-bone/50 mb-2">15. Agreement Clause</p>
               <p>• Participation in AUKTAVE 2026 implies acceptance of all rules and guidelines.</p>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 }
