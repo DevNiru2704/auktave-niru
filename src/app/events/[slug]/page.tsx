@@ -451,7 +451,7 @@ function Stat({ icon: Icon, label, value, accent = false, compact = false }: Sta
         <Icon className={accent ? "text-signal" : "text-ember"} size={compact ? 18 : 20} />
         <div>
           <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-bone/50">{label}</p>
-          <p className={`headline ${compact ? "text-xl" : "text-2xl"} mt-1 ${accent ? "text-signal" : "text-bone"}`}>{value}</p>
+          <p className={`headline whitespace-pre-line ${compact ? "text-xl" : "text-2xl"} mt-1 ${accent ? "text-signal" : "text-bone"}`}>{value}</p>
         </div>
       </div>
     </div>

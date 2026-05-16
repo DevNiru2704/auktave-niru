@@ -241,7 +241,7 @@ export const events: EventType[] = [
     startDate: '2026-05-22T11:00:00+05:30',
     endDate: '2026-05-22T13:30:00+05:30',
     tagline: "Three arenas. One robotics league.",
-    summary: "Pick your battlefield: Robo Soccer, Maze Solver, or Drone Obstacle Course. Register once, compete in one sub-event.",
+    summary: "Pick your battlefield: Robo Soccer, Line Follower, or Drone Obstacle Course. Register once, compete in one sub-event.",
     duration: "2.5 Hours",
     teamSize: "Varies by sub-event",
     prizePool: "₹30,000",
@@ -324,8 +324,8 @@ export const events: EventType[] = [
         ]
       },
       {
-        slug: "maze-solver",
-        name: "Maze Solver",
+        slug: "line-follower",
+        name: "Line Follower",
         tagline: "Explore, learn, then sprint the shortest path.",
         summary: "Autonomous line-maze challenge with a Dry Run exploration phase and an Actual Run speed phase on the shortest path.",
         duration: "2.5 Hours",
@@ -1149,7 +1149,7 @@ export const events: EventType[] = [
     teamSize: "1 - 3 Members",
     prizePool: "₹10,000",
     coordinator: { name: "Sowhardya Biswas", role: "Field Coordinator", phone: "+91 9903404844", email: "info.auktave@gmail.com" },
-    registrationFee: "₹200 per team",
+    registrationFee: "₹50 per team. \nFree for AUK Students.\n(AUK Students have to upload ID card in form)",
     rules: [
       "Duration: 1 to 3 minutes including credits. Format: MP4 or MOV, 1080p minimum.",
       "Teams of 1 to 3 members.",
