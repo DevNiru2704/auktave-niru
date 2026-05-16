@@ -1149,7 +1149,7 @@ export const events: EventType[] = [
     teamSize: "1 - 3 Members",
     prizePool: "₹10,000",
     coordinator: { name: "Sowhardya Biswas", role: "Field Coordinator", phone: "+91 9903404844", email: "info.auktave@gmail.com" },
-    registrationFee: "₹50 per team. \nFree for AUK Students.\n(AUK Students have to upload ID card in form)",
+    registrationFee: "₹50 per team. \nFree for AUK Students.",
     rules: [
       "Duration: 1 to 3 minutes including credits. Format: MP4 or MOV, 1080p minimum.",
       "Teams of 1 to 3 members.",
